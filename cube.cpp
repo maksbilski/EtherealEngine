@@ -1,6 +1,7 @@
 #include <GL/freeglut.h>
 
 float angle = 0.0;
+float cameraDistance = 5.0;
 
 // Handles the keyboard event
 void specialKeys(int key, int x, int y) {
@@ -10,6 +11,14 @@ void specialKeys(int key, int x, int y) {
     break;
   case GLUT_KEY_LEFT:
     angle -= 5.0f;
+    break;
+  case GLUT_KEY_UP: // Move camera closer
+    if (cameraDistance > 1.0f)
+      cameraDistance -= 0.1f;
+    break;
+  case GLUT_KEY_DOWN:
+    if (cameraDistance > 1.0f)
+      cameraDistance += 0.1f;
     break;
   default:
     break;
@@ -21,7 +30,7 @@ void display() {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   glLoadIdentity();
-  gluLookAt(0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+  gluLookAt(0.0, 0.0, cameraDistance, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
   glRotatef(angle, 0.0, 1.0, 0.0);
 
