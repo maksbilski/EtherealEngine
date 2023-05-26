@@ -11,6 +11,7 @@
 #include "src/IndexBuffer.hpp"
 #include "src/VertexArray.hpp"
 #include "src/Shader.hpp"
+#include "src/VertexBufferLayout.hpp"
 
 int main(void)
 {
@@ -54,10 +55,6 @@ int main(void)
             0, 1, 2, 
             2, 3, 0
         };
-
-        unsigned int vao;
-        GLCall(glGenVertexArrays(1, &vao));
-        GLCall(glBindVertexArray(vao));
         
         VertexArray va;
         VertexBuffer vb(positions, 4 * 2 * sizeof(float));
@@ -75,24 +72,23 @@ int main(void)
         shader.SetUniform4f("u_Color", 0.2f, 0.3f, 0.8f, 1.0f);
 
         va.Unbind();
-        shader.Unbind();
         vb.Unbind();
         ib.Unbind();
+        shader.Unbind();
+
+        Renderer renderer;
 
         float r = 0.0f;
         float increment = 0.05f;
 
         while (!glfwWindowShouldClose(window)) 
         {
-            GLCall(glClear(GL_COLOR_BUFFER_BIT));
+            renderer.Clear();
 
             shader.Bind();
             shader.SetUniform4f("u_Color", r, 0.3f, 0.8f, 1.0f);
 
-            va.Bind();
-            ib.Bind();
-
-            GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
+            renderer.Draw(va, ib, shader);
 
             if (r > 1.0f)
                 increment = -0.05f;
