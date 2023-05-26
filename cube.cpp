@@ -6,11 +6,11 @@
 #include <string>
 #include <sstream>
 
-#include "resources/Renderer.hpp"
-#include "resources/VertexBuffer.hpp"
-#include "resources/IndexBuffer.hpp"
-#include "resources/VertexArray.hpp"
-#include "resources/Shader.hpp"
+#include "src/Renderer.hpp"
+#include "src/VertexBuffer.hpp"
+#include "src/IndexBuffer.hpp"
+#include "src/VertexArray.hpp"
+#include "src/Shader.hpp"
 
 int main(void)
 {
