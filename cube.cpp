@@ -12,6 +12,7 @@
 #include "src/VertexArray.hpp"
 #include "src/Shader.hpp"
 #include "src/VertexBufferLayout.hpp"
+#include "src/Texture.hpp"
 
 int main(void)
 {
@@ -42,12 +43,12 @@ int main(void)
         std::cout << "Error!" << std::endl;
     }
     {
-        float positions[12] = 
+        float positions[] = 
         {
-            -0.5f, -0.5f,
-             0.5f, -0.5f,
-             0.5f,  0.5f,
-            -0.5f,  0.5f
+            -0.5f, -0.5f, 0.0f, 0.0f,
+             0.5f, -0.5f, 1.0f, 0.0f,
+             0.5f,  0.5f, 1.0f, 1.0f,
+            -0.5f,  0.5f, 0.0f, 1.0f
         };
 
         unsigned int indices[] = 
@@ -57,9 +58,10 @@ int main(void)
         };
         
         VertexArray va;
-        VertexBuffer vb(positions, 4 * 2 * sizeof(float));
+        VertexBuffer vb(positions, 4 * 4 * sizeof(float));
 
         VertexBufferLayout layout;
+        layout.Push<float>(2);
         layout.Push<float>(2);
         va.AddBuffer(vb, layout);
 
@@ -70,6 +72,10 @@ int main(void)
         shader.Bind();
 
         shader.SetUniform4f("u_Color", 0.2f, 0.3f, 0.8f, 1.0f);
+
+        Texture texture("resources/textures/senti.png");
+        texture.Bind();
+        shader.SetUniform1i("u_Texture", 0);
 
         va.Unbind();
         vb.Unbind();
