@@ -1,68 +1,115 @@
-#include <GL/freeglut.h>
+#define GLEW_STATIC
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include <iostream>
 
-float angle = 0.0;
-float cameraDistance = 5.0;
+static unsigned int compileShader(unsigned int type, const std::string& source){
+    unsigned int id = glCreateShader(type); 
+    const char* src = source.c_str();
+    glShaderSource(id, 1, &src, nullptr);
+    glCompileShader(id);
 
-// Handles the keyboard event
-void specialKeys(int key, int x, int y) {
-  switch (key) {
-  case GLUT_KEY_RIGHT:
-    angle += 5.0f;
-    break;
-  case GLUT_KEY_LEFT:
-    angle -= 5.0f;
-    break;
-  case GLUT_KEY_UP: // Move camera closer
-    if (cameraDistance > 1.0f)
-      cameraDistance -= 0.1f;
-    break;
-  case GLUT_KEY_DOWN:
-    if (cameraDistance > 1.0f)
-      cameraDistance += 0.1f;
-    break;
-  default:
-    break;
-  }
-  glutPostRedisplay();
+    int result;
+    glGetShaderiv(id, GL_COMPILE_STATUS, &result);
+    if (result == GL_FALSE) {
+        int length;
+        glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
+        char* message = (char*)alloca(length * sizeof(char));
+        glGetShaderInfoLog(id, length, &length, message);
+        std::cout << "Failed to compile shader" << 
+        (type == GL_VERTEX_SHADER ? "vertex" : "fragment") << std::endl;
+        std::cout << message << std::endl;
+        glDeleteShader(id);
+        return 0;
+    }
+
+    return id;
 }
 
-void display() {
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+static unsigned int CreateShader(const std::string& vertexShader, const std::string& fragmentShader) {
+    unsigned int program = glCreateProgram();
+    unsigned int vs = compileShader(GL_VERTEX_SHADER, vertexShader);
+    unsigned int fs = compileShader(GL_FRAGMENT_SHADER, fragmentShader);
 
-  glLoadIdentity();
-  gluLookAt(0.0, 0.0, cameraDistance, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+    glAttachShader(program, vs);
+    glAttachShader(program, fs);
+    glLinkProgram(program);
+    glValidateProgram(program);
 
-  glRotatef(angle, 0.0, 1.0, 0.0);
+    glDeleteShader(vs);
+    glDeleteShader(fs);
 
-  glColor3f(1.0, 0.0, 0.0);
-
-  glutWireCube(1.0);
-
-  glutSwapBuffers();
+    return program;
 }
 
-// Add reshape function to handle window resizing events
-void reshape(int width, int height) {
-  glViewport(0, 0, width, height);
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-  gluPerspective(60.0, (float)width / (float)height, 1.0, 100.0);
-  glMatrixMode(GL_MODELVIEW);
-}
+int main(void){
+    GLFWwindow* window;
 
-int main(int argc, char **argv) {
-  glutInit(&argc, argv);
-  glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-  glutInitWindowSize(400, 400);
-  glutCreateWindow("OpenGL Cube");
+    if (!glfwInit()){
+        return -1;
+    }
 
-  glEnable(GL_DEPTH_TEST);
+    window = glfwCreateWindow(1920, 1080, "Hello World", NULL, NULL);
+    if (!window) {
+        glfwTerminate();
+        return -1;
+    }
 
-  glutDisplayFunc(display);
-  glutReshapeFunc(reshape); // Set the reshape callback for the current window.
-  glutSpecialFunc(specialKeys);
+    glfwMakeContextCurrent(window);
 
-  glutMainLoop();
+    if (glewInit() != GLEW_OK){
+        std::cout << "Error!" << std::endl;
+    }
 
-  return 0;
+    std::cout << glGetString(GL_VERSION) << std::endl;
+
+    float positions[6] = {
+        -0.5f, -0.5f,
+         0.0f,  0.5f,
+         0.5f, -0.5f
+    };
+
+    unsigned int buffer;
+    glGenBuffers(1, &buffer);
+    glBindBuffer(GL_ARRAY_BUFFER, buffer);
+    glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), positions, GL_STATIC_DRAW);
+
+    glEnableVertexAttribArray(0); 
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
+
+    std::string vertexShader = 
+        "#version 330 core\n"
+        "\n"
+        "layout(location = 0) in vec4 position;\n"
+        "\n"
+        "void main()\n"
+        "{\n"
+        "   gl_Position = position;\n"
+        "}\n";
+
+    std::string fragmentShader = 
+        "#version 330 core\n"
+        "\n"
+        "layout(location = 0) out vec4 color;"
+        "\n"
+        "void main()\n"
+        "{\n"
+        "   color = vec4(1.0, 0.0, 0.0, 1.0);\n"
+        "}\n";
+
+    unsigned int shader = CreateShader(vertexShader, fragmentShader);
+    glUseProgram(shader);
+
+    while (!glfwWindowShouldClose(window)){
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        glDrawArrays(GL_TRIANGLES, 0, 3);
+
+        glfwSwapBuffers(window);
+
+        glfwPollEvents();
+    }
+
+    glfwTerminate();
+    return 0;
 }
