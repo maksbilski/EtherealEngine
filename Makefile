@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -std=c++20 -Wall -Wextra
+CXXFLAGS = -std=c++20 -Wall -Wextra -Isrc/vendor/glm
 LDFLAGS = -lglfw -lGLEW -lGL
 SRCDIR = src
 OBJDIR = obj
