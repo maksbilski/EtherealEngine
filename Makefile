@@ -5,23 +5,29 @@ SRCDIR = src
 OBJDIR = obj
 BINDIR = bin
 SRC = $(shell find $(SRCDIR) -name "*.cpp")
-OBJ = $(patsubst %.cpp,$(OBJDIR)/%.o,$(SRC:%=%))
+OBJ = $(patsubst $(SRCDIR)/%.cpp,$(OBJDIR)/%.o,$(SRC))
 EXEC = $(BINDIR)/cube
 
 # Rules
-all: $(BINDIR) $(EXEC)
+all: directories $(EXEC)
+
+directories: $(OBJDIR) $(BINDIR)
+
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
 
 $(BINDIR):
 	mkdir -p $(BINDIR)
 
-$(EXEC): $(OBJ) obj/cube.o
+$(EXEC): $(OBJ) $(OBJDIR)/cube.o
 	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
 
-$(OBJDIR)/%.o: %.cpp
-	mkdir -p $(@D)
+$(OBJDIR)/%.o: $(SRCDIR)/%.cpp
+	mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-obj/cube.o: cube.cpp
+$(OBJDIR)/cube.o: cube.cpp
+	mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
