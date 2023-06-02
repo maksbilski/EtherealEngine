@@ -2,10 +2,14 @@ CXX = g++
 CXXFLAGS = -std=c++20 -Wall -Wextra -Isrc/vendor/glm
 LDFLAGS = -lglfw -lGLEW -lGL
 SRCDIR = src
+VENDORDIR = $(SRCDIR)/vendor
 OBJDIR = obj
 BINDIR = bin
-SRC = $(wildcard $(SRCDIR)/*.cpp) $(wildcard $(SRCDIR)/vendor/stb_image/*.cpp)
-OBJ = $(patsubst %.cpp,$(OBJDIR)/%.o,$(notdir $(SRC)))
+SRC = $(wildcard $(SRCDIR)/*.cpp)
+VENDORSRC = $(wildcard $(VENDORDIR)/imgui/*.cpp) $(wildcard $(VENDORDIR)/stb_image/*.cpp)
+OBJ = $(SRC:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
+VENDOROBJ = $(VENDORSRC:$(VENDORDIR)/imgui/%.cpp=$(OBJDIR)/%.o)
+VENDOROBJ := $(VENDOROBJ:$(VENDORDIR)/stb_image/%.cpp=$(OBJDIR)/%.o)
 EXEC = $(BINDIR)/cube
 
 # Rules
@@ -17,13 +21,16 @@ $(BINDIR):
 $(OBJDIR):
 	mkdir -p $(OBJDIR)
 
-$(EXEC): $(OBJ) cube.cpp
+$(EXEC): $(OBJ) $(VENDOROBJ) cube.cpp
 	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-$(OBJDIR)/%.o: $(SRCDIR)/vendor/stb_image/%.cpp
+$(OBJDIR)/%.o: $(VENDORDIR)/imgui/%.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(OBJDIR)/%.o: $(VENDORDIR)/stb_image/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
