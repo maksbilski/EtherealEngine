@@ -6,13 +6,15 @@
 #include "Shader.hpp"
 #include "VertexArray.hpp"
 
-#define ASSERT(x)                                                              \
-  if (!(x))                                                                    \
+// clang-format off
+#define ASSERT(x)\
+  if (!(x))\
     __builtin_trap();
-#define GLCall(x)                                                              \
-  GLClearError();                                                              \
-  x;                                                                           \
+#define GLCall(x)\
+  GLClearError();\
+  x;\
   ASSERT(GLLogCall(#x, __FILE__, __LINE__))
+// clang-format on
 
 void GLClearError();
 
