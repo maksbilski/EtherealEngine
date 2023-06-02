@@ -5,7 +5,7 @@ SRCDIR = src
 OBJDIR = obj
 BINDIR = bin
 SRC = $(shell find $(SRCDIR) -name "*.cpp")
-OBJ = $(patsubst $(SRCDIR)/%.cpp,$(OBJDIR)/%.o,$(SRC))
+OBJ = $(patsubst $(SRCDIR)/%.cpp,$(OBJDIR)/%.o,$(filter-out $(SRCDIR)/vendor/glm/%, $(SRC)))
 EXEC = $(BINDIR)/cube
 
 # Rules
