@@ -2,7 +2,8 @@
 
 #include <glm/glm.hpp>
 
-struct Color {
+struct Color 
+{
     unsigned int r, g, b, a;
 
     Color(unsigned int r, unsigned int g, unsigned int b, unsigned int a) : r(r), g(g), b(b), a(a) {}
@@ -43,26 +44,30 @@ struct Color {
     void set_float_b(float new_b) { this->b = (int) (new_b * 255); }
     void set_float_a(float new_a) { this->a = (int) (new_a * 255); }
 
-    void set_rgb(glm::vec3 new_rgb) {
+    void set_rgb(glm::vec3 new_rgb) 
+    {
         this->r = new_rgb.r;
         this->g = new_rgb.g;
         this->b = new_rgb.b;
     }
 
-    void set_rgba(glm::vec4 new_rgba) {
+    void set_rgba(glm::vec4 new_rgba) 
+    {
         this->r = new_rgba.r;
         this->g = new_rgba.g;
         this->b = new_rgba.b;
         this->a = new_rgba.b;
     }
 
-    void set_float_rgb(glm::vec3 new_rgb) {
+    void set_float_rgb(glm::vec3 new_rgb) 
+    {
         this->r = (int) new_rgb.r * 255;
         this->g = (int) new_rgb.g * 255;
         this->b = (int) new_rgb.b * 255;
     }
 
-    void set_float_rgba(glm::vec4 new_rgba) {
+    void set_float_rgba(glm::vec4 new_rgba) 
+    {
         this->r = (int) new_rgba.r * 255;
         this->g = (int) new_rgba.g * 255;
         this->b = (int) new_rgba.b * 255;
