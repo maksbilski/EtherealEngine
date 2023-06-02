@@ -1,17 +1,17 @@
 #include "UserInput.hpp"
 
 
-bool UserInput::getKey(int key)
+bool UserInput::getKey(int key) const
 {
     return glfwGetKey(window, key);
 }
 
-bool UserInput::getMouseButton(int button) 
+bool UserInput::getMouseButton(int button) const 
 {
     return glfwGetMouseButton(window, button);
 }
 
-void UserInput::getMousePosition(double* x, double* y)
+void UserInput::getMousePosition(double* x, double* y) const
 {
     glfwGetCursorPos(window, x, y);
 }
