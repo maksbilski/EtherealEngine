@@ -6,6 +6,7 @@
 #include <string>
 #include <sstream>
 
+<<<<<<< HEAD
 #include "src/engine/IndexBuffer.hpp"
 #include "src/engine/Renderer.hpp"
 #include "src/engine/Shader.hpp"
@@ -13,6 +14,15 @@
 #include "src/engine/VertexArray.hpp"
 #include "src/engine/VertexBuffer.hpp"
 #include "src/engine/VertexBufferLayout.hpp"
+=======
+#include "src/engine/Renderer.hpp"
+#include "src/engine/VertexBuffer.hpp"
+#include "src/engine/IndexBuffer.hpp"
+#include "src/engine/VertexArray.hpp"
+#include "src/engine/Shader.hpp"
+#include "src/engine/VertexBufferLayout.hpp"
+#include "src/engine/Texture.hpp"
+>>>>>>> 9cf35f08b3bc34bdd4608ed5b56f44d44d5ec3f5
 
 #include "src/vendor/glm/glm.hpp"
 #include "src/vendor/glm/gtc/matrix_transform.hpp"
@@ -121,18 +131,18 @@ int main(void)
 
         r += increment;
 
-        {
-          ImGui::SliderFloat3(
-              "Translation A", &translationA.x, 0.0f,
-              1920.0f); // Edit 1 float using a slider from 0.0f to 1.0f
-          ImGui::SliderFloat3(
-              "Translation B", &translationB.x, 0.0f,
-              1920.0f); // Edit 1 float using a slider from 0.0f to 1.0f
+            {
+                ImGui::SliderFloat3(
+                    "Translation A", &translationA.x, 0.0f,
+                     1920.0f);            // Edit 1 float using a slider from 0.0f to 1.0f    
+                ImGui::SliderFloat3(
+                    "Translation B", &translationB.x, 0.0f,
+                     1920.0f);            // Edit 1 float using a slider from 0.0f to 1.0f    
 
-          ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
-                      1000.0f / ImGui::GetIO().Framerate,
-                      ImGui::GetIO().Framerate);
-        }
+                ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 
+                            1000.0f / ImGui::GetIO().Framerate, 
+                            ImGui::GetIO().Framerate);
+            }
 
         ImGui::Render();
         ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
