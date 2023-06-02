@@ -11,7 +11,7 @@
 #include "../vendor/glm/gtc/type_ptr.hpp"
 #include "../vendor/glm/gtx/rotate_vector.hpp"
 
-Camera::Camera(GLFWwindow *window, glm::vec3 position)
+Camera::Camera(GLFWwindow *window, const glm::vec3 &position)
     : m_Window(window), m_Position(position) {
   m_JumpTimer = 0.0f;
   m_Gravity = 0.0f;
@@ -111,3 +111,15 @@ void Camera::update(float deltaTime) {
   controlMouseInput(deltaTime);
   controlMovement(deltaTime);
 }
+
+glm::vec3 Camera::getPosition() const { return m_Position; }
+
+void Camera::setPosition(const glm::vec3 &newPosition) {
+  m_Position = newPosition;
+}
+
+glm::vec3 Camera::getCameraLook() const { return m_CameraLook; }
+
+glm::vec3 Camera::getCameraUp() const { return m_CameraUp; }
+
+glm::vec3 Camera::getCameraUp() const { return m_CameraSideway; }

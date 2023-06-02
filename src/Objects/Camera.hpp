@@ -36,7 +36,7 @@ private:
   void controlMovement(float deltaTime);
 
 public:
-  Camera(GLFWwindow *window, glm::vec3 position);
+  Camera(GLFWwindow *window, const glm::vec3 &position);
   ~Camera();
 
   void update(float deltaTime);
@@ -44,11 +44,9 @@ public:
   void computeCameraOrientation();
 
   glm::vec3 getPosition() const;
-  void setPosition(glm::vec3 newPosition);
+  void setPosition(const glm::vec3 &newPosition);
 
   glm::vec3 getCameraLook() const;
   glm::vec3 getCameraUp() const;
   glm::vec3 getCameraSide() const;
-
-  bool isCameraMoving() const;
 };
