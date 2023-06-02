@@ -6,13 +6,13 @@
 #include <string>
 #include <sstream>
 
-#include "src/Renderer.hpp"
-#include "src/VertexBuffer.hpp"
-#include "src/IndexBuffer.hpp"
-#include "src/VertexArray.hpp"
-#include "src/Shader.hpp"
-#include "src/VertexBufferLayout.hpp"
-#include "src/Texture.hpp"
+#include "src/engine/IndexBuffer.hpp"
+#include "src/engine/Renderer.hpp"
+#include "src/engine/Shader.hpp"
+#include "src/engine/Texture.hpp"
+#include "src/engine/VertexArray.hpp"
+#include "src/engine/VertexBuffer.hpp"
+#include "src/engine/VertexBufferLayout.hpp"
 
 #include "src/vendor/glm/glm.hpp"
 #include "src/vendor/glm/gtc/matrix_transform.hpp"
