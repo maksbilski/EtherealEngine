@@ -57,6 +57,7 @@ void Camera::controlMouseInput(float deltaTime) {
                  (m_TargetLookAngleX - m_LookAngleX) * deltaTime * turnSpeed;
   m_LookAngleY = m_LookAngleY +
                  (m_TargetLookAngleY - m_LookAngleY) * deltaTime * turnSpeed;
+  computeWalkVectors();
 }
 
 void Camera::controlMovement(float deltaTime) {
@@ -104,4 +105,9 @@ void Camera::computeCameraOrientation() {
   // Compute the look position by adding the forward vector to the camera
   // position
   m_CameraLook = m_Position + m_CameraForward;
+}
+
+void Camera::update(float deltaTime) {
+  controlMouseInput(deltaTime);
+  controlMovement(deltaTime);
 }
