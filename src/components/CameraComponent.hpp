@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../vendor/glm/glm.hpp"
+#include "../vendor/glm/glm.hpp"
 #include "InputComponent.hpp"
 
 class CameraComponent {
