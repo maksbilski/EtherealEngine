@@ -1,7 +1,12 @@
 #pragma once
 
+<<<<<<< HEAD:src/Objects/Components/CameraComponent.hpp
 #include "../../vendor/glm/glm.hpp"
 #include "../../vendor/glm/gtx/rotate_vector.hpp"
+=======
+#include "../vendor/glm/glm.hpp"
+#include "InputComponent.hpp"
+>>>>>>> 23c6fb6666d83dcf3446f3db80f76ec56a2ff67b:src/components/CameraComponent.hpp
 
 class CameraComponent {
 private:
