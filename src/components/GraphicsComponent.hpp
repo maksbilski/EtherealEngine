@@ -1,6 +1,6 @@
 #pragma once
 
-// #include "../engine/Mesh.hpp"
+#include "../engine/Mesh.hpp"
 #include "../engine/Shader.hpp"
 #include "../engine/Texture.hpp"
 
