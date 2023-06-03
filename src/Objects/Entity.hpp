@@ -2,22 +2,18 @@
 #include "../engine/Shader.hpp"
 #include "../vendor/glm/glm.hpp"
 #include "Mesh.hpp"
+#include <memory>
 #include <string>
 #include <vector>
 
 class Entity {
-private:
-  std::vector<Mesh> m_Meshes;
-  glm::vec3 m_Position;
-  glm::vec3 m_Scale;
-  glm::vec3 m_Rotation;
-
 public:
-  Entity(const std::string &path); // wczytaj model z pliku
+  Entity() {}
 
-  void SetPosition(const glm::vec3 &position) { this->m_Position = position; }
-  void SetScale(const glm::vec3 &scale) { this->m_Scale = scale; }
-  void SetRotation(const glm::vec3 &rotation) { this->m_Rotation = rotation; }
+  template <typename T> void addComponent(std::unique_ptr<T> component);
 
-  void Draw();
+  template <typename T> T *getComponent();
+
+private:
+  std::unordered_map<std::string, std::unique_ptr<void>> components;
 };
