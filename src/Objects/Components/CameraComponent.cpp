@@ -33,6 +33,14 @@ void CameraComponent::computeCameraOrientation() {
   m_CameraLookVec = m_Position + m_CameraForwardVec;
 }
 
+float CameraComponent::getCurrentLookAngleX() const {
+  return this->m_CurrentLookAngleX;
+}
+
+float CameraComponent::getCurrentLookAngleY() const {
+  return this->m_CurrentLookAngleY;
+}
+
 glm::vec3 CameraComponent::getPosition() const { return this->m_Position; }
 
 glm::vec3 CameraComponent::getMovementForwardVec() const {
@@ -61,6 +69,14 @@ glm::vec3 CameraComponent::getCameraUpVec() const {
 
 glm::vec3 CameraComponent::getCameraLookVec() const {
   return this->m_CameraLookVec;
+}
+
+void CameraComponent::setCurrentLookAngleX(float newCurrentLookAngleX) {
+  this->m_CurrentLookAngleX = newCurrentLookAngleX;
+}
+
+void CameraComponent::setCurrentLookAngleY(float newCurrentLookAngleY) {
+  this->m_CurrentLookAngleY = newCurrentLookAngleY;
 }
 
 void CameraComponent::setPosition(glm::vec3 newPosition) {

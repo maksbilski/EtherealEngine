@@ -2,7 +2,6 @@
 
 #include "../../vendor/glm/glm.hpp"
 #include "../../vendor/glm/gtx/rotate_vector.hpp"
-#include "InputComponent.hpp"
 
 class CameraComponent {
 private:
@@ -24,6 +23,9 @@ public:
   ~CameraComponent();
   void computeWalkVectors();
   void computeCameraOrientation();
+
+  float getCurrentLookAngleX() const;
+  float getCurrentLookAngleY() const;
   glm::vec3 getPosition() const;
   glm::vec3 getMovementForwardVec() const;
   glm::vec3 getMovementSidewayVec() const;
@@ -32,6 +34,9 @@ public:
   glm::vec3 getCameraSidewayVec() const;
   glm::vec3 getCameraUpVec() const;
   glm::vec3 getCameraLookVec() const;
+
+  void setCurrentLookAngleX(float newCurrentLookAngleX);
+  void setCurrentLookAngleY(float newCurrentLookAngleX);
   void setPosition(glm::vec3 newPosition);
   void setMovementForwardVec(glm::vec3 newMovementForwardVec);
   void setMovementSidewayVec(glm::vec3 newMovementSidewayVec);
