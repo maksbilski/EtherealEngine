@@ -1,7 +1,7 @@
 #include "InputSystem.hpp"
 
-InputSystem::InputSystem(GLFWwindow *window, CameraComponent &camera)
-    : m_Window(window), m_Camera(camera) {
+InputSystem::InputSystem(GLFWwindow *window, std::shared_ptr<Entity> player)
+    : m_Window(window), m_Player(player) {
   m_TargetLookAngleX = 0.0f;
   m_TargetLookAngleY = 0.0f;
 
@@ -38,20 +38,24 @@ void InputSystem::controlMouseInput(float deltaTime) {
   float tempCurrentLookAngleX, tempCurrentLookAngleY;
 
   tempCurrentLookAngleX =
-      m_Camera.getCurrentLookAngleX() +
-      (m_TargetLookAngleX - m_Camera.getCurrentLookAngleX()) * deltaTime *
-          m_MouseSensitivity;
+      m_Player->getComponent<CameraComponent>().getCurrentLookAngleX() +
+      (m_TargetLookAngleX -
+       m_Player->getComponent<CameraComponent>().getCurrentLookAngleX()) *
+          deltaTime * m_MouseSensitivity;
 
   tempCurrentLookAngleY =
-      m_Camera.getCurrentLookAngleY() +
-      (m_TargetLookAngleY - m_Camera.getCurrentLookAngleY()) * deltaTime *
-          m_MouseSensitivity;
+      m_Player->getComponent<CameraComponent>().getCurrentLookAngleY() +
+      (m_TargetLookAngleY -
+       m_Player->getComponent<CameraComponent>().getCurrentLookAngleY()) *
+          deltaTime * m_MouseSensitivity;
 
-  m_Camera.setCurrentLookAngleX(tempCurrentLookAngleX);
-  m_Camera.setCurrentLookAngleY(tempCurrentLookAngleY);
+  m_Player->getComponent<CameraComponent>().setCurrentLookAngleX(
+      tempCurrentLookAngleX);
+  m_Player->getComponent<CameraComponent>().setCurrentLookAngleY(
+      tempCurrentLookAngleY);
 
-  m_Camera.computeCameraOrientation();
-  m_Camera.computeWalkVectors();
+  m_Player->getComponent<CameraComponent>().computeCameraOrientation();
+  m_Player->getComponent<CameraComponent>().computeWalkVectors();
 }
 
 void InputSystem::controlKeyboardInput(float deltaTime) {
@@ -60,19 +64,23 @@ void InputSystem::controlKeyboardInput(float deltaTime) {
 
   if (glfwGetKey(m_Window, GLFW_KEY_W) == GLFW_PRESS)
     movementVector +=
-        m_Camera.getMovementForwardVec() * m_MovementSpeed * deltaTime;
+        m_Player->getComponent<CameraComponent>().getMovementForwardVec() *
+        m_MovementSpeed * deltaTime;
 
   if (glfwGetKey(m_Window, GLFW_KEY_S) == GLFW_PRESS)
     movementVector -=
-        m_Camera.getMovementForwardVec() * m_MovementSpeed * deltaTime;
+        m_Player->getComponent<CameraComponent>().getMovementForwardVec() *
+        m_MovementSpeed * deltaTime;
 
   if (glfwGetKey(m_Window, GLFW_KEY_D) == GLFW_PRESS)
     movementVector +=
-        m_Camera.getMovementSidewayVec() * m_MovementSpeed * deltaTime;
+        m_Player->getComponent<CameraComponent>().getMovementSidewayVec() *
+        m_MovementSpeed * deltaTime;
 
   if (glfwGetKey(m_Window, GLFW_KEY_W) == GLFW_PRESS)
     movementVector -=
-        m_Camera.getMovementSidewayVec() * m_MovementSpeed * deltaTime;
+        m_Player->getComponent<CameraComponent>().getMovementSidewayVec() *
+        m_MovementSpeed * deltaTime;
 
   if (glfwGetKey(m_Window, GLFW_KEY_SPACE) == GLFW_PRESS) {
     m_JumpTimer = 0.5f;
@@ -80,5 +88,5 @@ void InputSystem::controlKeyboardInput(float deltaTime) {
 
   if (m_JumpTimer > 0)
 
-    m_Camera.updatePosition(movementVector);
+    m_Player->getComponent<CameraComponent>().updatePosition(movementVector);
 }

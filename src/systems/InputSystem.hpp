@@ -1,11 +1,13 @@
 #include "../components/CameraComponent.hpp"
+#include "Entity.hpp"
 #include <GLFW/glfw3.h>
+#include <memory>
 #include <vector>
 
 class InputSystem {
 private:
   GLFWwindow *m_Window;
-  CameraComponent &m_Camera;
+  std::shared_ptr<Entity> &m_Player;
 
   float m_TargetLookAngleX;
   float m_TargetLookAngleY;
@@ -19,7 +21,7 @@ private:
   float m_JumpTimer;
 
 public:
-  InputSystem(GLFWwindow *window, CameraComponent &camera);
+  InputSystem(GLFWwindow *window, std::shared_ptr<Entity> player);
   void update(float deltaTime);
   void controlMouseInput(float deltaTime);
   void controlKeyboardInput(float deltaTime);
