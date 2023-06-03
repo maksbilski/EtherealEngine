@@ -80,6 +80,8 @@ unsigned int Shader::CreateShader(const std::string &vertexShader,
   return program;
 }
 
+unsigned int Shader::getRendererID() const { return m_RendererID; }
+
 void Shader::Bind() const { GLCall(glUseProgram(m_RendererID)); }
 
 void Shader::Unbind() const { GLCall(glUseProgram(0)); }
