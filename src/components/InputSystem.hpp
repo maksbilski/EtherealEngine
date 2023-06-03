@@ -13,6 +13,11 @@ private:
   double m_CursorX;
   double m_CursorY;
 
+  float m_MovementSpeed;
+  float m_MouseSensitivity;
+
+  float m_JumpTimer;
+
 public:
   InputSystem(GLFWwindow *window, CameraComponent &camera);
   void update(float deltaTime);

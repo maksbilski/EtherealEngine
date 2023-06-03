@@ -79,6 +79,10 @@ void CameraComponent::setCurrentLookAngleY(float newCurrentLookAngleY) {
   this->m_CurrentLookAngleY = newCurrentLookAngleY;
 }
 
+void CameraComponent::updatePosition(glm::vec3 movementVector) {
+  this->m_Position += movementVector;
+}
+
 void CameraComponent::setPosition(glm::vec3 newPosition) {
   this->m_Position = newPosition;
 }
