@@ -37,6 +37,7 @@ public:
 
   void setCurrentLookAngleX(float newCurrentLookAngleX);
   void setCurrentLookAngleY(float newCurrentLookAngleX);
+  void updatePosition(glm::vec3 movementVector);
   void setPosition(glm::vec3 newPosition);
   void setMovementForwardVec(glm::vec3 newMovementForwardVec);
   void setMovementSidewayVec(glm::vec3 newMovementSidewayVec);

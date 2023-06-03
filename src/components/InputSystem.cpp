@@ -5,6 +5,10 @@ InputSystem::InputSystem(GLFWwindow *window, CameraComponent &camera)
   m_TargetLookAngleX = 0.0f;
   m_TargetLookAngleY = 0.0f;
 
+  m_MouseSensitivity = 5.0f;
+  m_MovementSpeed = 10.0f;
+  m_JumpTimer = 0.0f;
+
   glfwGetCursorPos(window, &m_CursorX, &m_CursorY);
 }
 
@@ -17,7 +21,6 @@ void InputSystem::controlMouseInput(float deltaTime) {
   double newCursorX;
   double newCursorY;
   float maxLookPitch = 1.7f;
-  float mouseSensitivity = 5.0f;
 
   glfwGetCursorPos(m_Window, &newCursorX, &newCursorY);
 
@@ -37,12 +40,12 @@ void InputSystem::controlMouseInput(float deltaTime) {
   tempCurrentLookAngleX =
       m_Camera.getCurrentLookAngleX() +
       (m_TargetLookAngleX - m_Camera.getCurrentLookAngleX()) * deltaTime *
-          mouseSensitivity;
+          m_MouseSensitivity;
 
   tempCurrentLookAngleY =
       m_Camera.getCurrentLookAngleY() +
       (m_TargetLookAngleY - m_Camera.getCurrentLookAngleY()) * deltaTime *
-          mouseSensitivity;
+          m_MouseSensitivity;
 
   m_Camera.setCurrentLookAngleX(tempCurrentLookAngleX);
   m_Camera.setCurrentLookAngleY(tempCurrentLookAngleY);
@@ -52,26 +55,30 @@ void InputSystem::controlMouseInput(float deltaTime) {
 }
 
 void InputSystem::controlKeyboardInput(float deltaTime) {
-  float movementSpeed = 10.0f;
 
   glm::vec3 movementVector(0.0f);
 
   if (glfwGetKey(m_Window, GLFW_KEY_W) == GLFW_PRESS)
     movementVector +=
-        m_Camera.getMovementForwardVec() * movementSpeed * deltaTime;
+        m_Camera.getMovementForwardVec() * m_MovementSpeed * deltaTime;
 
   if (glfwGetKey(m_Window, GLFW_KEY_S) == GLFW_PRESS)
     movementVector -=
-        m_Camera.getMovementForwardVec() * movementSpeed * deltaTime;
+        m_Camera.getMovementForwardVec() * m_MovementSpeed * deltaTime;
 
   if (glfwGetKey(m_Window, GLFW_KEY_D) == GLFW_PRESS)
     movementVector +=
-        m_Camera.getMovementSidewayVec() * movementSpeed * deltaTime;
+        m_Camera.getMovementSidewayVec() * m_MovementSpeed * deltaTime;
 
   if (glfwGetKey(m_Window, GLFW_KEY_W) == GLFW_PRESS)
     movementVector -=
-        m_Camera.getMovementSidewayVec() * movementSpeed * deltaTime;
+        m_Camera.getMovementSidewayVec() * m_MovementSpeed * deltaTime;
 
-  glm::vec3 tempPosition = m_Camera.getPosition();
-  m_Camera.setPosition(tempPosition);
+  if (glfwGetKey(m_Window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+    m_JumpTimer = 0.5f;
+  }
+
+  if (m_JumpTimer > 0)
+
+    m_Camera.updatePosition(movementVector);
 }
