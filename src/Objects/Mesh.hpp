@@ -14,7 +14,8 @@ private:
   Texture m_Texture;
 
 public:
-  Mesh(const std::vector<float> &vertices,
-       const std::vector<unsigned int> &indices);
-  void Draw();
+  Mesh(const std::string& verticesFilepath, const std::string& textureFilePath, const Shader& shader);
+  ~Mesh();
+
+  
 };
