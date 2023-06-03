@@ -1,4 +1,4 @@
-#include "CameraComponent.hpp"
+#include "../components/CameraComponent.hpp"
 #include <GLFW/glfw3.h>
 #include <vector>
 
