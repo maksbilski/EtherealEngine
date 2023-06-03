@@ -19,14 +19,14 @@ $(OBJDIR):
 $(BINDIR):
 	mkdir -p $(BINDIR)
 
-$(EXEC): $(OBJ) $(OBJDIR)/cube.o
+$(EXEC): $(OBJ) $(OBJDIR)/main.o
 	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-$(OBJDIR)/cube.o: cube.cpp
+$(OBJDIR)/main.o: main.cpp
 	mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
