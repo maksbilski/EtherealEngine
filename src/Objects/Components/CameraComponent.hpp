@@ -23,6 +23,7 @@ public:
   CameraComponent(const glm::vec3 &position);
   ~CameraComponent();
   void computeWalkVectors();
+  void computeCameraOrientation();
   glm::vec3 getPosition() const;
   glm::vec3 getMovementForwardVec() const;
   glm::vec3 getMovementSidewayVec() const;
