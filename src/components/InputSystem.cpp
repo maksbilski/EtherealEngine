@@ -73,5 +73,6 @@ void InputSystem::controlKeyboardInput(float deltaTime) {
         m_Camera.getMovementSidewayVec() * movementSpeed * deltaTime;
 
   glm::vec3 tempPosition = m_Camera.getPosition();
+  tempPosition += movementVector;
   m_Camera.setPosition(tempPosition);
 }
