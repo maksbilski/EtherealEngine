@@ -1,14 +1,10 @@
 #pragma once
 
-#include <glm/glm.hpp>
-#include <vector>
-
 class Mesh {
 public:
-  std::vector<glm::vec3> vertices;
-  std::vector<unsigned int> indices;
+  float *m_Vertices;
+  unsigned int *m_Indices;
 
-  Mesh(const std::vector<glm::vec3> &vertices,
-       const std::vector<unsigned int> &indices)
-      : vertices(vertices), indices(indices) {}
+  Mesh(float *vertices, unsigned int *indices)
+      : m_Vertices(vertices), m_Indices(indices) {}
 };
