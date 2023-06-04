@@ -15,7 +15,7 @@
 
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
-// Your callback function
+
 void GLAPIENTRY MessageCallback(GLenum source, GLenum type, GLuint id,
                                 GLenum severity, GLsizei length,
                                 const GLchar *message, const void *userParam) {
@@ -46,7 +46,6 @@ int main(void) {
     glfwTerminate();
     return -1;
   }
-  InitOpenGLDebug();
 
   glfwMakeContextCurrent(window);
 
@@ -55,6 +54,9 @@ int main(void) {
   if (glewInit() != GLEW_OK) {
     std::cout << "Error!" << std::endl;
   }
+  glEnable(GL_DEPTH_TEST);
+  glDepthFunc(GL_LESS);
+  InitOpenGLDebug();
   glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
   ResourceManager resource_manager;
   CameraComponent camera(glm::vec3(0.0f, 2.0f, 2.0f));
@@ -70,14 +72,15 @@ int main(void) {
     float currentFrame = static_cast<float>(glfwGetTime());
     deltaTime = currentFrame - lastFrame;
     lastFrame = currentFrame;
-
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     // Aktualizacja systemów
     input_system.update(deltaTime);
     render_system.update();
+    std::cout << "0" << std::endl;
 
     // Rendering
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
     // Wymiana buforów i obsługa zdarzeń
     glfwSwapBuffers(window);
     glfwPollEvents();
