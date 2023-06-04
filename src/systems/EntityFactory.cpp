@@ -5,12 +5,13 @@ EntityFactory::EntityFactory(EntityManager &entityManager)
 
 Entity EntityFactory::createEntity() { return m_NextEntity++; }
 
-Entity EntityFactory::createRenderableEntity(const std::string &shaderPath,
+Entity EntityFactory::createRenderableEntity(const std::string &meshPath,
                                              const std::string &texturePath,
-                                             Mesh mesh) {
+                                             const std::string &shaderPath) {
   Entity newEntity = createEntity();
-  Shader shader(shaderPath);
+  Mesh mesh(meshPath);
   Texture texture(texturePath);
+  Shader shader(shaderPath);
 
   m_EntityManager.addComponent<GraphicsComponent>(
       newEntity, GraphicsComponent(mesh, texture, shader));

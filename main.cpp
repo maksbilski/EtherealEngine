@@ -39,29 +39,14 @@ int main(void) {
   if (glewInit() != GLEW_OK) {
     std::cout << "Error!" << std::endl;
   }
-  // clang-format off
-  float positions[] = {
-    -50.0f, +0.0f, +50.0f, +0.0f, +0.0f,
-    +50.0f, +0.0f, +50.0f, +1.0f, +0.0f,
-    +50.0f, +0.0f, -50.0f, +1.0f, +1.0f,
-    -50.0f, +0.0f, -50.0f, +0.0f, +1.0f
-  };
-
-  unsigned int indices[] = {
-    0, 1, 3,
-    1, 2, 3
-  };
-
-  // clang-format on
-
-  Mesh mesh(positions, 20, indices, 6);
 
   CameraComponent camera(glm::vec3(0.0f, 2.0f, 0.0f));
   EntityManager entity_manager;
   entity_manager.addCameraComponent(camera);
   EntityFactory entity_factory(entity_manager);
   Entity terrain = entity_factory.createRenderableEntity(
-      "resources/shaders/basic.shader", "resources/textures/senti.png", mesh);
+      "resources/meshes/senti.obj", "resources/textures/senti.png",
+      "resources/shaders/basic.shader");
   RenderSystem render_system(entity_manager);
 
   InputSystem input_system(window, entity_manager);

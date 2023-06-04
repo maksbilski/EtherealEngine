@@ -32,20 +32,20 @@ void RenderSystem::render(Entity entity) {
   glm::mat4 MVP = m_ProjectionMatrix * m_ViewMatrix * model; // zmienne globalne
 
   VertexArray va;
-  VertexBuffer vb(graphics.mesh.m_Vertices, 5 * 4 * sizeof(float));
+  VertexBuffer vb(graphics.m_Mesh.m_Vertices.data(), 5 * 4 * sizeof(float));
 
   VertexBufferLayout layout;
   layout.Push<float>(3);
   layout.Push<float>(2);
   va.AddBuffer(vb, layout);
 
-  IndexBuffer ib(graphics.mesh.m_Indices, 6);
+  IndexBuffer ib(graphics.m_Mesh.m_Indices.data(), 6);
   // Aktywuj shader
-  graphics.shader.Bind();
-  graphics.texture.Bind();
+  graphics.m_Shader.Bind();
+  graphics.m_Texture.Bind();
 
   // Prześlij MVP do shadera
-  graphics.shader.SetUniformMat4f("u_MVP", MVP);
+  graphics.m_Shader.SetUniformMat4f("u_MVP", MVP);
   GLCall(glDrawElements(GL_TRIANGLES, ib.GetCount(), GL_UNSIGNED_INT, nullptr));
 };
 

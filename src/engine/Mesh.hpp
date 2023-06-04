@@ -1,24 +1,16 @@
 #pragma once
 
+#include <string>
+#include <vector>
+
 class Mesh {
 public:
-  float *m_Vertices;
-  unsigned int *m_Indices;
-  unsigned int vertexCount;
-  unsigned int indexCount;
+  std::string m_Filepath;
+  std::vector<float> m_Vertices;
+  std::vector<unsigned int> m_Indices;
 
-  Mesh(float *vertices, unsigned int vertexCount, unsigned int *indices,
-       unsigned int indexCount)
-      : vertexCount(vertexCount), indexCount(indexCount) {
-    m_Vertices = new float[vertexCount];
-    std::copy(vertices, vertices + vertexCount, m_Vertices);
+  Mesh(const std::string &filepath);
 
-    m_Indices = new unsigned int[indexCount];
-    std::copy(indices, indices + indexCount, m_Indices);
-  }
-
-  ~Mesh() {
-    delete[] m_Vertices;
-    delete[] m_Indices;
-  }
+private:
+  void loadFromFile(const std::string &filepath);
 };

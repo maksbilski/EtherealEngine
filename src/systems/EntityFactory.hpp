@@ -11,6 +11,7 @@ private:
 
 public:
   EntityFactory(EntityManager &entityManager);
-  Entity createRenderableEntity(const std::string &shaderPath,
-                                const std::string &texturePath, Mesh mesh);
+  Entity createRenderableEntity(const std::string &meshPath,
+                                const std::string &texturePath,
+                                const std::string &shaderPath);
 };
