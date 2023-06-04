@@ -23,31 +23,21 @@ void RenderSystem::update() {
 }
 
 void RenderSystem::render(Entity entity) {
-  // Pobierz komponenty
+  // Retrieve components
   auto graphics = m_EntityManager.getComponent<GraphicsComponent>(entity);
   auto transform = m_EntityManager.getComponent<TransformComponent>(entity);
 
-  // Utwórz MVP
+  // Create MVP
   glm::mat4 model = transform.createTransformMatrix();
-  glm::mat4 MVP = m_ProjectionMatrix * m_ViewMatrix * model; // zmienne globalne
+  glm::mat4 MVP = m_ProjectionMatrix * m_ViewMatrix * model; // Global variables
 
-  VertexArray va;
-  VertexBuffer vb(graphics.m_Mesh.m_Vertices.data(), 5 * 4 * sizeof(float));
+  // Set the MVP matrix in the shader program
+  graphics.shader.use();
+  graphics.shader.setMatrix4("MVP", MVP);
 
-  VertexBufferLayout layout;
-  layout.Push<float>(3);
-  layout.Push<float>(2);
-  va.AddBuffer(vb, layout);
-
-  IndexBuffer ib(graphics.m_Mesh.m_Indices.data(), 6);
-  // Aktywuj shader
-  graphics.m_Shader.Bind();
-  graphics.m_Texture.Bind();
-
-  // Prześlij MVP do shadera
-  graphics.m_Shader.SetUniformMat4f("u_MVP", MVP);
-  GLCall(glDrawElements(GL_TRIANGLES, ib.GetCount(), GL_UNSIGNED_INT, nullptr));
-};
+  // Now draw the model
+  graphics.model.Draw(graphics.shader);
+}
 
 void RenderSystem::updateViewMatrix() {
   m_ViewMatrix =
