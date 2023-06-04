@@ -6,22 +6,24 @@
 #include <map>
 #include <memory>
 
+enum class EntityType {
+    TERRAIN
+    // Dodaj więcej typów zasobów, jeśli są potrzebne
+};
+
 class ResourceManager {
 public:
   ResourceManager();
   ~ResourceManager();
 
-  std::shared_ptr<Mesh> getMesh(const std::string &name);
-  std::shared_ptr<Texture> getTexture(const std::string &name);
-  std::pair<std::shared_ptr<Shader>, std::shared_ptr<Shader>>
-  getShader(const std::string &name);
+  std::shared_ptr<Mesh> getMesh(EntityType type);
+  std::shared_ptr<Texture> getTexture(EntityType type);
+  std::pair<std::shared_ptr<Shader>, std::shared_ptr<Shader>> getShader(EntityType type);
 
 private:
-  std::unordered_map<std::string, std::shared_ptr<Mesh>> m_Meshes;
-  std::unordered_map<std::string, std::shared_ptr<Texture>> m_Textures;
-  std::unordered_map<
-      std::string, std::pair<std::shared_ptr<Shader>, std::shared_ptr<Shader>>>
-      m_Shaders;
+  std::unordered_map<EntityType, std::shared_ptr<Mesh>> m_Meshes;
+  std::unordered_map<EntityType, std::shared_ptr<Texture>> m_Textures;
+  std::unordered_map<EntityType, std::pair<std::shared_ptr<Shader>, std::shared_ptr<Shader>>> m_Shaders;
 
   void loadResources();
 };
@@ -30,24 +32,26 @@ private:
 ResourceManager::ResourceManager() { loadResources(); }
 
 ResourceManager::~ResourceManager() {
-  // Zasoby zostaną automatycznie usunięte, gdy ostatni shared_ptr zostanie
-  // zniszczony
+  // Zasoby zostaną automatycznie usunięte, gdy ostatni shared_ptr zostanie zniszczony
 }
 
-std::shared_ptr<Mesh> ResourceManager::getMesh(const std::string &name) {
-  return m_Meshes[name];
+std::shared_ptr<Mesh> ResourceManager::getMesh(EntityType type) {
+  return m_Meshes[type];
 }
 
-std::shared_ptr<Texture> ResourceManager::getTexture(const std::string &name) {
-  return m_Textures[name];
+std::shared_ptr<Texture> ResourceManager::getTexture(EntityType type) {
+  return m_Textures[type];
 }
 
-std::pair<std::shared_ptr<Shader>, std::shared_ptr<Shader>>
-ResourceManager::getShader(const std::string &name) {
-  return m_Shaders[name];
+std::pair<std::shared_ptr<Shader>, std::shared_ptr<Shader>> ResourceManager::getShader(EntityType type) {
+  return m_Shaders[type];
 }
 
 void ResourceManager::loadResources() {
   // Tutaj załaduj zasoby i przechowaj je jako shared_ptr w odpowiednich mapach.
+  // Na przykład:
+  // m_Meshes[EntityType::TERRAIN] = std::make_shared<Mesh>("terrain.obj");
+  // m_Textures[EntityType::TERRAIN] = std::make_shared<Texture>("terrain.png");
+  // m_Shaders[EntityType::TERRAIN] = std::make_pair(std::make_shared<Shader>("terrainVS.glsl"), std::make_shared<Shader>("terrainFS.glsl"));
   // ...
 }
