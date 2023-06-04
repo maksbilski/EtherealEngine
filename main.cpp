@@ -15,6 +15,24 @@
 
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
+// Your callback function
+void GLAPIENTRY MessageCallback(GLenum source, GLenum type, GLuint id,
+                                GLenum severity, GLsizei length,
+                                const GLchar *message, const void *userParam) {
+  fprintf(stderr,
+          "GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n",
+          (type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""), type, severity,
+          message);
+}
+
+// Then, in your main function or initialization code:
+void InitOpenGLDebug() {
+  // Enable the debug output
+  glEnable(GL_DEBUG_OUTPUT);
+
+  // Set your callback function
+  glDebugMessageCallback(MessageCallback, 0);
+}
 
 int main(void) {
   GLFWwindow *window;
@@ -28,6 +46,7 @@ int main(void) {
     glfwTerminate();
     return -1;
   }
+  InitOpenGLDebug();
 
   glfwMakeContextCurrent(window);
 
