@@ -54,7 +54,7 @@ int main(void) {
 
   // clang-format on
 
-  Mesh mesh(positions, indices);
+  Mesh mesh(positions, 20, indices, 6);
 
   CameraComponent camera(glm::vec3(0.0f, 2.0f, 0.0f));
   EntityManager entity_manager;

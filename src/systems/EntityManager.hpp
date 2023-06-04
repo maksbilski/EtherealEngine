@@ -16,6 +16,7 @@ private:
       m_GraphicsComponents;
   std::unordered_map<Entity, std::unique_ptr<TransformComponent>>
       m_TransformComponents;
+  std::vector<Entity> m_RenderableEntities;
 
   Entity m_nextEntity = 0;
 
@@ -24,6 +25,10 @@ public:
 
   template <typename ComponentType>
   void addComponent(Entity entity, ComponentType component);
+
+  void addRenderableEntity(Entity newRenderableEntity) {
+    m_RenderableEntities.push_back(newRenderableEntity);
+  }
 
   CameraComponent &getCameraComponent() const;
 

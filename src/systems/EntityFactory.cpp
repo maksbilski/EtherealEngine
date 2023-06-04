@@ -16,5 +16,6 @@ Entity EntityFactory::createRenderableEntity(const std::string &shaderPath,
       newEntity, GraphicsComponent(mesh, texture, shader));
   m_EntityManager.addComponent<TransformComponent>(newEntity,
                                                    TransformComponent());
+  m_EntityManager.addRenderableEntity(newEntity);
   return newEntity;
 }

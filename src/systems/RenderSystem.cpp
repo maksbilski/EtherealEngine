@@ -11,12 +11,12 @@ RenderSystem::RenderSystem(EntityManager &entityManager)
   float near = 0.1f;
   float far = 100.0f;
   m_ProjectionMatrix = glm::perspective(fov, aspectRatio, near, far);
-  updateViewMatrix();
 }
 
 RenderSystem::~RenderSystem() {}
 
 void RenderSystem::update() {
+  updateViewMatrix();
   for (auto entity : m_EntityManager.getEntitesToRender()) {
     render(entity);
   }
