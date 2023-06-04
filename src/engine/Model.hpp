@@ -18,8 +18,7 @@
 #include <string>
 #include <vector>
 
-unsigned int TextureFromFile(const char *path, const std::string &directory,
-                             bool gamma = false);
+unsigned int TextureFromFile(const char *path, const std::string &directory);
 
 class Model {
 public:
