@@ -1,7 +1,7 @@
 #include "Model.hpp"
 
 // constructor, expects a filepath to a 3D model.
-Model::Model(std::string const &filepath, bool gamma = false)
+Model::Model(std::string const &filepath, bool gamma)
     : m_GammaCorrection(gamma) {
   loadModel(filepath);
 }
@@ -175,8 +175,8 @@ std::vector<Texture> Model::loadMaterialTextures(aiMaterial *mat,
   return textures;
 };
 
-unsigned int TextureFromFile(const char *filepath, const std::string &directory,
-                             bool gamma) {
+unsigned int TextureFromFile(const char *filepath,
+                             const std::string &directory) {
   std::string filename = std::string(filepath);
   filename = directory + '/' + filename;
 
