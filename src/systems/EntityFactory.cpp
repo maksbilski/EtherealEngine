@@ -7,7 +7,7 @@ enum class EntityType { TERRAIN };
 
 EntityFactory::EntityFactory(EntityManager &entityManager,
                              ResourceManager &resourceManager)
-    : m_EntityManager(entityManager), m_ResourceManager(resourceManager){};
+    : m_EntityManager(entityManager), m_ResourceManager(resourceManager) {}
 
 Entity EntityFactory::getNewEntityId() { return m_NextEntity++; }
 
@@ -15,12 +15,12 @@ Entity EntityFactory::createRenderableEntity(EntityType entityType) {
   Entity newEntity = getNewEntityId();
 
   std::shared_ptr<Model> model;
-  std::pair<std::shared_ptr<Shader>, std::shared_ptr<Shader>> shader;
+  std::shared_ptr<Shader> shader;
 
   switch (entityType) {
   case EntityType::TERRAIN:
-    model = m_ResourceManager.getModel(entityType);
-    shader = m_ResourceManager.getShader(entityType);
+    model = m_ResourceManager.getModel(EntityType::TERRAIN);
+    shader = m_ResourceManager.getShader(EntityType::TERRAIN);
     break;
   }
 
