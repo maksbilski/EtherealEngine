@@ -13,6 +13,9 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+float deltaTime = 0.0f;
+float lastFrame = 0.0f;
+
 int main(void) {
   GLFWwindow *window;
 
@@ -44,11 +47,11 @@ int main(void) {
   InputSystem input_system(window, entity_manager);
 
   while (!glfwWindowShouldClose(window)) {
-    glClear(GL_COLOR_BUFFER_BIT);
-    float currentFrame = glfwGetTime();
-    auto lastFrame = currentFrame;
-    float deltaTime = currentFrame - lastFrame;
+    float currentFrame = static_cast<float>(glfwGetTime());
+    deltaTime = currentFrame - lastFrame;
+    lastFrame = currentFrame;
 
+    glClear(GL_COLOR_BUFFER_BIT);
     // Aktualizacja systemów
     input_system.update(deltaTime);
     render_system.update();

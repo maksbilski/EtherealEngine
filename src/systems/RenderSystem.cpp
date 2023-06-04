@@ -27,13 +27,14 @@ void RenderSystem::render(Entity entity) {
   auto graphics = m_EntityManager.getComponent<GraphicsComponent>(entity);
   auto transform = m_EntityManager.getComponent<TransformComponent>(entity);
 
+  graphics.m_Shader->use();
   // Create MVP
   glm::mat4 model = transform.createTransformMatrix();
-  glm::mat4 MVP = m_ProjectionMatrix * m_ViewMatrix * model; // Global variables
 
   // Set the MVP matrix in the shader program
-  graphics.m_Shader->use();
-  graphics.m_Shader->setMat4("MVP", MVP);
+  graphics.m_Shader->setMat4("projection", m_ProjectionMatrix);
+  graphics.m_Shader->setMat4("view", m_ViewMatrix);
+  graphics.m_Shader->setMat4("model", model);
 
   // Now draw the model
   graphics.m_Model->Draw(*graphics.m_Shader);
