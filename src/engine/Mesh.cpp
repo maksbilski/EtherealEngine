@@ -4,6 +4,22 @@
 #include <iostream>
 #include <sstream>
 
+enum class VertexComponents : int {
+  PositionX,
+  PositionY,
+  PositionZ,
+  TextureU,
+  TextureV,
+  Count
+};
+
+enum class FaceVertices : int {
+  Vertex1,
+  Vertex2,
+  Vertex3,
+  Count
+};
+
 Mesh::Mesh(const std::string &filepath) { loadFromFile(filepath); }
 
 void Mesh::loadFromFile(const std::string &filepath) {
@@ -21,13 +37,13 @@ void Mesh::loadFromFile(const std::string &filepath) {
     iss >> type;
 
     if (type == "v") {
-      for (int i = 0; i < 5; i++) {
+      for (int i = 0; i < static_cast<int>(VertexComponents::Count); i++) {
         float value;
         iss >> value;
         m_Vertices.push_back(value);
       }
     } else if (type == "f") {
-      for (int i = 0; i < 3; i++) {
+      for (int i = 0; i < static_cast<int>(FaceVertices::Count); i++) {
         unsigned int index;
         iss >> index;
         m_Indices.push_back(index - 1);
