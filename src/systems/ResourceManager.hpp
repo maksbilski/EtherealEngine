@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../engine/Mesh.hpp"
 #include "../engine/Model.hpp"
 #include "../engine/Shader.hpp"
 #include <map>
