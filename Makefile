@@ -1,10 +1,10 @@
 CXX = g++
-CXXFLAGS = -std=c++20 -Wall -Wextra -Isrc/vendor/glm
+CXXFLAGS = -std=c++20 -Wall -Wextra -Isrc -Isrc/Components -Isrc/Systems -Isrc/engine -Isrc/vendor/glm
 LDFLAGS = -lglfw -lGLEW -lGL
 SRCDIR = src
 OBJDIR = obj
 BINDIR = bin
-SRC = $(shell find $(SRCDIR) -name "*.cpp")
+SRC = $(shell find $(SRCDIR) -name "*.cpp" -not -path "$(SRCDIR)/vendor/glm/*")
 OBJ = $(patsubst $(SRCDIR)/%.cpp,$(OBJDIR)/%.o,$(filter-out $(SRCDIR)/vendor/glm/%, $(SRC)))
 EXEC = $(BINDIR)/cube
 

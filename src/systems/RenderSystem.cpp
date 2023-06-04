@@ -14,6 +14,8 @@ RenderSystem::RenderSystem(EntityManager &entityManager)
   updateViewMatrix();
 }
 
+RenderSystem::~RenderSystem() {}
+
 void RenderSystem::update() {
   for (auto entity : m_EntityManager.getEntitesToRender()) {
     render(entity);
