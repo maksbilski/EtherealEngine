@@ -1,4 +1,6 @@
 #include "EntityFactory.hpp"
+#include "../components/GraphicsComponent.hpp"
+#include "../components/TransformComponent.hpp"
 #include "ResourceManager.hpp"
 
 enum class EntityType { TERRAIN };
