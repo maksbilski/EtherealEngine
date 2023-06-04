@@ -1,7 +1,7 @@
 #include "EntityFactory.hpp"
 #include "../components/GraphicsComponent.hpp"
 #include "../components/TransformComponent.hpp"
-#include "ResourceManager.hpp";
+#include "ResourceManager.hpp"
 
 EntityFactory::EntityFactory(EntityManager &entityManager,
                              ResourceManager &resourceManager)
