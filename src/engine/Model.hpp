@@ -4,7 +4,7 @@
 
 #include "../vendor/glm/glm.hpp"
 #include "../vendor/glm/gtc/matrix_transform.hpp"
-#include "stb_image.h"
+#include "../vendor/stb_image/stb_image.h"
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>

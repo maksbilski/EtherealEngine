@@ -3,8 +3,6 @@
 #include "../components/TransformComponent.hpp"
 #include "ResourceManager.hpp"
 
-enum class EntityType { TERRAIN };
-
 EntityFactory::EntityFactory(EntityManager &entityManager,
                              ResourceManager &resourceManager)
     : m_EntityManager(entityManager), m_ResourceManager(resourceManager) {}

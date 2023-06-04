@@ -1,6 +1,6 @@
 CXX = g++
-CXXFLAGS = -g -std=c++20 -Wall -Wextra -Isrc -Isrc/Components -Isrc/Systems -Isrc/engine -Isrc/vendor/glm
-LDFLAGS = -lglfw -lGLEW -lGL
+CXXFLAGS = -g -std=c++20 -Wall -Wextra -Isrc -Isrc/Components -Isrc/Systems -Isrc/engine -Isrc/vendor/glm -I~/usr/include/assimp
+LDFLAGS = -lglfw -lGLEW -lGL -lassimp
 SRCDIR = src
 OBJDIR = obj
 BINDIR = bin

@@ -3,8 +3,6 @@
 #include "EntityManager.hpp"
 #include "ResourceManager.hpp"
 
-enum class EntityType { TERRAIN };
-
 class EntityFactory {
 private:
   EntityManager &m_EntityManager;
