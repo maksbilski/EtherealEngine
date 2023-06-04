@@ -10,7 +10,8 @@ public:
   std::shared_ptr<Model> m_Model;
   std::shared_ptr<Shader> m_Shader;
 
-  GraphicsComponent(Model *model, Shader *shader)
+  GraphicsComponent(std::shared_ptr<Model> model,
+                    std::shared_ptr<Shader> shader)
       : m_Model(model), m_Shader(shader){};
 
   void setModel(Model *newModel) { m_Model.reset(newModel); }

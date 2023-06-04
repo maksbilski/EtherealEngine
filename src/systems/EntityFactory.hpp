@@ -14,6 +14,6 @@ private:
   Entity getNewEntityId();
 
 public:
-  EntityFactory(EntityManager &entityManager);
+  EntityFactory(EntityManager &entityManager, ResourceManager &resourceManager);
   Entity createRenderableEntity(EntityType entityType);
 };
