@@ -33,14 +33,12 @@ int main(void) {
   if (glewInit() != GLEW_OK) {
     std::cout << "Error!" << std::endl;
   }
-
+  ResourceManager resource_manager;
   CameraComponent camera(glm::vec3(0.0f, 2.0f, 0.0f));
   EntityManager entity_manager;
   entity_manager.addCameraComponent(camera);
-  EntityFactory entity_factory(entity_manager);
-  entity_factory.createRenderableEntity("resources/meshes/senti.obj",
-                                        "resources/textures/senti.png",
-                                        "resources/shaders/basic.shader");
+  EntityFactory entity_factory(entity_manager, resource_manager);
+  entity_factory.createRenderableEntity(EntityType::TERRAIN);
   RenderSystem render_system(entity_manager);
 
   InputSystem input_system(window, entity_manager);

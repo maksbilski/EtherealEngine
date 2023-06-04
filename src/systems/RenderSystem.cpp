@@ -32,11 +32,11 @@ void RenderSystem::render(Entity entity) {
   glm::mat4 MVP = m_ProjectionMatrix * m_ViewMatrix * model; // Global variables
 
   // Set the MVP matrix in the shader program
-  graphics.shader.use();
-  graphics.shader.setMatrix4("MVP", MVP);
+  graphics.m_Shader->use();
+  graphics.m_Shader->setMat4("MVP", MVP);
 
   // Now draw the model
-  graphics.model.Draw(graphics.shader);
+  graphics.m_Model->Draw(*graphics.m_Shader);
 }
 
 void RenderSystem::updateViewMatrix() {
