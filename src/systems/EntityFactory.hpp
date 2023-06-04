@@ -2,6 +2,8 @@
 
 #include "EntityManager.hpp"
 
+enum class EntityType { TERRAIN };
+
 class EntityFactory {
 private:
   EntityManager &m_EntityManager;
@@ -11,7 +13,5 @@ private:
 
 public:
   EntityFactory(EntityManager &entityManager);
-  Entity createRenderableEntity(const std::string &meshPath,
-                                const std::string &texturePath,
-                                const std::string &shaderPath);
+  Entity createRenderableEntity(EntityType entityType);
 };
