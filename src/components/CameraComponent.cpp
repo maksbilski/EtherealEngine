@@ -3,7 +3,7 @@
 CameraComponent::CameraComponent(const glm::vec3 &position)
     : m_Position(position) {
   m_CurrentLookAngleX = 0.0f;
-  m_CurrentLookAngleX = 0.0f;
+  m_CurrentLookAngleY = 0.0f;
 
   computeWalkVectors();
   computeCameraOrientation();

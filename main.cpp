@@ -59,14 +59,14 @@ int main(void) {
   InitOpenGLDebug();
   glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
   ResourceManager resource_manager;
-  CameraComponent camera(glm::vec3(0.0f, 2.0f, 2.0f));
+  CameraComponent camera(glm::vec3(0.0f, 0.0f, 3.0f));
   EntityManager entity_manager;
   entity_manager.addCameraComponent(camera);
   EntityFactory entity_factory(entity_manager, resource_manager);
   entity_factory.createRenderableEntity(EntityType::TERRAIN);
   RenderSystem render_system(entity_manager);
 
-  InputSystem input_system(window, entity_manager);
+  // InputSystem input_system(window, entity_manager);
 
   while (!glfwWindowShouldClose(window)) {
     float currentFrame = static_cast<float>(glfwGetTime());
@@ -75,7 +75,7 @@ int main(void) {
     glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     // Aktualizacja systemów
-    input_system.update(deltaTime);
+    // input_system.update(deltaTime);
     render_system.update();
     std::cout << "0" << std::endl;
 
