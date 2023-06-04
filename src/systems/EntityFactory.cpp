@@ -1,24 +1,26 @@
 #include "EntityFactory.hpp"
+#include "../components/GraphicsComponent.hpp"
+#include "../components/TransformComponent.hpp"
 #include "ResourceManager.hpp"
 
 enum class EntityType { TERRAIN };
 
-EntityFactory::EntityFactory(EntityManager &entityManager)
-    : m_EntityManager(entityManager) {}
+EntityFactory::EntityFactory(EntityManager &entityManager,
+                             ResourceManager &resourceManager)
+    : m_EntityManager(entityManager), m_ResourceManager(resourceManager){};
 
-Entity EntityFactory::createEntity() { return m_NextEntity++; }
+Entity EntityFactory::getNewEntityId() { return m_NextEntity++; }
 
 Entity EntityFactory::createRenderableEntity(EntityType entityType) {
-  Entity newEntity = createEntity();
+  Entity newEntity = getNewEntityId();
 
   std::shared_ptr<Model> model;
   std::pair<std::shared_ptr<Shader>, std::shared_ptr<Shader>> shader;
 
   switch (entityType) {
   case EntityType::TERRAIN:
-    mesh = ResourceManager::getMesh("terrain");
-    texture = ResourceManager::getTexture("terrain");
-    shader = ResourceManager::getShader("terrain");
+    model = m_ResourceManager.getModel(entityType);
+    shader = m_ResourceManager.getShader(entityType);
     break;
   }
 
