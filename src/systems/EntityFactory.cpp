@@ -8,7 +8,7 @@ EntityFactory::EntityFactory(EntityManager &entityManager)
 
 Entity EntityFactory::createEntity() { return m_NextEntity++; }
 
-EntityFactory::createRenderableEntity(EntityType entityType) {
+Entity EntityFactory::createRenderableEntity(EntityType entityType) {
   Entity newEntity = createEntity();
 
   std::shared_ptr<Model> model;
