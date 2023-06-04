@@ -66,7 +66,7 @@ int main(void) {
   entity_factory.createRenderableEntity(EntityType::TERRAIN);
   RenderSystem render_system(entity_manager);
 
-  // InputSystem input_system(window, entity_manager);
+  InputSystem input_system(window, entity_manager);
 
   while (!glfwWindowShouldClose(window)) {
     float currentFrame = static_cast<float>(glfwGetTime());
@@ -75,7 +75,7 @@ int main(void) {
     glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     // Aktualizacja systemów
-    // input_system.update(deltaTime);
+    input_system.update(deltaTime);
     render_system.update();
     std::cout << "0" << std::endl;
 
