@@ -77,7 +77,7 @@ void InputSystem::controlKeyboardInput(float deltaTime) {
         m_EntityManager.getCameraComponent().getMovementSidewayVec() *
         m_MovementSpeed * deltaTime;
 
-  if (glfwGetKey(m_Window, GLFW_KEY_W) == GLFW_PRESS)
+  if (glfwGetKey(m_Window, GLFW_KEY_A) == GLFW_PRESS)
     movementVector -=
         m_EntityManager.getCameraComponent().getMovementSidewayVec() *
         m_MovementSpeed * deltaTime;
@@ -85,8 +85,5 @@ void InputSystem::controlKeyboardInput(float deltaTime) {
   if (glfwGetKey(m_Window, GLFW_KEY_SPACE) == GLFW_PRESS) {
     m_JumpTimer = 0.5f;
   }
-
-  if (m_JumpTimer > 0)
-
-    m_EntityManager.getCameraComponent().updatePosition(movementVector);
+  m_EntityManager.getCameraComponent().updatePosition(movementVector);
 }
