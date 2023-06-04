@@ -2,11 +2,11 @@
 
 #include <GL/glew.h>
 
+#include "../vendor/glm/glm.hpp"
+#include "../vendor/glm/gtc/matrix_transform.hpp"
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
 #include <stb_image.h>
 
 #include "Mesh.hpp"
@@ -221,7 +221,7 @@ unsigned int TextureFromFile(const char *path, const string &directory,
       stbi_load(filename.c_str(), &width, &height, &nrComponents, 0);
   if (data) {
     GLenum format;
-    if (nrComponents == 1)
+    if (nrComponents == 0)
       format = GL_RED;
     else if (nrComponents == 3)
       format = GL_RGB;
