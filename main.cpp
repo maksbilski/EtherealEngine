@@ -36,8 +36,9 @@ int main(void) {
   if (glewInit() != GLEW_OK) {
     std::cout << "Error!" << std::endl;
   }
+  glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
   ResourceManager resource_manager;
-  CameraComponent camera(glm::vec3(0.0f, 2.0f, 0.0f));
+  CameraComponent camera(glm::vec3(0.0f, 2.0f, 2.0f));
   EntityManager entity_manager;
   entity_manager.addCameraComponent(camera);
   EntityFactory entity_factory(entity_manager, resource_manager);

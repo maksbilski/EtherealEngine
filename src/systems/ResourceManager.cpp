@@ -24,4 +24,10 @@ void ResourceManager::loadResources() {
   // std::make_pair(std::make_shared<Shader>("terrainVS.glsl"),
   // std::make_shared<Shader>("terrainFS.glsl"));
   // ...
+  m_Shaders[EntityType::TERRAIN] =
+      std::make_shared<Shader>("../../resources/shaders/model_loading.vs",
+                               "../../resources/shaders/model_loading.fs");
+
+  m_Models[EntityType::TERRAIN] =
+      std::make_shared<Model>("../../resources/models/backpack.obj");
 }
