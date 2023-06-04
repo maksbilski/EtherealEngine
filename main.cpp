@@ -3,14 +3,8 @@
 #include "src/systems/InputSystem.hpp"
 #include "src/systems/RenderSystem.hpp"
 
-#include "src/engine/IndexBuffer.hpp"
 #include "src/engine/Mesh.hpp"
-#include "src/engine/Renderer.hpp"
 #include "src/engine/Shader.hpp"
-#include "src/engine/Texture.hpp"
-#include "src/engine/VertexArray.hpp"
-#include "src/engine/VertexBuffer.hpp"
-#include "src/engine/VertexBufferLayout.hpp"
 
 #include "src/components/CameraComponent.hpp"
 #include "src/components/GraphicsComponent.hpp"
@@ -44,15 +38,15 @@ int main(void) {
   EntityManager entity_manager;
   entity_manager.addCameraComponent(camera);
   EntityFactory entity_factory(entity_manager);
-  Entity terrain = entity_factory.createRenderableEntity(
-      "resources/meshes/senti.obj", "resources/textures/senti.png",
-      "resources/shaders/basic.shader");
+  entity_factory.createRenderableEntity("resources/meshes/senti.obj",
+                                        "resources/textures/senti.png",
+                                        "resources/shaders/basic.shader");
   RenderSystem render_system(entity_manager);
 
   InputSystem input_system(window, entity_manager);
 
   while (!glfwWindowShouldClose(window)) {
-    GLCall(glClear(GL_COLOR_BUFFER_BIT));
+    glClear(GL_COLOR_BUFFER_BIT);
     float currentFrame = glfwGetTime();
     auto lastFrame = currentFrame;
     float deltaTime = currentFrame - lastFrame;
