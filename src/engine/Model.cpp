@@ -175,8 +175,8 @@ std::vector<Texture> Model::loadMaterialTextures(aiMaterial *mat,
   return textures;
 };
 
-unsigned int TextureFromFile(const char *filepath,
-                             const std::string &directory) {
+unsigned int Model::TextureFromFile(const char *filepath,
+                                    const std::string &directory) {
   std::string filename = std::string(filepath);
   filename = directory + '/' + filename;
 

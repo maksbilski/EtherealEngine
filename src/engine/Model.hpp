@@ -18,8 +18,6 @@
 #include <string>
 #include <vector>
 
-unsigned int TextureFromFile(const char *path, const std::string &directory);
-
 class Model {
 public:
   // model data
@@ -50,7 +48,5 @@ private:
   // they're not loaded yet. the required info is returned as a Texture struct.
   std::vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type,
                                             std::string typeName);
-
-  unsigned int TextureFromFile(const char *filepath,
-                               const std::string &directory, bool gamma);
+  unsigned int TextureFromFile(const char *path, const std::string &directory);
 };
