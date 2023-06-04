@@ -1,23 +1,20 @@
 #pragma once
 
-#include "Entity.hpp"
+#include "EntityManager.hpp"
 #include <memory>
 #include <vector>
 
 class RenderSystem {
 private:
-  std::vector<std::shared_ptr<Entity>> entities;
-  std::shared_ptr<Entity> m_Player;
+  EntityManager &m_EntityManager;
   glm::mat4 m_ProjectionMatrix;
   glm::mat4 m_ViewMatrix;
 
-  void render(const std::shared_ptr<Entity> &entity);
+  void render(Entity entity);
   void updateViewMatrix();
 
 public:
-  RenderSystem(std::shared_ptr<Entity> player);
+  RenderSystem(EntityManager &EntityManager);
   ~RenderSystem();
-  void addEntity(const std::shared_ptr<Entity> &entity);
-  void removeEntity(const std::shared_ptr<Entity> &entity);
   void update();
 };

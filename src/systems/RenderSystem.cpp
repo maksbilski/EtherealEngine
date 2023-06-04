@@ -3,9 +3,9 @@
 #include "../components/GraphicsComponent.hpp"
 #include "../components/TransformComponent.hpp"
 #include "../vendor/glm/gtc/matrix_transform.hpp"
-#include "Entity.hpp"
 
-RenderSystem::RenderSystem(std::shared_ptr<Entity> player) : m_Player(player) {
+RenderSystem::RenderSystem(EntityManager &entityManager)
+    : m_EntityManager(entityManager) {
   float fov = glm::radians(45.0f);
   float aspectRatio = 1920.0f / 1080.0f;
   float near = 0.1f;
@@ -15,15 +15,15 @@ RenderSystem::RenderSystem(std::shared_ptr<Entity> player) : m_Player(player) {
 }
 
 void RenderSystem::update() {
-  for (const auto &entity : entities) {
+  for (auto entity : m_EntityManager.getEntitesToRender()) {
     render(entity);
   }
 }
 
-void RenderSystem::render(const std::shared_ptr<Entity> &entity) {
+void RenderSystem::render(Entity entity) {
   // Pobierz komponenty
-  auto graphics = entity->getComponent<GraphicsComponent>();
-  auto transform = entity->getComponent<TransformComponent>();
+  auto graphics = m_EntityManager.getComponent<GraphicsComponent>(entity);
+  auto transform = m_EntityManager.getComponent<TransformComponent>(entity);
 
   // Utwórz MVP
   glm::mat4 model = transform.createTransformMatrix();
@@ -49,7 +49,7 @@ void RenderSystem::render(const std::shared_ptr<Entity> &entity) {
 
 void RenderSystem::updateViewMatrix() {
   m_ViewMatrix =
-      glm::lookAt(m_Player->getComponent<CameraComponent>().getPosition(),
-                  m_Player->getComponent<CameraComponent>().getCameraLookVec(),
+      glm::lookAt(m_EntityManager.getCameraComponent().getPosition(),
+                  m_EntityManager.getCameraComponent().getCameraLookVec(),
                   glm::vec3(0.0f, 1.0f, 0.0f));
 }

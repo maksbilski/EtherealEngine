@@ -1,4 +1,5 @@
-#include "src/systems/Entity.hpp"
+#include "src/systems/EntityFactory.hpp"
+#include "src/systems/EntityManager.hpp"
 #include "src/systems/InputSystem.hpp"
 #include "src/systems/RenderSystem.hpp"
 
@@ -53,24 +54,17 @@ int main(void) {
 
   // clang-format on
 
-  auto terrain = std::make_shared<Entity>();
-  Texture texture("resources/textures/senti.png");
-  Shader shader("resources/shaders/basic.shader");
   Mesh mesh(positions, indices);
-  auto ter_graph_compon_ptr =
-      std::make_unique<GraphicsComponent>(mesh, texture, shader);
-  terrain->addComponent<GraphicsComponent>(std::move(ter_graph_compon_ptr));
 
-  auto player = std::make_shared<Entity>();
-  auto camera_comp_ptr =
-      std::make_unique<CameraComponent>(glm::vec3(0.0f, 2.0f, 0.0f));
-  player->addComponent<CameraComponent>(std::move(camera_comp_ptr));
+  CameraComponent camera(glm::vec3(0.0f, 2.0f, 0.0f));
+  EntityManager entity_manager;
+  entity_manager.addCameraComponent(camera);
+  EntityFactory entity_factory(entity_manager);
+  Entity terrain = entity_factory.createRenderableEntity(
+      "resources/shaders/basic.shader", "resources/textures/senti.png", mesh);
+  RenderSystem render_system(entity_manager);
 
-  RenderSystem render_system(player);
-
-  InputSystem input_system(window, player);
-
-  render_system.addEntity(terrain);
+  InputSystem input_system(window, entity_manager);
 
   while (!glfwWindowShouldClose(window)) {
     GLCall(glClear(GL_COLOR_BUFFER_BIT));
