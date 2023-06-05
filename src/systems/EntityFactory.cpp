@@ -23,6 +23,9 @@ Entity EntityFactory::createRenderableEntity(EntityType entityType,
   case EntityType::SHOTGUN:
     model = m_ResourceManager.getModel(EntityType::SHOTGUN);
     break;
+  case EntityType::TERRAIN:
+    model = m_ResourceManager.getModel(EntityType::TERRAIN);
+    break;
   }
 
   switch (shaderType) {

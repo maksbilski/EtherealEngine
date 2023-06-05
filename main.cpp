@@ -70,9 +70,8 @@ int main(void) {
   glm::vec3 rotation4 = glm::vec3(0.0, 0.0, 0.0);
   glm::vec3 scale4 = glm::vec3(0.01);
 
-  entity_factory.createRenderableEntity(EntityType::SHOTGUN,
-                                        ShaderType::BASIC_SHADER, position4,
-                                        rotation4, scale4);
+  entity_factory.createRenderableEntity(EntityType::TERRAIN,
+                                        ShaderType::BASIC_SHADER);
 
   RenderSystem render_system(entity_manager);
 

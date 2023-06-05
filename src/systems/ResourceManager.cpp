@@ -30,4 +30,7 @@ void ResourceManager::loadResources() {
 
   m_Models[EntityType::SHOTGUN] =
       std::make_shared<Model>("resources/models/Shotgun/shotgun.obj");
+
+  m_Models[EntityType::TERRAIN] =
+      std::make_shared<Model>("resources/models/mountains/mountains.obj");
 }
