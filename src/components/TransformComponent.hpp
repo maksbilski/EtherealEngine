@@ -10,9 +10,8 @@ public:
   glm::vec3 m_Scale;
 
   // Konstruktor, który ustawia pozycję, obrót i skalę
-  TransformComponent(const glm::vec3 &position = glm::vec3(0.0f),
-                     const glm::vec3 &rotation = glm::vec3(0.0f),
-                     const glm::vec3 &scale = glm::vec3(50.0f))
+  TransformComponent(const glm::vec3 &position, const glm::vec3 &rotation,
+                     const glm::vec3 &scale)
       : m_Position(position), m_Rotation(rotation), m_Scale(scale) {}
 
   // Metoda do tworzenia macierzy transformacji

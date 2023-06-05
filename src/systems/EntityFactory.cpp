@@ -9,7 +9,10 @@ EntityFactory::EntityFactory(EntityManager &entityManager,
 
 Entity EntityFactory::getNewEntityId() { return m_NextEntity++; }
 
-Entity EntityFactory::createRenderableEntity(EntityType entityType) {
+Entity EntityFactory::createRenderableEntity(EntityType entityType,
+                                             glm::vec3 position,
+                                             glm::vec3 rotation,
+                                             glm::vec3 scale) {
   Entity newEntity = getNewEntityId();
 
   std::shared_ptr<Model> model;
@@ -24,8 +27,8 @@ Entity EntityFactory::createRenderableEntity(EntityType entityType) {
 
   m_EntityManager.addComponent<GraphicsComponent>(
       newEntity, GraphicsComponent(model, shader));
-  m_EntityManager.addComponent<TransformComponent>(newEntity,
-                                                   TransformComponent());
+  m_EntityManager.addComponent<TransformComponent>(
+      newEntity, TransformComponent(position, rotation, scale));
   m_EntityManager.addRenderableEntity(newEntity);
 
   return newEntity;

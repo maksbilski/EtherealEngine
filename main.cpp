@@ -63,7 +63,17 @@ int main(void) {
   EntityManager entity_manager;
   entity_manager.addCameraComponent(camera);
   EntityFactory entity_factory(entity_manager, resource_manager);
-  entity_factory.createRenderableEntity(EntityType::TERRAIN);
+
+  glm::vec3 position1 = glm::vec3(10.0, 0.0, 10.0);
+  glm::vec3 position2 = glm::vec3(10.0, 10.0, 10.0);
+  glm::vec3 position3 = glm::vec3(5.0, 5.0, 12.0);
+  glm::vec3 position4 = glm::vec3(1.0, 0.0, 1.0);
+
+  entity_factory.createRenderableEntity(EntityType::TERRAIN, position1);
+  entity_factory.createRenderableEntity(EntityType::TERRAIN, position2);
+  entity_factory.createRenderableEntity(EntityType::TERRAIN, position3);
+  entity_factory.createRenderableEntity(EntityType::TERRAIN, position4);
+
   RenderSystem render_system(entity_manager);
 
   InputSystem input_system(window, entity_manager);
@@ -77,7 +87,6 @@ int main(void) {
     // Aktualizacja systemów
     input_system.update(deltaTime);
     render_system.update();
-    std::cout << "0" << std::endl;
 
     // Rendering
 

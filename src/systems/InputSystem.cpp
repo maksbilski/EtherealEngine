@@ -54,8 +54,8 @@ void InputSystem::controlMouseInput(float deltaTime) {
   m_EntityManager.getCameraComponent().setCurrentLookAngleY(
       tempCurrentLookAngleY);
 
-  m_EntityManager.getCameraComponent().computeCameraOrientation();
   m_EntityManager.getCameraComponent().computeWalkVectors();
+  m_EntityManager.getCameraComponent().computeCameraOrientation();
 }
 
 void InputSystem::controlKeyboardInput(float deltaTime) {

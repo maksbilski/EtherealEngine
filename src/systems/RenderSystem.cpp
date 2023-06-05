@@ -29,9 +29,9 @@ void RenderSystem::render(Entity entity) {
 
   graphics.m_Shader->use();
   // Create MVP
-  glm::mat4 model = glm::mat4(1.0f); // Identity matrix, model at origin
-  glm::mat4 projection =
-      glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+  glm::mat4 model =
+      transform.createTransformMatrix(); // Identity matrix, model at origin
+  glm::mat4 projection = m_ProjectionMatrix;
 
   // Set the MVP matrix in the shader program
   graphics.m_Shader->setMat4("projection", projection);
