@@ -5,8 +5,8 @@ InputSystem::InputSystem(GLFWwindow *window, EntityManager &entityManager)
   m_TargetLookAngleX = 0.0f;
   m_TargetLookAngleY = 0.0f;
 
-  m_MouseSensitivity = 5.0f;
-  m_MovementSpeed = 10.0f;
+  m_MouseSensitivity = 10.0f;
+  m_MovementSpeed = 50.0f;
   m_JumpTimer = 0.0f;
 
   glfwGetCursorPos(window, &m_CursorX, &m_CursorY);
@@ -89,3 +89,5 @@ void InputSystem::controlKeyboardInput(float deltaTime) {
   m_EntityManager.getCameraComponent().computeCameraOrientation();
   m_EntityManager.getCameraComponent().computeWalkVectors();
 }
+
+void InputManager::updateWeapon() const {}

@@ -17,3 +17,19 @@ glm::mat4 TransformComponent::createTransformMatrix() const {
 
   return transform;
 }
+
+glm::vec3 TransformComponent::getPosition() const { return m_Position; }
+
+glm::vec3 TransformComponent::getRotation() const { return m_Rotation; }
+
+glm::vec3 TransformComponent::getScale() const { return m_Scale; }
+
+void TransformComponent::setPosition(glm::vec3 newPosition) {
+  m_Position = newPosition;
+}
+
+void TransformComponent::setRotation(glm::vec3 newRotation) {
+  m_Rotation = newRotation;
+}
+
+void TransformComponent::setScale(glm::vec3 newScale) { m_Scale = newScale; }

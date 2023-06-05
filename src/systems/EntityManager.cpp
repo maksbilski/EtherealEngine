@@ -9,6 +9,12 @@ CameraComponent &EntityManager::getCameraComponent() const {
   return *m_CameraComponent;
 }
 
+Entity EntityManager::getCurrentWeaponEntity() const { return m_CurrentWeapon; }
+
+void EntityManager::setCurrentWeaponEntity(Entity newEntity) {
+  m_CurrentWeapon = newEntity;
+}
+
 std::vector<Entity> EntityManager::getEntitesToRender() const {
   return m_RenderableEntities;
 }

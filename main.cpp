@@ -61,17 +61,18 @@ int main(void) {
   InitOpenGLDebug();
   glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
   ResourceManager resource_manager;
-  CameraComponent camera(glm::vec3(0.0f, 0.0f, 3.0f));
+  CameraComponent camera(glm::vec3(0.0f, 15.0f, 0.0f));
   EntityManager entity_manager;
   entity_manager.addCameraComponent(camera);
   EntityFactory entity_factory(entity_manager, resource_manager);
 
-  glm::vec3 position4 = glm::vec3(1.0, -1.0, -3.0);
+  glm::vec3 position4 = glm::vec3(0.0, 0.0, 0.0);
   glm::vec3 rotation4 = glm::vec3(0.0, 0.0, 0.0);
-  glm::vec3 scale4 = glm::vec3(0.01);
+  glm::vec3 scale4 = glm::vec3(3.0);
 
-  entity_factory.createRenderableEntity(EntityType::TERRAIN,
-                                        ShaderType::BASIC_SHADER);
+  entity_factory.createRenderableEntity(EntityType::TERRAIN, position4,
+                                        rotation4, scale4);
+  entity_factory.createWeaponEntity(EntityType::SHOTGUN, glm::vec3(1.0));
 
   RenderSystem render_system(entity_manager);
 

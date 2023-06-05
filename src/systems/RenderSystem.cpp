@@ -9,7 +9,7 @@ RenderSystem::RenderSystem(EntityManager &entityManager)
   float fov = glm::radians(45.0f);
   float aspectRatio = 1920.0f / 1080.0f;
   float near = 0.1f;
-  float far = 100.0f;
+  float far = 300.0f;
   m_ProjectionMatrix = glm::perspective(fov, aspectRatio, near, far);
 }
 
@@ -31,10 +31,9 @@ void RenderSystem::render(Entity entity) {
   // Create MVP
   glm::mat4 model =
       transform.createTransformMatrix(); // Identity matrix, model at origin
-  glm::mat4 projection = m_ProjectionMatrix;
 
   // Set the MVP matrix in the shader program
-  graphics.m_Shader->setMat4("projection", projection);
+  graphics.m_Shader->setMat4("projection", m_ProjectionMatrix);
   graphics.m_Shader->setMat4("view", m_ViewMatrix);
   graphics.m_Shader->setMat4("model", model);
 

@@ -14,6 +14,13 @@ public:
                      const glm::vec3 &scale)
       : m_Position(position), m_Rotation(rotation), m_Scale(scale) {}
 
+  glm::vec3 getPosition() const;
+  glm::vec3 getRotation() const;
+  glm::vec3 getScale() const;
+
+  void setPosition(glm::vec3 newPosition);
+  void setRotation(glm::vec3 newRotation);
+  void setScale(glm::vec3 newScale);
   // Metoda do tworzenia macierzy transformacji
   glm::mat4 createTransformMatrix() const;
 };
