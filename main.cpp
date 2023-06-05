@@ -56,6 +56,8 @@ int main(void) {
   }
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   InitOpenGLDebug();
   glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
   ResourceManager resource_manager;
@@ -68,7 +70,8 @@ int main(void) {
   glm::vec3 rotation4 = glm::vec3(0.0, 0.0, 0.0);
   glm::vec3 scale4 = glm::vec3(0.01);
 
-  entity_factory.createRenderableEntity(EntityType::TERRAIN, position4,
+  entity_factory.createRenderableEntity(EntityType::SHOTGUN,
+                                        ShaderType::BASIC_SHADER, position4,
                                         rotation4, scale4);
 
   RenderSystem render_system(entity_manager);

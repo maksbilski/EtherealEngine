@@ -10,6 +10,7 @@ EntityFactory::EntityFactory(EntityManager &entityManager,
 Entity EntityFactory::getNewEntityId() { return m_NextEntity++; }
 
 Entity EntityFactory::createRenderableEntity(EntityType entityType,
+                                             ShaderType shaderType,
                                              glm::vec3 position,
                                              glm::vec3 rotation,
                                              glm::vec3 scale) {
@@ -19,9 +20,14 @@ Entity EntityFactory::createRenderableEntity(EntityType entityType,
   std::shared_ptr<Shader> shader;
 
   switch (entityType) {
-  case EntityType::TERRAIN:
-    model = m_ResourceManager.getModel(EntityType::TERRAIN);
-    shader = m_ResourceManager.getShader(EntityType::TERRAIN);
+  case EntityType::SHOTGUN:
+    model = m_ResourceManager.getModel(EntityType::SHOTGUN);
+    break;
+  }
+
+  switch (shaderType) {
+  case ShaderType::BASIC_SHADER:
+    shader = m_ResourceManager.getShader(ShaderType::BASIC_SHADER);
     break;
   }
 
