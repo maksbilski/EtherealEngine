@@ -29,5 +29,9 @@ void ResourceManager::loadResources() {
                                "resources/shaders/model_loading.fs");
 
   m_Models[EntityType::TERRAIN] =
-      std::make_shared<Model>("resources/models/backpack.obj");
+      std::make_shared<Model>("resources/models/Shotgun/shotgun.obj");
+
+  m_Shaders[EntityType::SHOTGUN] =
+      std::make_shared<Shader>("resources/shaders/model_loading.vs",
+                               "resources/shaders/model_loading.fs");
 }

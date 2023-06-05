@@ -64,15 +64,12 @@ int main(void) {
   entity_manager.addCameraComponent(camera);
   EntityFactory entity_factory(entity_manager, resource_manager);
 
-  glm::vec3 position1 = glm::vec3(10.0, 0.0, 10.0);
-  glm::vec3 position2 = glm::vec3(10.0, 10.0, 10.0);
-  glm::vec3 position3 = glm::vec3(5.0, 5.0, 12.0);
-  glm::vec3 position4 = glm::vec3(1.0, 0.0, 1.0);
+  glm::vec3 position4 = glm::vec3(1.0, -1.0, -3.0);
+  glm::vec3 rotation4 = glm::vec3(0.0, 0.0, 0.0);
+  glm::vec3 scale4 = glm::vec3(0.01);
 
-  entity_factory.createRenderableEntity(EntityType::TERRAIN, position1);
-  entity_factory.createRenderableEntity(EntityType::TERRAIN, position2);
-  entity_factory.createRenderableEntity(EntityType::TERRAIN, position3);
-  entity_factory.createRenderableEntity(EntityType::TERRAIN, position4);
+  entity_factory.createRenderableEntity(EntityType::TERRAIN, position4,
+                                        rotation4, scale4);
 
   RenderSystem render_system(entity_manager);
 
