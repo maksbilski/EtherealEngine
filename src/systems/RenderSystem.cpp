@@ -11,13 +11,14 @@ RenderSystem::RenderSystem(EntityManager &entityManager)
   float fov = glm::radians(45.0f);
   float aspectRatio = 1920.0f / 1080.0f;
   float near = 0.1f;
-  float far = 300.0f;
+  float far = 10000.0f;
   m_ProjectionMatrix = glm::perspective(fov, aspectRatio, near, far);
 }
 
 RenderSystem::~RenderSystem() {}
 
 void RenderSystem::update() {
+  updateWeaponTransformMatrix();
   updateViewMatrix();
   for (auto entity : m_EntityManager.getEntitesToRender()) {
     renderModel(entity);
@@ -37,7 +38,7 @@ void RenderSystem::renderModel(Entity entity) {
   glm::mat4 view;
 
   if (entity == m_EntityManager.getCurrentWeaponEntity()) {
-    model = transform.getWeaponTransformMatrix();
+    model = m_WeaponTransformMatrix;
     view = m_ViewMatrix;
     view[3] = glm::vec4(0.0, 0.0, 0.0, 1.0);
   } else {
@@ -53,13 +54,6 @@ void RenderSystem::renderModel(Entity entity) {
 
   // Now draw the model
   entity_model->Draw(*entity_shader);
-}
-
-void RenderSystem::updateViewMatrix() {
-  m_ViewMatrix =
-      glm::lookAt(m_EntityManager.getCameraComponent().getPosition(),
-                  m_EntityManager.getCameraComponent().getCameraLookVec(),
-                  glm::vec3(0.0f, 1.0f, 0.0f));
 }
 
 void RenderSystem::renderSkybox(Entity renderedSkyboxEntity) {
@@ -88,3 +82,37 @@ void RenderSystem::renderSkybox(Entity renderedSkyboxEntity) {
 
   skybox_model->draw(skybox_model->getSkyboxVAOid(), skybox_texture);
 };
+
+void RenderSystem::updateViewMatrix() {
+  m_ViewMatrix =
+      glm::lookAt(m_EntityManager.getCameraComponent().getPosition(),
+                  m_EntityManager.getCameraComponent().getCameraLookVec(),
+                  glm::vec3(0.0f, 1.0f, 0.0f));
+}
+
+void RenderSystem::updateWeaponTransformMatrix() {
+  const glm::vec3 weaponPositionBaseOffset = glm::vec3(5.0f, -3.7f, 19.0f);
+  auto weaponPosition =
+      (m_EntityManager.getCameraComponent().getCameraForwardVec() *
+       weaponPositionBaseOffset.z) +
+      (m_EntityManager.getCameraComponent().getCameraSidewayVec() *
+       weaponPositionBaseOffset.x) +
+      (m_EntityManager.getCameraComponent().getCameraUpVec() *
+       weaponPositionBaseOffset.y) +
+      m_EntityManager.getCameraComponent().getPosition();
+
+  glm::mat4 weaponTransformMatrix;
+  weaponTransformMatrix[0] = glm::vec4(
+      m_EntityManager.getCameraComponent().getCameraSidewayVec(), 0.0);
+  weaponTransformMatrix[1] =
+      glm::vec4(m_EntityManager.getCameraComponent().getCameraUpVec(), 0.0);
+  weaponTransformMatrix[2] = glm::vec4(
+      m_EntityManager.getCameraComponent().getCameraForwardVec(), 0.0f);
+  weaponTransformMatrix[3] = glm::vec4(weaponPosition, 1.0f);
+
+  weaponTransformMatrix = glm::scale(weaponTransformMatrix, glm::vec3(0.05));
+
+  weaponTransformMatrix = glm::rotate(
+      weaponTransformMatrix, glm::radians(90.0f), glm::vec3(0.0, 1.0, 0.0));
+  m_WeaponTransformMatrix = weaponTransformMatrix;
+}

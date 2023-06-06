@@ -20,4 +20,7 @@ public:
 
   Entity createWeaponEntity(EntityType entityType, glm::vec3 scale);
   void createSkyboxEntity();
+  void createRandomRenderableEntities(EntityType entityType,
+                                      unsigned int amount);
+  float generateRandomFloat(float lower, float upper);
 };

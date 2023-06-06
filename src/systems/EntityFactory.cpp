@@ -5,6 +5,7 @@
 #include "../components/TextureComponent.hpp"
 #include "../components/TransformComponent.hpp"
 #include "ResourceManager.hpp"
+#include <random>
 
 EntityFactory::EntityFactory(EntityManager &entityManager,
                              ResourceManager &resourceManager)
@@ -29,6 +30,10 @@ Entity EntityFactory::createRenderableEntity(EntityType entityType,
   case EntityType::TERRAIN:
     model = m_ResourceManager.getModel(EntityType::TERRAIN);
     shader = m_ResourceManager.getShader(EntityType::TERRAIN);
+    break;
+  case EntityType::FLOATING_ROCK:
+    model = m_ResourceManager.getModel(EntityType::FLOATING_ROCK);
+    shader = m_ResourceManager.getShader(EntityType::FLOATING_ROCK);
     break;
   }
 
@@ -59,16 +64,32 @@ void EntityFactory::createSkyboxEntity() {
 
 Entity EntityFactory::createWeaponEntity(EntityType entityType,
                                          glm::vec3 scale) {
-  glm::vec3 weaponPosition = m_EntityManager.getCameraComponent().getPosition();
-  weaponPosition.x += 2.0f;
-  weaponPosition.y -= 3.0f;
-  weaponPosition.z -= 12.0f;
-  glm::vec3 weaponRotation = glm::vec3(0.0f, -90.0f, 0.0f);
-  glm::vec3 weaponScale = glm::vec3(0.05f);
-  Entity weaponEntity = createRenderableEntity(entityType, weaponPosition,
-                                               weaponRotation, weaponScale);
-  m_EntityManager.addComponent<WeaponComponent>(
-      weaponEntity, WeaponComponent(weaponPosition));
+
+  Entity weaponEntity = createRenderableEntity(entityType);
+  m_EntityManager.addComponent<WeaponComponent>(weaponEntity,
+                                                WeaponComponent());
   m_EntityManager.setCurrentWeaponEntity(weaponEntity);
   return weaponEntity;
+}
+
+void EntityFactory::createRandomRenderableEntities(EntityType entityType,
+                                                   unsigned int amount) {
+  for (int i = 0; i < amount; i++) {
+    float randomPositionX = generateRandomFloat(-10000.0f, 10000.0f);
+    float randomPositionY = generateRandomFloat(
+        m_EntityManager.getCameraComponent().getPosition().y + 100.0f, 1000.0f);
+    float randomPositionZ = generateRandomFloat(-10000.0f, 10000.0f);
+    float scale = generateRandomFloat(0.5f, 1.0f);
+    createRenderableEntity(
+        entityType,
+        glm::vec3(randomPositionX, randomPositionY, randomPositionZ),
+        glm::vec3(0.0f), glm::vec3(scale));
+  }
+}
+
+float EntityFactory::generateRandomFloat(float lower, float upper) {
+  static std::random_device rd;
+  static std::mt19937 engine(rd());
+  std::uniform_real_distribution<float> dist(lower, upper);
+  return dist(engine);
 }

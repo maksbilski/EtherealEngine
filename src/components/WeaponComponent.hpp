@@ -7,7 +7,7 @@ private:
   glm::vec3 m_Position;
 
 public:
-  WeaponComponent(const glm::vec3 &position);
+  WeaponComponent();
   glm::vec3 getWeaponPosition() const;
   void setWeaponPosition(glm::vec3 newPosition);
 };

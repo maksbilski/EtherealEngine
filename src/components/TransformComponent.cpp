@@ -24,10 +24,6 @@ glm::vec3 TransformComponent::getRotation() const { return m_Rotation; }
 
 glm::vec3 TransformComponent::getScale() const { return m_Scale; }
 
-glm::mat4 TransformComponent::getWeaponTransformMatrix() const {
-  return m_WeaponTransform;
-}
-
 void TransformComponent::setPosition(glm::vec3 newPosition) {
   m_Position = newPosition;
 }
@@ -37,8 +33,3 @@ void TransformComponent::setRotation(glm::vec3 newRotation) {
 }
 
 void TransformComponent::setScale(glm::vec3 newScale) { m_Scale = newScale; }
-
-void TransformComponent::setWeaponTransformMatrix(
-    glm::mat4 newWeaponTransform) {
-  m_WeaponTransform = newWeaponTransform;
-}
