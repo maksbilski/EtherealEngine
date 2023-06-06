@@ -70,7 +70,7 @@ void RenderSystem::renderSkybox(Entity renderedSkyboxEntity) {
                           // values are equal to depth buffer's content
 
   glm::vec3 cameraPos = m_EntityManager.getCameraComponent().getPosition();
-  float scaleSize = 1000.0f; // Adjust as needed for your skybox size
+  float scaleSize = 100000.0f; // Adjust as needed for your skybox size
 
   glm::mat4 model = glm::mat4(1.0f);        // Initialize to identity
   model = glm::translate(model, cameraPos); // Translate to camera position
