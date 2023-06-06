@@ -95,32 +95,42 @@ void InputSystem::controlKeyboardInput(float deltaTime) {
 }
 
 void InputSystem::updateWeaponTransform() {
-  glm::vec3 weaponPosition = m_EntityManager.getCameraComponent().getPosition();
-  glm::vec3 weaponPositionOffset = glm::vec3(2.0f, -3.0f, -12.0f);
-  weaponPosition += weaponPositionOffset;
-  glm::vec3 weaponRotation = m_EntityManager.getCameraComponent().getRotation();
-  glm::vec3 weaponRotationOffset = glm::vec3(0.0f, -90.0f, 0.0f);
-  weaponRotation -= weaponRotationOffset;
-  // glm::mat4 rotationMatrix = glm::mat4(
-  //     glm::vec4(m_EntityManager.getCameraComponent().getCameraSidewayVec(),
-  //               0.0f),
-  //     glm::vec4(m_EntityManager.getCameraComponent().getCameraUpVec(), 0.0f),
-  //     glm::vec4(-m_EntityManager.getCameraComponent().getCameraForwardVec(),
-  //               0.0f),
-  //     glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-  // glm::quat quaternion = glm::quat(rotationMatrix);
-  // glm::vec3 weaponRotation = glm::eulerAngles(quaternion);
-  //
-  // weaponRotation = glm::degrees(weaponRotation);
-  //
-  // weaponRotation.y -= 90.0f;
+  computeWeaponPosition();
+  glm::vec3 weaponPosition = m_EntityManager
+                                 .getComponent<WeaponComponent>(
+                                     m_EntityManager.getCurrentWeaponEntity())
+                                 .getWeaponPosition();
 
+  glm::mat4 weaponTransformMatrix;
+  weaponTransformMatrix[0] = glm::vec4(
+      m_EntityManager.getCameraComponent().getCameraSidewayVec(), 0.0);
+  weaponTransformMatrix[1] =
+      glm::vec4(m_EntityManager.getCameraComponent().getCameraUpVec(), 0.0);
+  weaponTransformMatrix[2] = glm::vec4(
+      m_EntityManager.getCameraComponent().getCameraForwardVec(), 0.0f);
+  weaponTransformMatrix[3] = glm::vec4(weaponPosition, 1.0f);
+
+  weaponTransformMatrix = glm::scale(weaponTransformMatrix, glm::vec3(0.05));
+
+  weaponTransformMatrix = glm::rotate(
+      weaponTransformMatrix, glm::radians(90.0f), glm::vec3(0.0, 1.0, 0.0));
   m_EntityManager
       .getComponent<TransformComponent>(
           m_EntityManager.getCurrentWeaponEntity())
-      .setPosition(weaponPosition);
+      .setWeaponTransformMatrix(weaponTransformMatrix);
+}
+
+void InputSystem::computeWeaponPosition() {
+  const glm::vec3 weaponPositionBaseOffset = glm::vec3(5.0f, -3.7f, 19.0f);
+  auto weaponPosition =
+      (m_EntityManager.getCameraComponent().getCameraForwardVec() *
+       weaponPositionBaseOffset.z) +
+      (m_EntityManager.getCameraComponent().getCameraSidewayVec() *
+       weaponPositionBaseOffset.x) +
+      (m_EntityManager.getCameraComponent().getCameraUpVec() *
+       weaponPositionBaseOffset.y) +
+      m_EntityManager.getCameraComponent().getPosition();
   m_EntityManager
-      .getComponent<TransformComponent>(
-          m_EntityManager.getCurrentWeaponEntity())
-      .setRotation(weaponRotation);
+      .getComponent<WeaponComponent>(m_EntityManager.getCurrentWeaponEntity())
+      .setWeaponPosition(weaponPosition);
 }

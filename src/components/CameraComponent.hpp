@@ -27,7 +27,6 @@ public:
   float getCurrentLookAngleX() const;
   float getCurrentLookAngleY() const;
   glm::vec3 getPosition() const;
-  glm::vec3 getRotation() const;
   glm::vec3 getMovementForwardVec() const;
   glm::vec3 getMovementSidewayVec() const;
   glm::vec3 getMovementUpVec() const;

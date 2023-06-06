@@ -26,4 +26,5 @@ public:
   void controlMouseInput(float deltaTime);
   void controlKeyboardInput(float deltaTime);
   void updateWeaponTransform();
+  void computeWeaponPosition();
 };

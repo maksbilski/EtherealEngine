@@ -27,11 +27,19 @@ void RenderSystem::render(Entity entity) {
   auto graphics = m_EntityManager.getComponent<GraphicsComponent>(entity);
   auto transform = m_EntityManager.getComponent<TransformComponent>(entity);
 
+  glm::mat4 model;
+  glm::mat4 view;
+
+  if (entity == m_EntityManager.getCurrentWeaponEntity()) {
+    model = transform.getWeaponTransformMatrix();
+    view = m_ViewMatrix;
+    view[3] = glm::vec4(0.0, 0.0, 0.0, 1.0);
+  } else {
+    model = transform.createTransformMatrix();
+    view = m_ViewMatrix;
+  }
   graphics.m_Shader->use();
   // Create MVP
-  glm::mat4 model =
-      transform.createTransformMatrix(); // Identity matrix, model at origin
-
   // Set the MVP matrix in the shader program
   graphics.m_Shader->setMat4("projection", m_ProjectionMatrix);
   graphics.m_Shader->setMat4("view", m_ViewMatrix);
