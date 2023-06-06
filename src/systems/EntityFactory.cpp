@@ -31,6 +31,10 @@ Entity EntityFactory::createRenderableEntity(EntityType entityType,
     model = m_ResourceManager.getModel(EntityType::TERRAIN);
     shader = m_ResourceManager.getShader(EntityType::TERRAIN);
     break;
+  case EntityType::FLOATING_ROCK:
+    model = m_ResourceManager.getModel(EntityType::FLOATING_ROCK);
+    shader = m_ResourceManager.getShader(EntityType::FLOATING_ROCK);
+    break;
   }
 
   m_EntityManager.addComponent<ModelComponent>(newEntity,
@@ -71,13 +75,11 @@ Entity EntityFactory::createWeaponEntity(EntityType entityType,
 void EntityFactory::createRandomRenderableEntities(EntityType entityType,
                                                    unsigned int amount) {
   for (int i = 0; i < amount; i++) {
-    float randomPositionX = generateRandomFloat(
-        m_EntityManager.getCameraComponent().getPosition().x, 30.0f);
+    float randomPositionX = generateRandomFloat(-10000.0f, 10000.0f);
     float randomPositionY = generateRandomFloat(
-        m_EntityManager.getCameraComponent().getPosition().y + 5.0f, 70.0f);
-    float randomPositionZ = generateRandomFloat(
-        m_EntityManager.getCameraComponent().getPosition().z, 30.0f);
-    float scale = generateRandomFloat(0.01, 0.09);
+        m_EntityManager.getCameraComponent().getPosition().y + 100.0f, 1000.0f);
+    float randomPositionZ = generateRandomFloat(-10000.0f, 10000.0f);
+    float scale = generateRandomFloat(0.5f, 1.0f);
     createRenderableEntity(
         entityType,
         glm::vec3(randomPositionX, randomPositionY, randomPositionZ),

@@ -11,7 +11,7 @@ RenderSystem::RenderSystem(EntityManager &entityManager)
   float fov = glm::radians(45.0f);
   float aspectRatio = 1920.0f / 1080.0f;
   float near = 0.1f;
-  float far = 300.0f;
+  float far = 10000.0f;
   m_ProjectionMatrix = glm::perspective(fov, aspectRatio, near, far);
 }
 
