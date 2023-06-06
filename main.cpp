@@ -69,6 +69,7 @@ int main(void) {
   entity_factory.createRenderableEntity(EntityType::TERRAIN, position4,
                                         rotation4, scale4);
   entity_factory.createWeaponEntity(EntityType::SHOTGUN, glm::vec3(1.0));
+  entity_factory.createSkyboxEntity();
 
   RenderSystem render_system(entity_manager);
 
