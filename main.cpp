@@ -70,7 +70,7 @@ int main(void) {
                                         rotation4, scale4);
   entity_factory.createWeaponEntity(EntityType::SHOTGUN, glm::vec3(1.0));
   entity_factory.createSkyboxEntity();
-  entity_factory.createRandomRenderableEntities(EntityType::FLOATING_ROCK, 200);
+  entity_factory.createRandomRenderableEntities(EntityType::FLOATING_ROCK, 80);
 
   RenderSystem render_system(entity_manager);
 

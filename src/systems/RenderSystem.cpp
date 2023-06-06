@@ -91,7 +91,7 @@ void RenderSystem::updateViewMatrix() {
 }
 
 void RenderSystem::updateWeaponTransformMatrix() {
-  const glm::vec3 weaponPositionBaseOffset = glm::vec3(5.0f, -3.7f, 19.0f);
+  const glm::vec3 weaponPositionBaseOffset = glm::vec3(5.0f, -7.0f, 11.0f);
   auto weaponPosition =
       (m_EntityManager.getCameraComponent().getCameraForwardVec() *
        weaponPositionBaseOffset.z) +
@@ -110,9 +110,10 @@ void RenderSystem::updateWeaponTransformMatrix() {
       m_EntityManager.getCameraComponent().getCameraForwardVec(), 0.0f);
   weaponTransformMatrix[3] = glm::vec4(weaponPosition, 1.0f);
 
-  weaponTransformMatrix = glm::scale(weaponTransformMatrix, glm::vec3(0.05));
+  weaponTransformMatrix = glm::scale(weaponTransformMatrix, glm::vec3(1.2f));
 
-  weaponTransformMatrix = glm::rotate(
-      weaponTransformMatrix, glm::radians(90.0f), glm::vec3(0.0, 1.0, 0.0));
+  weaponTransformMatrix = glm::rotate(weaponTransformMatrix, glm::radians(0.0f),
+                                      glm::vec3(0.0, 1.0, 0.0));
+
   m_WeaponTransformMatrix = weaponTransformMatrix;
 }

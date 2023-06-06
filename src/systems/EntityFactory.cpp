@@ -75,15 +75,19 @@ Entity EntityFactory::createWeaponEntity(EntityType entityType,
 void EntityFactory::createRandomRenderableEntities(EntityType entityType,
                                                    unsigned int amount) {
   for (int i = 0; i < amount; i++) {
-    float randomPositionX = generateRandomFloat(-10000.0f, 10000.0f);
+    float randomPositionX = generateRandomFloat(-2000.0f, 2000.0f);
     float randomPositionY = generateRandomFloat(
         m_EntityManager.getCameraComponent().getPosition().y + 100.0f, 1000.0f);
-    float randomPositionZ = generateRandomFloat(-10000.0f, 10000.0f);
-    float scale = generateRandomFloat(0.5f, 1.0f);
+    float randomPositionZ = generateRandomFloat(-2000.0f, 2000.0f);
+    float scale = generateRandomFloat(50.0f, 200.0f);
+    float randomRotationX = generateRandomFloat(-180.0f, 180.0f);
+    float randomRotationY = generateRandomFloat(-180.0f, 180.0f);
+    float randomRotationZ = generateRandomFloat(-180.0f, 180.0f);
     createRenderableEntity(
         entityType,
         glm::vec3(randomPositionX, randomPositionY, randomPositionZ),
-        glm::vec3(0.0f), glm::vec3(scale));
+        glm::vec3(randomRotationX, randomRotationY, randomRotationZ),
+        glm::vec3(scale));
   }
 }
 
