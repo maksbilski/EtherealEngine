@@ -18,3 +18,5 @@ void EntityManager::setCurrentWeaponEntity(Entity newEntity) {
 std::vector<Entity> EntityManager::getEntitesToRender() const {
   return m_RenderableEntities;
 }
+
+Entity EntityManager::getCurrentSkyboxEntity() const { return m_CurrentSkybox; }

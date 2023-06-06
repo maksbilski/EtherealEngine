@@ -1,6 +1,8 @@
 #include "EntityFactory.hpp"
 #include "../components/ModelComponent.hpp"
 #include "../components/ShaderComponent.hpp"
+#include "../components/SkyboxModelComponent.hpp"
+#include "../components/TextureComponent.hpp"
 #include "../components/TransformComponent.hpp"
 #include "ResourceManager.hpp"
 
@@ -40,6 +42,20 @@ Entity EntityFactory::createRenderableEntity(EntityType entityType,
 
   return newEntity;
 }
+
+void EntityFactory::createSkyboxEntity() {
+
+  Entity newEntity = getNewEntityId();
+  m_EntityManager.addComponent<TextureComponent>(
+      newEntity,
+      TextureComponent(m_ResourceManager.getTexture(EntityType::SKYBOX)));
+  m_EntityManager.addComponent<ShaderComponent>(
+      newEntity,
+      ShaderComponent(m_ResourceManager.getShader(EntityType::SKYBOX)));
+  m_EntityManager.addComponent<SkyboxModelComponent>(
+      newEntity, m_ResourceManager.getSkyboxModel());
+  m_EntityManager.addSkyboxEntity(newEntity);
+};
 
 Entity EntityFactory::createWeaponEntity(EntityType entityType,
                                          glm::vec3 scale) {

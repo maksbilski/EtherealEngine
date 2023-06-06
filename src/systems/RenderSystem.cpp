@@ -2,6 +2,7 @@
 #include "../components/CameraComponent.hpp"
 #include "../components/ModelComponent.hpp"
 #include "../components/ShaderComponent.hpp"
+#include "../components/SkyboxModelComponent.hpp"
 #include "../components/TransformComponent.hpp"
 #include "../vendor/glm/gtc/matrix_transform.hpp"
 
@@ -19,11 +20,12 @@ RenderSystem::~RenderSystem() {}
 void RenderSystem::update() {
   updateViewMatrix();
   for (auto entity : m_EntityManager.getEntitesToRender()) {
-    render(entity);
+    renderModel(entity);
   }
+  renderSkybox(m_EntityManager.getCurrentSkyboxEntity());
 }
 
-void RenderSystem::render(Entity entity) {
+void RenderSystem::renderModel(Entity entity) {
   // Retrieve components
   auto entity_model =
       m_EntityManager.getComponent<ModelComponent>(entity).m_Model;
@@ -50,7 +52,7 @@ void RenderSystem::render(Entity entity) {
   entity_shader->setMat4("model", model);
 
   // Now draw the model
-  entity_model->Draw(*entity_shader);
+  // entity_model->Draw(*entity_shader);
 }
 
 void RenderSystem::updateViewMatrix() {
@@ -59,3 +61,30 @@ void RenderSystem::updateViewMatrix() {
                   m_EntityManager.getCameraComponent().getCameraLookVec(),
                   glm::vec3(0.0f, 1.0f, 0.0f));
 }
+
+void RenderSystem::renderSkybox(Entity renderedSkyboxEntity) {
+  auto skybox_shader =
+      m_EntityManager.getComponent<ShaderComponent>(renderedSkyboxEntity)
+          .m_Shader;
+  auto skybox_model =
+      m_EntityManager.getComponent<SkyboxModelComponent>(renderedSkyboxEntity)
+          .m_SkyboxModel;
+  auto skybox_texture =
+      m_EntityManager.getComponent<TextureComponent>(renderedSkyboxEntity)
+          .getTextureID();
+  glDepthFunc(GL_LEQUAL); // change depth function so depth test passes when
+                          // values are equal to depth buffer's content
+
+  glm::vec3 cameraPos = m_EntityManager.getCameraComponent().getPosition();
+  float scaleSize = 1000.0f; // Adjust as needed for your skybox size
+
+  glm::mat4 model = glm::mat4(1.0f);        // Initialize to identity
+  model = glm::translate(model, cameraPos); // Translate to camera position
+  model = glm::scale(model, glm::vec3(scaleSize)); // Scale to a large size
+  skybox_shader->use();
+
+  skybox_shader->setMat4("view", m_ViewMatrix);
+  skybox_shader->setMat4("projection", m_ProjectionMatrix);
+
+  skybox_model->draw(skybox_model->getSkyboxVAOid(), skybox_texture);
+};

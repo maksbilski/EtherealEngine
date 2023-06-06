@@ -2,6 +2,8 @@
 #include "../components/CameraComponent.hpp"
 #include "../components/ModelComponent.hpp"
 #include "../components/ShaderComponent.hpp"
+#include "../components/SkyboxModelComponent.hpp"
+#include "../components/TextureComponent.hpp"
 #include "../components/TransformComponent.hpp"
 #include "../components/WeaponComponent.hpp"
 #include <memory>
@@ -26,9 +28,19 @@ private:
   std::unordered_map<Entity, std::unique_ptr<WeaponComponent>>
       m_WeaponComponents;
 
+  std::unordered_map<Entity, std::unique_ptr<SkyboxModelComponent>>
+      m_SkyboxModelComponents;
+
+  std::unordered_map<Entity, std::unique_ptr<TextureComponent>>
+      m_TextureComponents;
+
   std::vector<Entity> m_RenderableEntities;
 
+  std::vector<Entity> m_SkyboxEntities;
+
   Entity m_CurrentWeapon;
+
+  Entity m_CurrentSkybox;
 
   Entity m_nextEntity = 0;
 
@@ -53,7 +65,14 @@ public:
     m_RenderableEntities.push_back(newRenderableEntity);
   }
 
+  void addSkyboxEntity(Entity newSkyboxEntity) {
+    m_SkyboxEntities.push_back(newSkyboxEntity);
+    m_CurrentSkybox = newSkyboxEntity;
+  }
+
   std::vector<Entity> getEntitesToRender() const;
+
+  Entity getCurrentSkyboxEntity() const;
 };
 
 // Template function implementations
@@ -71,17 +90,21 @@ ComponentType &EntityManager::getComponent(Entity entity) {
   return *(componentMap[entity]);
 }
 
-template <typename ComponentType>
-std::unordered_map<Entity, std::unique_ptr<ComponentType>> &
-EntityManager::getComponentMap() {
-  static_assert(std::is_same<ComponentType, ModelComponent>::value ||
-                    std::is_same<ComponentType, TransformComponent>::value ||
-                    std::is_same<ComponentType, ShaderComponent>::value,
-                "Unsupported component type");
+// template <typename ComponentType>
+// std::unordered_map<Entity, std::unique_ptr<ComponentType>> &
+// EntityManager::getComponentMap() {
+//   static_assert(std::is_same<ComponentType, ModelComponent>::value ||
+//                     std::is_same<ComponentType, TransformComponent>::value ||
+//                     std::is_same<ComponentType, ShaderComponent>::value ||
+//                     std::is_same<ComponentType, TextureComponent>::value ||
+//                     std::is_same<ComponentType, SkyboxModelComponent>::value,
+//                 "Unsupported component type");
 
-  throw std::logic_error("Unsupported component type. This line should never "
-                         "be executed. It's here to prevent compiler errors.");
-}
+//   throw std::logic_error("Unsupported component type. This line should never
+//   "
+//                          "be executed. It's here to prevent compiler
+//                          errors.");
+// }
 
 template <>
 inline std::unordered_map<Entity, std::unique_ptr<ShaderComponent>> &
@@ -105,4 +128,16 @@ template <>
 inline std::unordered_map<Entity, std::unique_ptr<WeaponComponent>> &
 EntityManager::getComponentMap<WeaponComponent>() {
   return m_WeaponComponents;
+}
+
+template <>
+inline std::unordered_map<Entity, std::unique_ptr<TextureComponent>> &
+EntityManager::getComponentMap<TextureComponent>() {
+  return m_TextureComponents;
+}
+
+template <>
+inline std::unordered_map<Entity, std::unique_ptr<SkyboxModelComponent>> &
+EntityManager::getComponentMap<SkyboxModelComponent>() {
+  return m_SkyboxModelComponents;
 }
