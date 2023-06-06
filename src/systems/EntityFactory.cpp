@@ -1,5 +1,6 @@
 #include "EntityFactory.hpp"
-#include "../components/GraphicsComponent.hpp"
+#include "../components/ModelComponent.hpp"
+#include "../components/ShaderComponent.hpp"
 #include "../components/TransformComponent.hpp"
 #include "ResourceManager.hpp"
 
@@ -29,8 +30,10 @@ Entity EntityFactory::createRenderableEntity(EntityType entityType,
     break;
   }
 
-  m_EntityManager.addComponent<GraphicsComponent>(
-      newEntity, GraphicsComponent(model, shader));
+  m_EntityManager.addComponent<ModelComponent>(newEntity,
+                                               ModelComponent(model));
+  m_EntityManager.addComponent<ShaderComponent>(newEntity,
+                                                ShaderComponent(shader));
   m_EntityManager.addComponent<TransformComponent>(
       newEntity, TransformComponent(position, rotation, scale));
   m_EntityManager.addRenderableEntity(newEntity);

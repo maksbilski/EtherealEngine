@@ -1,6 +1,7 @@
 #include "RenderSystem.hpp"
 #include "../components/CameraComponent.hpp"
-#include "../components/GraphicsComponent.hpp"
+#include "../components/ModelComponent.hpp"
+#include "../components/ShaderComponent.hpp"
 #include "../components/TransformComponent.hpp"
 #include "../vendor/glm/gtc/matrix_transform.hpp"
 
@@ -24,21 +25,24 @@ void RenderSystem::update() {
 
 void RenderSystem::render(Entity entity) {
   // Retrieve components
-  auto graphics = m_EntityManager.getComponent<GraphicsComponent>(entity);
+  auto entity_model =
+      m_EntityManager.getComponent<ModelComponent>(entity).m_Model;
+  auto entity_shader =
+      m_EntityManager.getComponent<ShaderComponent>(entity).m_Shader;
   auto transform = m_EntityManager.getComponent<TransformComponent>(entity);
 
-  graphics.m_Shader->use();
+  entity_shader->use();
   // Create MVP
-  glm::mat4 model =
+  glm::mat4 model_matrix =
       transform.createTransformMatrix(); // Identity matrix, model at origin
 
   // Set the MVP matrix in the shader program
-  graphics.m_Shader->setMat4("projection", m_ProjectionMatrix);
-  graphics.m_Shader->setMat4("view", m_ViewMatrix);
-  graphics.m_Shader->setMat4("model", model);
+  entity_shader->setMat4("projection", m_ProjectionMatrix);
+  entity_shader->setMat4("view", m_ViewMatrix);
+  entity_shader->setMat4("model", model_matrix);
 
   // Now draw the model
-  graphics.m_Model->Draw(*graphics.m_Shader);
+  entity_model->Draw(*entity_shader);
 }
 
 void RenderSystem::updateViewMatrix() {
