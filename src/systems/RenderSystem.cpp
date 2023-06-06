@@ -42,12 +42,12 @@ void RenderSystem::render(Entity entity) {
     model = transform.createTransformMatrix();
     view = m_ViewMatrix;
   }
-  graphics.m_Shader->use();
+  entity_shader->use();
   // Create MVP
   // Set the MVP matrix in the shader program
   entity_shader->setMat4("projection", m_ProjectionMatrix);
   entity_shader->setMat4("view", m_ViewMatrix);
-  entity_shader->setMat4("model", model_matrix);
+  entity_shader->setMat4("model", model);
 
   // Now draw the model
   entity_model->Draw(*entity_shader);
