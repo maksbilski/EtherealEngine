@@ -55,6 +55,7 @@ void InputSystem::controlMouseInput(float deltaTime) {
       tempCurrentLookAngleY);
 
   m_EntityManager.getCameraComponent().computeCameraOrientation();
+  updateWeaponTransform();
   m_EntityManager.getCameraComponent().computeWalkVectors();
 }
 
@@ -87,7 +88,24 @@ void InputSystem::controlKeyboardInput(float deltaTime) {
   }
   m_EntityManager.getCameraComponent().updatePosition(movementVector);
   m_EntityManager.getCameraComponent().computeCameraOrientation();
+  updateWeaponTransform();
   m_EntityManager.getCameraComponent().computeWalkVectors();
 }
 
-void InputManager::updateWeapon() const {}
+void InputSystem::updateWeaponTransform() {
+  glm::vec3 weaponPosition = m_EntityManager.getCameraComponent().getPosition();
+  weaponPosition.x += 2.0f;
+  weaponPosition.y -= 3.0f;
+  weaponPosition.z -= 12.0f;
+  glm::vec3 weaponRotation = glm::vec3(
+      m_EntityManager.getCameraComponent().getCurrentLookAngleX(),
+      m_EntityManager.getCameraComponent().getCurrentLookAngleY(), 0.0f);
+  m_EntityManager
+      .getComponent<TransformComponent>(
+          m_EntityManager.getCurrentWeaponEntity())
+      .m_Position = weaponPosition;
+  m_EntityManager
+      .getComponent<TransformComponent>(
+          m_EntityManager.getCurrentWeaponEntity())
+      .m_Rotation += weaponRotation;
+}

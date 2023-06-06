@@ -25,5 +25,5 @@ public:
   void update(float deltaTime);
   void controlMouseInput(float deltaTime);
   void controlKeyboardInput(float deltaTime);
-  void updateWeaponTransform() const;
+  void updateWeaponTransform();
 };

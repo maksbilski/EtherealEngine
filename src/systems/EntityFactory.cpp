@@ -44,9 +44,7 @@ Entity EntityFactory::createWeaponEntity(EntityType entityType,
   weaponPosition.x += 2.0f;
   weaponPosition.y -= 3.0f;
   weaponPosition.z -= 12.0f;
-  glm::vec3 weaponRotation =
-      m_EntityManager.getCameraComponent().getCameraForwardVec();
-  weaponRotation.y -= 90.0f;
+  glm::vec3 weaponRotation = glm::vec3(0.0f, -90.0f, 0.0f);
   glm::vec3 weaponScale = glm::vec3(0.05f);
   Entity weaponEntity = createRenderableEntity(entityType, weaponPosition,
                                                weaponRotation, weaponScale);
