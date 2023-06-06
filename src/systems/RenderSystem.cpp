@@ -52,7 +52,7 @@ void RenderSystem::renderModel(Entity entity) {
   entity_shader->setMat4("model", model);
 
   // Now draw the model
-  // entity_model->Draw(*entity_shader);
+  entity_model->Draw(*entity_shader);
 }
 
 void RenderSystem::updateViewMatrix() {
@@ -82,7 +82,7 @@ void RenderSystem::renderSkybox(Entity renderedSkyboxEntity) {
   model = glm::translate(model, cameraPos); // Translate to camera position
   model = glm::scale(model, glm::vec3(scaleSize)); // Scale to a large size
   skybox_shader->use();
-
+  skybox_shader->setMat4("model", model);
   skybox_shader->setMat4("view", m_ViewMatrix);
   skybox_shader->setMat4("projection", m_ProjectionMatrix);
 
