@@ -59,16 +59,10 @@ void EntityFactory::createSkyboxEntity() {
 
 Entity EntityFactory::createWeaponEntity(EntityType entityType,
                                          glm::vec3 scale) {
-  glm::vec3 weaponPosition = m_EntityManager.getCameraComponent().getPosition();
-  weaponPosition.x += 2.0f;
-  weaponPosition.y -= 3.0f;
-  weaponPosition.z -= 12.0f;
-  glm::vec3 weaponRotation = glm::vec3(0.0f, -90.0f, 0.0f);
-  glm::vec3 weaponScale = glm::vec3(0.05f);
-  Entity weaponEntity = createRenderableEntity(entityType, weaponPosition,
-                                               weaponRotation, weaponScale);
-  m_EntityManager.addComponent<WeaponComponent>(
-      weaponEntity, WeaponComponent(weaponPosition));
+
+  Entity weaponEntity = createRenderableEntity(entityType);
+  m_EntityManager.addComponent<WeaponComponent>(weaponEntity,
+                                                WeaponComponent());
   m_EntityManager.setCurrentWeaponEntity(weaponEntity);
   return weaponEntity;
 }

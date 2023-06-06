@@ -52,7 +52,7 @@ void RenderSystem::renderModel(Entity entity) {
   entity_shader->setMat4("model", model);
 
   // Now draw the model
-  // entity_model->Draw(*entity_shader);
+  entity_model->Draw(*entity_shader);
 }
 
 void RenderSystem::updateViewMatrix() {

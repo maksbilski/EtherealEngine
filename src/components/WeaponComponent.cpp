@@ -1,7 +1,6 @@
 #include "WeaponComponent.hpp"
 
-WeaponComponent::WeaponComponent(const glm::vec3 &position)
-    : m_Position(position) {}
+WeaponComponent::WeaponComponent() {}
 
 glm::vec3 WeaponComponent::getWeaponPosition() const { return m_Position; }
 
