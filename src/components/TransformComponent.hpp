@@ -9,8 +9,6 @@ private:
   glm::vec3 m_Rotation;
   glm::vec3 m_Scale;
 
-  glm::mat4 m_WeaponTransform;
-
 public:
   // Konstruktor, który ustawia pozycję, obrót i skalę
   TransformComponent(const glm::vec3 &position, const glm::vec3 &rotation,
@@ -20,12 +18,10 @@ public:
   glm::vec3 getPosition() const;
   glm::vec3 getRotation() const;
   glm::vec3 getScale() const;
-  glm::mat4 getWeaponTransformMatrix() const;
 
   void setPosition(glm::vec3 newPosition);
   void setRotation(glm::vec3 newRotation);
   void setScale(glm::vec3 newScale);
-  void setWeaponTransformMatrix(glm::mat4 newWeaponTransformMatrix);
   // Metoda do tworzenia macierzy transformacji
   glm::mat4 createTransformMatrix() const;
 };
