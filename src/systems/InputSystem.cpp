@@ -1,4 +1,6 @@
 #include "InputSystem.hpp"
+#include "../vendor/glm/gtc/quaternion.hpp"
+#include "../vendor/glm/gtx/quaternion.hpp"
 
 InputSystem::InputSystem(GLFWwindow *window, EntityManager &entityManager)
     : m_Window(window), m_EntityManager(entityManager) {
@@ -94,18 +96,31 @@ void InputSystem::controlKeyboardInput(float deltaTime) {
 
 void InputSystem::updateWeaponTransform() {
   glm::vec3 weaponPosition = m_EntityManager.getCameraComponent().getPosition();
-  weaponPosition.x += 2.0f;
-  weaponPosition.y -= 3.0f;
-  weaponPosition.z -= 12.0f;
-  glm::vec3 weaponRotation = glm::vec3(
-      m_EntityManager.getCameraComponent().getCurrentLookAngleX(),
-      m_EntityManager.getCameraComponent().getCurrentLookAngleY(), 0.0f);
+  glm::vec3 weaponPositionOffset = glm::vec3(2.0f, -3.0f, -12.0f);
+  weaponPosition += weaponPositionOffset;
+  glm::vec3 weaponRotation = m_EntityManager.getCameraComponent().getRotation();
+  glm::vec3 weaponRotationOffset = glm::vec3(0.0f, -90.0f, 0.0f);
+  weaponRotation -= weaponRotationOffset;
+  // glm::mat4 rotationMatrix = glm::mat4(
+  //     glm::vec4(m_EntityManager.getCameraComponent().getCameraSidewayVec(),
+  //               0.0f),
+  //     glm::vec4(m_EntityManager.getCameraComponent().getCameraUpVec(), 0.0f),
+  //     glm::vec4(-m_EntityManager.getCameraComponent().getCameraForwardVec(),
+  //               0.0f),
+  //     glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+  // glm::quat quaternion = glm::quat(rotationMatrix);
+  // glm::vec3 weaponRotation = glm::eulerAngles(quaternion);
+  //
+  // weaponRotation = glm::degrees(weaponRotation);
+  //
+  // weaponRotation.y -= 90.0f;
+
   m_EntityManager
       .getComponent<TransformComponent>(
           m_EntityManager.getCurrentWeaponEntity())
-      .m_Position = weaponPosition;
+      .setPosition(weaponPosition);
   m_EntityManager
       .getComponent<TransformComponent>(
           m_EntityManager.getCurrentWeaponEntity())
-      .m_Rotation += weaponRotation;
+      .setRotation(weaponRotation);
 }

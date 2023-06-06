@@ -43,6 +43,16 @@ float CameraComponent::getCurrentLookAngleY() const {
 
 glm::vec3 CameraComponent::getPosition() const { return this->m_Position; }
 
+glm::vec3 CameraComponent::getRotation() const {
+  glm::vec3 lookDirection = glm::normalize(m_CameraLookVec - m_Position);
+
+  float pitch = glm::degrees(asin(lookDirection.y));
+  float yaw = glm::degrees(atan2(lookDirection.x, lookDirection.z));
+  float roll = 0.0f;
+
+  return glm::vec3(pitch, yaw, roll);
+}
+
 glm::vec3 CameraComponent::getMovementForwardVec() const {
   return this->m_MovementForwardVec;
 }

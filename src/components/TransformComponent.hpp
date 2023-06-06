@@ -4,11 +4,12 @@
 #include "../vendor/glm/gtc/matrix_transform.hpp"
 
 class TransformComponent {
-public:
+private:
   glm::vec3 m_Position;
   glm::vec3 m_Rotation;
   glm::vec3 m_Scale;
 
+public:
   // Konstruktor, który ustawia pozycję, obrót i skalę
   TransformComponent(const glm::vec3 &position, const glm::vec3 &rotation,
                      const glm::vec3 &scale)
