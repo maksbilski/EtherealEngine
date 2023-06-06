@@ -10,7 +10,8 @@ private:
   glm::mat4 m_ProjectionMatrix;
   glm::mat4 m_ViewMatrix;
 
-  void render(Entity entity);
+  void renderSkybox(Entity entity);
+  void renderModel(Entity entity);
   void updateViewMatrix();
 
 public:
