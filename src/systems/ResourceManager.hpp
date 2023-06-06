@@ -7,7 +7,7 @@
 #include <memory>
 #include <vector>
 
-enum class EntityType { TERRAIN, SHOTGUN, SKYBOX };
+enum class EntityType { TERRAIN, SHOTGUN, SKYBOX, FLOATING_ROCK };
 
 typedef unsigned int TextureID;
 

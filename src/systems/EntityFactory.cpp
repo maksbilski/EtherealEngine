@@ -5,6 +5,7 @@
 #include "../components/TextureComponent.hpp"
 #include "../components/TransformComponent.hpp"
 #include "ResourceManager.hpp"
+#include <random>
 
 EntityFactory::EntityFactory(EntityManager &entityManager,
                              ResourceManager &resourceManager)
@@ -65,4 +66,28 @@ Entity EntityFactory::createWeaponEntity(EntityType entityType,
                                                 WeaponComponent());
   m_EntityManager.setCurrentWeaponEntity(weaponEntity);
   return weaponEntity;
+}
+
+void EntityFactory::createRandomRenderableEntities(EntityType entityType,
+                                                   unsigned int amount) {
+  for (int i = 0; i < amount; i++) {
+    float randomPositionX = generateRandomFloat(
+        m_EntityManager.getCameraComponent().getPosition().x, 30.0f);
+    float randomPositionY = generateRandomFloat(
+        m_EntityManager.getCameraComponent().getPosition().y + 5.0f, 70.0f);
+    float randomPositionZ = generateRandomFloat(
+        m_EntityManager.getCameraComponent().getPosition().z, 30.0f);
+    float scale = generateRandomFloat(0.01, 0.09);
+    createRenderableEntity(
+        entityType,
+        glm::vec3(randomPositionX, randomPositionY, randomPositionZ),
+        glm::vec3(0.0f), glm::vec3(scale));
+  }
+}
+
+float EntityFactory::generateRandomFloat(float lower, float upper) {
+  static std::random_device rd;
+  static std::mt19937 engine(rd());
+  std::uniform_real_distribution<float> dist(lower, upper);
+  return dist(engine);
 }
