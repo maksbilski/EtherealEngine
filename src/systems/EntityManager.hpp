@@ -1,6 +1,7 @@
 #pragma once
 #include "../components/CameraComponent.hpp"
-#include "../components/GraphicsComponent.hpp"
+#include "../components/ModelComponent.hpp"
+#include "../components/ShaderComponent.hpp"
 #include "../components/TransformComponent.hpp"
 #include "../components/WeaponComponent.hpp"
 #include <memory>
@@ -14,8 +15,10 @@ class EntityManager {
 private:
   std::unique_ptr<CameraComponent> m_CameraComponent;
 
-  std::unordered_map<Entity, std::unique_ptr<GraphicsComponent>>
-      m_GraphicsComponents;
+  std::unordered_map<Entity, std::unique_ptr<ShaderComponent>>
+      m_ShaderComponents;
+
+  std::unordered_map<Entity, std::unique_ptr<ModelComponent>> m_ModelComponents;
 
   std::unordered_map<Entity, std::unique_ptr<TransformComponent>>
       m_TransformComponents;
@@ -71,8 +74,9 @@ ComponentType &EntityManager::getComponent(Entity entity) {
 template <typename ComponentType>
 std::unordered_map<Entity, std::unique_ptr<ComponentType>> &
 EntityManager::getComponentMap() {
-  static_assert(std::is_same<ComponentType, GraphicsComponent>::value ||
-                    std::is_same<ComponentType, TransformComponent>::value,
+  static_assert(std::is_same<ComponentType, ModelComponent>::value ||
+                    std::is_same<ComponentType, TransformComponent>::value ||
+                    std::is_same<ComponentType, ShaderComponent>::value,
                 "Unsupported component type");
 
   throw std::logic_error("Unsupported component type. This line should never "
@@ -80,9 +84,15 @@ EntityManager::getComponentMap() {
 }
 
 template <>
-inline std::unordered_map<Entity, std::unique_ptr<GraphicsComponent>> &
-EntityManager::getComponentMap<GraphicsComponent>() {
-  return m_GraphicsComponents;
+inline std::unordered_map<Entity, std::unique_ptr<ShaderComponent>> &
+EntityManager::getComponentMap<ShaderComponent>() {
+  return m_ShaderComponents;
+}
+
+template <>
+inline std::unordered_map<Entity, std::unique_ptr<ModelComponent>> &
+EntityManager::getComponentMap<ModelComponent>() {
+  return m_ModelComponents;
 }
 
 template <>

@@ -6,10 +6,6 @@
 #include "src/engine/Mesh.hpp"
 #include "src/engine/Shader.hpp"
 
-#include "src/components/CameraComponent.hpp"
-#include "src/components/GraphicsComponent.hpp"
-#include "src/components/TransformComponent.hpp"
-
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
