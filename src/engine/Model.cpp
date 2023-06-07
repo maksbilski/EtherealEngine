@@ -4,6 +4,7 @@
 Model::Model(std::string const &filepath, bool gamma)
     : m_GammaCorrection(gamma) {
   loadModel(filepath);
+  calculateBoundingCylinder();
 }
 
 // draws the model, and thus all its meshes
