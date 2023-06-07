@@ -215,8 +215,12 @@ unsigned int TextureFromFile(const char *filepath,
   return textureID;
 }
 
-std::optional<Cylinder> Model::getBoundingCylinder() const {
-  return m_boundingCylinder;
+Cylinder Model::getBoundingCylinder() const {
+  if (m_boundingCylinder.has_value()) {
+    return m_boundingCylinder.value();
+  } else {
+    throw std::runtime_error("Tried to access uninitialized bounding cylinder");
+  }
 }
 
 void Model::calculateBoundingCylinder() {
