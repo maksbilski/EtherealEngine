@@ -91,9 +91,9 @@ int main(void) {
     glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     // Aktualizacja systemów
+    collision_system.update();
     input_system.update(deltaTime);
     render_system.update();
-    collision_system.update();
 
     // Rendering
 
