@@ -88,7 +88,13 @@ void InputSystem::controlButtonsInput(float deltaTime) {
     currentWeapon.setIfTriggerPressed(false);
   }
 
-  m_entityManager.getCameraComponent().updatePosition(movementVector);
+  m_entityManager
+      .getComponent<TransformComponent>(m_entityManager.getPlayerEntity())
+      .updatePosition(movementVector);
+  m_entityManager.getCameraComponent().setPosition(
+      m_entityManager
+          .getComponent<TransformComponent>(m_entityManager.getPlayerEntity())
+          .getPosition());
   m_entityManager.getCameraComponent().computeCameraOrientation();
   m_entityManager.getCameraComponent().computeWalkVectors();
 }
