@@ -44,6 +44,9 @@ void ResourceManager::loadResources() {
 
   m_shaders[EntityType::EYEBEAST] = std::make_shared<Shader>(shader);
 
+  m_models[EntityType::PLAYER] =
+      std::make_shared<Model>("resources/models/player/player.obj");
+
   m_models[EntityType::SHOTGUN] =
       std::make_shared<Model>("resources/models/Shotgun/shotgun.obj");
 
