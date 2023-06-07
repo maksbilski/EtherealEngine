@@ -5,10 +5,12 @@ out vec3 TexCoords;
 
 uniform mat4 projection;
 uniform mat4 view;
+uniform mat4 model;  // Add the model uniform
 
 void main()
 {
     TexCoords = aPos;
-    vec4 pos = projection * view * vec4(aPos, 1.0);
+    mat4 rotation = mat4(mat3(model));  // Convert the model matrix to a 3x3 matrix, removing the translation.
+    vec4 pos = projection * view * rotation * vec4(aPos, 1.0); // Multiply with rotation matrix for scaling
     gl_Position = pos.xyww;
 }

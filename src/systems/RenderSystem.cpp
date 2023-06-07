@@ -76,7 +76,7 @@ void RenderSystem::renderSkybox(Entity renderedSkyboxEntity) {
   model = glm::translate(model, cameraPos); // Translate to camera position
   model = glm::scale(model, glm::vec3(scaleSize)); // Scale to a large size
   skybox_shader->use();
-
+  skybox_shader->setMat4("model", model);
   skybox_shader->setMat4("view", m_viewMatrix);
   skybox_shader->setMat4("projection", m_projectionMatrix);
 
