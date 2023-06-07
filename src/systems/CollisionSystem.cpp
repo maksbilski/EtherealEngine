@@ -14,7 +14,7 @@ void CollisionSystem::update() const {
     // Get Cylinder and TransformComponent of the first entity
     Cylinder cylinder1 =
         m_entityManager.getComponent<ModelComponent>(collidableEntities[i])
-            .m_Model->getBoundingCylinder();
+            .m_model->getBoundingCylinder();
     TransformComponent transform1 =
         m_entityManager.getComponent<TransformComponent>(collidableEntities[i]);
 
@@ -26,7 +26,7 @@ void CollisionSystem::update() const {
       // Get Cylinder and TransformComponent of the second entity
       Cylinder cylinder2 =
           m_entityManager.getComponent<ModelComponent>(collidableEntities[j])
-              .m_Model->getBoundingCylinder();
+              .m_model->getBoundingCylinder();
       TransformComponent transform2 =
           m_entityManager.getComponent<TransformComponent>(
               collidableEntities[j]);
