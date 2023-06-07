@@ -20,3 +20,7 @@ std::vector<Entity> EntityManager::getEntitesToRender() const {
 }
 
 Entity EntityManager::getCurrentSkyboxEntity() const { return m_CurrentSkybox; }
+
+std::vector<Entity> EntityManager::getCollidableEntites() const {
+  return m_collidableEntites;
+}
