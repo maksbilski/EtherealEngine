@@ -14,11 +14,19 @@
 #include <fstream>
 #include <iostream>
 #include <map>
+#include <optional>
 #include <sstream>
 #include <string>
 #include <vector>
 
 unsigned int TextureFromFile(const char *path, const std::string &directory);
+
+struct Cylinder {
+  glm::vec3 center;
+  glm::vec3 axis;
+  float radius;
+  float height;
+};
 
 class Model {
 public:
@@ -34,11 +42,14 @@ public:
   Model(std::string const &filepath, bool gamma = false);
   // draws the model, and thus all its meshes
   void Draw(Shader &shader);
+  std::optional<Cylinder> getBoundingCylinder() const;
+  void calculateBoundingCylinder();
 
 private:
   // loads a model with supported ASSIMP extensions from file and stores the
   // resulting meshes in the meshes vector.
   void loadModel(std::string const &path);
+  std::optional<Cylinder> m_boundingCylinder;
 
   // processes a node in a recursive fashion. Processes each individual mesh
   // located at the node and repeats this process on its children nodes (if
@@ -47,7 +58,8 @@ private:
 
   Mesh processMesh(aiMesh *mesh, const aiScene *scene);
   // checks all material textures of a given type and loads the textures if
-  // they're not loaded yet. the required info is returned as a Texture struct.
+  // they're not loaded yet. the required info is returned as a Texture
+  // struct.
   std::vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type,
                                             std::string typeName);
 };
