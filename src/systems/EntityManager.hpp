@@ -42,6 +42,8 @@ private:
 
   Entity m_currentWeapon;
 
+  Entity m_playerEntity;
+
   Entity m_currentSkybox;
 
   Entity m_nextEntity = 0;
@@ -52,12 +54,14 @@ public:
   template <typename ComponentType> ComponentType &getComponent(Entity entity);
   CameraComponent &getCameraComponent() const;
   Entity getCurrentWeaponEntity() const;
+  Entity getPlayerEntity() const;
   Entity getCurrentSkyboxEntity() const;
   std::vector<Entity> getEntitesToRender() const;
   std::vector<Entity> getCollidableEntites() const;
 
   void addCameraComponent(CameraComponent cameraComponent);
   void setCurrentWeaponEntity(Entity newEntity);
+  void setPlayerEntity(Entity newPlayerEntity);
   template <typename ComponentType>
   void addComponent(Entity entity, ComponentType component);
 
