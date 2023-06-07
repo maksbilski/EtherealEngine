@@ -38,6 +38,8 @@ private:
 
   std::vector<Entity> m_SkyboxEntities;
 
+  std::vector<Entity> m_collidableEntites;
+
   Entity m_CurrentWeapon;
 
   Entity m_CurrentSkybox;
@@ -45,21 +47,19 @@ private:
   Entity m_nextEntity = 0;
 
 public:
-  void addCameraComponent(CameraComponent cameraComponent);
-
-  CameraComponent &getCameraComponent() const;
-
-  template <typename ComponentType>
-  void addComponent(Entity entity, ComponentType component);
-
-  Entity getCurrentWeaponEntity() const;
-
-  void setCurrentWeaponEntity(Entity newEntity);
-
-  template <typename ComponentType> ComponentType &getComponent(Entity entity);
-
   template <typename ComponentType>
   std::unordered_map<Entity, std::unique_ptr<ComponentType>> &getComponentMap();
+  template <typename ComponentType> ComponentType &getComponent(Entity entity);
+  CameraComponent &getCameraComponent() const;
+  Entity getCurrentWeaponEntity() const;
+  Entity getCurrentSkyboxEntity() const;
+  std::vector<Entity> getEntitesToRender() const;
+  std::vector<Entity> getCollidableEntites() const;
+
+  void addCameraComponent(CameraComponent cameraComponent);
+  void setCurrentWeaponEntity(Entity newEntity);
+  template <typename ComponentType>
+  void addComponent(Entity entity, ComponentType component);
 
   void addRenderableEntity(Entity newRenderableEntity) {
     m_RenderableEntities.push_back(newRenderableEntity);
@@ -69,10 +69,6 @@ public:
     m_SkyboxEntities.push_back(newSkyboxEntity);
     m_CurrentSkybox = newSkyboxEntity;
   }
-
-  std::vector<Entity> getEntitesToRender() const;
-
-  Entity getCurrentSkyboxEntity() const;
 };
 
 // Template function implementations
