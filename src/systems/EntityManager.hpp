@@ -38,6 +38,8 @@ private:
 
   std::vector<Entity> m_skyboxEntities;
 
+  std::vector<Entity> m_collidableEntities;
+
   Entity m_currentWeapon;
 
   Entity m_currentSkybox;
@@ -59,14 +61,10 @@ public:
   template <typename ComponentType>
   void addComponent(Entity entity, ComponentType component);
 
-  void addRenderableEntity(Entity newRenderableEntity) {
-    m_renderableEntities.push_back(newRenderableEntity);
-  }
+  void addRenderableEntity(Entity newRenderableEntity);
 
-  void addSkyboxEntity(Entity newSkyboxEntity) {
-    m_skyboxEntities.push_back(newSkyboxEntity);
-    m_currentSkybox = newSkyboxEntity;
-  }
+  void addSkyboxEntity(Entity newSkyboxEntity);
+  void addCollidableEntity(Entity newCollidableEntity);
 };
 
 // Template function implementations
