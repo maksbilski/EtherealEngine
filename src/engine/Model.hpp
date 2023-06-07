@@ -42,7 +42,7 @@ public:
   Model(std::string const &filepath, bool gamma = false);
   // draws the model, and thus all its meshes
   void Draw(Shader &shader);
-  std::optional<Cylinder> getBoundingCylinder() const;
+  Cylinder getBoundingCylinder() const;
   void calculateBoundingCylinder();
 
 private:
