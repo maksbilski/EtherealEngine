@@ -214,3 +214,60 @@ unsigned int TextureFromFile(const char *filepath,
 
   return textureID;
 }
+
+std::optional<Cylinder> Model::getBoundingCylinder() const {
+  return m_boundingCylinder;
+}
+
+void Model::calculateBoundingCylinder() {
+  m_boundingCylinder = Cylinder();
+  // Initialize some values
+  m_boundingCylinder->axis = glm::vec3(0.0f, 1.0f, 0.0f); // Just as an example
+  m_boundingCylinder->center = glm::vec3(0.0f);
+
+  // Iterate over all meshes and all vertices to calculate the center
+  int totalVertices = 0;
+  for (auto &mesh : m_Meshes) {
+    for (auto &vertex : mesh.vertices) {
+      m_boundingCylinder->center += vertex.Position;
+      totalVertices++;
+    }
+  }
+  m_boundingCylinder->center /= static_cast<float>(totalVertices); // Average
+
+  // Compute the height and radius
+  float maxHeight = -FLT_MAX;
+  float minHeight = FLT_MAX;
+  float maxRadiusSq = -FLT_MAX;
+
+  for (auto &mesh : m_Meshes) {
+    for (auto &vertex : mesh.vertices) {
+      // Project the vertex onto the cylinder axis
+      glm::vec3 projectedVertex =
+          glm::dot(vertex.Position - m_boundingCylinder->center,
+                   m_boundingCylinder->axis) *
+              m_boundingCylinder->axis +
+          m_boundingCylinder->center;
+
+      // Determine the distance along the axis
+      float distance =
+          glm::distance(m_boundingCylinder->center, projectedVertex);
+      maxHeight = glm::max(maxHeight, distance);
+      minHeight = glm::min(minHeight, distance);
+
+      // Determine the distance in the plane perpendicular to the axis
+      glm::vec3 radiusVector = vertex.Position - projectedVertex;
+      maxRadiusSq = glm::max(maxRadiusSq, glm::dot(radiusVector, radiusVector));
+    }
+  }
+
+  m_boundingCylinder->height = maxHeight - minHeight;
+  m_boundingCylinder->radius = glm::sqrt(maxRadiusSq);
+}
+
+// struct Cylinder {
+// glm::vec3 center;
+// glm::vec3 axis;
+// float radius;
+// float height;
+// };
