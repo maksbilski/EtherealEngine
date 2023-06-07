@@ -12,19 +12,19 @@ ResourceManager::~ResourceManager() {
 }
 
 std::shared_ptr<Model> ResourceManager::getModel(EntityType type) {
-  return m_Models[type];
+  return m_models[type];
 }
 
 std::shared_ptr<Shader> ResourceManager::getShader(EntityType type) {
-  return m_Shaders[type];
+  return m_shaders[type];
 }
 
 unsigned int ResourceManager::getTexture(EntityType type) {
-  return m_Textures[type];
+  return m_textures[type];
 }
 
 std::shared_ptr<SkyboxModel> ResourceManager::getSkyboxModel() {
-  return m_SkyboxModel;
+  return m_skyboxModel;
 }
 
 void ResourceManager::loadResources() {
@@ -34,30 +34,30 @@ void ResourceManager::loadResources() {
   Shader skyboxShader("resources/shaders/skybox_shader.vs",
                       "resources/shaders/skybox_shader.fs");
 
-  m_Shaders[EntityType::TERRAIN] = std::make_shared<Shader>(shader);
+  m_shaders[EntityType::TERRAIN] = std::make_shared<Shader>(shader);
 
-  m_Shaders[EntityType::SHOTGUN] = std::make_shared<Shader>(shader);
+  m_shaders[EntityType::SHOTGUN] = std::make_shared<Shader>(shader);
 
-  m_Shaders[EntityType::FLOATING_ROCK] = std::make_shared<Shader>(shader);
+  m_shaders[EntityType::FLOATING_ROCK] = std::make_shared<Shader>(shader);
 
-  m_Shaders[EntityType::SKYBOX] = std::make_shared<Shader>(skyboxShader);
+  m_shaders[EntityType::SKYBOX] = std::make_shared<Shader>(skyboxShader);
 
-  m_Models[EntityType::SHOTGUN] =
+  m_models[EntityType::SHOTGUN] =
       std::make_shared<Model>("resources/models/Shotgun/shotgun.obj");
 
-  m_Models[EntityType::TERRAIN] =
+  m_models[EntityType::TERRAIN] =
       std::make_shared<Model>("resources/models/concrete/concrete.obj");
 
-  m_Models[EntityType::FLOATING_ROCK] =
+  m_models[EntityType::FLOATING_ROCK] =
       std::make_shared<Model>("resources/models/space_rock/space_rock.obj");
 
   std::vector<std::string> faces = {
       "resources/skybox/posx.jpg", "resources/skybox/negx.jpg",
       "resources/skybox/posy.jpg", "resources/skybox/negy.jpg",
       "resources/skybox/posz.jpg", "resources/skybox/negz.jpg"};
-  m_Textures[EntityType::SKYBOX] = loadCubemap(faces);
+  m_textures[EntityType::SKYBOX] = loadCubemap(faces);
 
-  m_SkyboxModel = std::make_shared<SkyboxModel>();
+  m_skyboxModel = std::make_shared<SkyboxModel>();
 }
 
 unsigned int ResourceManager::loadCubemap(std::vector<std::string> faces) {

@@ -13,10 +13,10 @@ typedef unsigned int TextureID;
 
 class ResourceManager {
 private:
-  std::unordered_map<EntityType, std::shared_ptr<Model>> m_Models;
-  std::unordered_map<EntityType, std::shared_ptr<Shader>> m_Shaders;
-  std::unordered_map<EntityType, TextureID> m_Textures;
-  std::shared_ptr<SkyboxModel> m_SkyboxModel;
+  std::unordered_map<EntityType, std::shared_ptr<Model>> m_models;
+  std::unordered_map<EntityType, std::shared_ptr<Shader>> m_shaders;
+  std::unordered_map<EntityType, TextureID> m_textures;
+  std::shared_ptr<SkyboxModel> m_skyboxModel;
 
   void loadResources();
   unsigned int loadCubemap(std::vector<std::string> faces);

@@ -5,12 +5,12 @@
 
 class SkyboxModelComponent {
 public:
-  std::shared_ptr<SkyboxModel> m_SkyboxModel;
+  std::shared_ptr<SkyboxModel> m_skyboxModel;
 
   SkyboxModelComponent(std::shared_ptr<SkyboxModel> skyboxModel)
-      : m_SkyboxModel(skyboxModel){};
+      : m_skyboxModel(skyboxModel){};
 
   void setSkyboxModel(SkyboxModel *newSkyboxModel) {
-    m_SkyboxModel.reset(newSkyboxModel);
+    m_skyboxModel.reset(newSkyboxModel);
   }
 };

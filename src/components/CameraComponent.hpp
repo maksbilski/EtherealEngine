@@ -5,18 +5,18 @@
 
 class CameraComponent {
 private:
-  float m_CurrentLookAngleX;
-  float m_CurrentLookAngleY;
+  float m_currentLookAngleX;
+  float m_currentLookAngleY;
 
-  glm::vec3 m_Position;
-  glm::vec3 m_MovementForwardVec;
-  glm::vec3 m_MovementSidewayVec;
-  glm::vec3 m_MovementUpVec;
+  glm::vec3 m_position;
+  glm::vec3 m_movementForwardVec;
+  glm::vec3 m_movementSidewayVec;
+  glm::vec3 m_movementUpVec;
 
-  glm::vec3 m_CameraForwardVec;
-  glm::vec3 m_CameraSidewayVec;
-  glm::vec3 m_CameraUpVec;
-  glm::vec3 m_CameraLookVec;
+  glm::vec3 m_cameraForwardVec;
+  glm::vec3 m_cameraSidewayVec;
+  glm::vec3 m_cameraUpVec;
+  glm::vec3 m_cameraLookVec;
 
 public:
   CameraComponent(const glm::vec3 &position);

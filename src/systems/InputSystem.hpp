@@ -6,23 +6,24 @@
 
 class InputSystem {
 private:
-  GLFWwindow *m_Window;
-  EntityManager &m_EntityManager;
+  GLFWwindow *m_window;
+  EntityManager &m_entityManager;
 
-  float m_TargetLookAngleX;
-  float m_TargetLookAngleY;
+  float m_targetLookAngleX;
+  float m_targetLookAngleY;
 
-  double m_CursorX;
-  double m_CursorY;
+  double m_cursorX;
+  double m_cursorY;
 
-  float m_MovementSpeed;
-  float m_MouseSensitivity;
+  float m_movementSpeed;
+  float m_mouseSensitivity;
 
-  float m_JumpTimer;
+  float m_jumpTimer;
 
 public:
   InputSystem(GLFWwindow *window, EntityManager &entityManager);
   void update(float deltaTime);
   void controlMouseInput(float deltaTime);
-  void controlKeyboardInput(float deltaTime);
+  void controlButtonsInput(float deltaTime);
+  void controlWeaponRecoil(float deltaTime);
 };
