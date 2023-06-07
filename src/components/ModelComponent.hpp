@@ -8,5 +8,5 @@ public:
   std::shared_ptr<Model> m_model;
 
   ModelComponent(std::shared_ptr<Model> model) : m_model(model){};
-  void setModel(Model *newModel) { m_Model.reset(newModel); }
+  void setModel(Model *newModel) { m_model.reset(newModel); }
 };
