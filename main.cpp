@@ -1,3 +1,4 @@
+#include "src/systems/CollisionSystem.hpp"
 #include "src/systems/EntityFactory.hpp"
 #include "src/systems/EntityManager.hpp"
 #include "src/systems/InputSystem.hpp"
@@ -57,10 +58,10 @@ int main(void) {
   InitOpenGLDebug();
   glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
   ResourceManager resource_manager;
-  CameraComponent camera(glm::vec3(0.0f, 15.0f, 0.0f));
   EntityManager entity_manager;
-  entity_manager.addCameraComponent(camera);
   EntityFactory entity_factory(entity_manager, resource_manager);
+  entity_factory.createPlayerEntity(glm::vec3(0.0, 10.0, 20.0), glm::vec3(0.0),
+                                    glm::vec3(1.0));
 
   glm::vec3 position4 = glm::vec3(0.0, 0.0, 0.0);
   glm::vec3 rotation4 = glm::vec3(0.0, 0.0, 0.0);
@@ -72,7 +73,6 @@ int main(void) {
 
   entity_factory.createRenderableEntity(EntityType::TERRAIN, position4,
                                         rotation4, scale4);
-  entity_factory.createWeaponEntity(EntityType::SHOTGUN, glm::vec3(1.0));
   entity_factory.createSkyboxEntity();
   entity_factory.createRandomRenderableEntities(EntityType::FLOATING_ROCK, 200);
   entity_factory.createRenderableEntity(EntityType::EYEBEAST, position3,
@@ -81,6 +81,8 @@ int main(void) {
   RenderSystem render_system(entity_manager);
 
   InputSystem input_system(window, entity_manager);
+
+  CollisionSystem collision_system(entity_manager);
 
   while (!glfwWindowShouldClose(window)) {
     float currentFrame = static_cast<float>(glfwGetTime());
@@ -91,6 +93,7 @@ int main(void) {
     // Aktualizacja systemów
     input_system.update(deltaTime);
     render_system.update();
+    collision_system.update();
 
     // Rendering
 
