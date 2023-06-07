@@ -20,6 +20,7 @@ public:
   glm::vec3 getScale() const;
 
   void setPosition(glm::vec3 newPosition);
+  void updatePosition(glm::vec3 position);
   void setRotation(glm::vec3 newRotation);
   void setScale(glm::vec3 newScale);
   // Metoda do tworzenia macierzy transformacji
