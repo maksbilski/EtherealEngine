@@ -7,10 +7,9 @@
 #include <memory>
 #include <vector>
 
-enum class EntityType { TERRAIN, SHOTGUN, SKYBOX, FLOATING_ROCK };
+enum class EntityType { TERRAIN, SHOTGUN, SKYBOX, FLOATING_ROCK, EYEBEAST };
 
 typedef unsigned int TextureID;
-
 class ResourceManager {
 private:
   std::unordered_map<EntityType, std::shared_ptr<Model>> m_models;

@@ -42,6 +42,8 @@ void ResourceManager::loadResources() {
 
   m_shaders[EntityType::SKYBOX] = std::make_shared<Shader>(skyboxShader);
 
+  m_shaders[EntityType::EYEBEAST] = std::make_shared<Shader>(shader);
+
   m_models[EntityType::SHOTGUN] =
       std::make_shared<Model>("resources/models/Shotgun/shotgun.obj");
 
@@ -50,6 +52,9 @@ void ResourceManager::loadResources() {
 
   m_models[EntityType::FLOATING_ROCK] =
       std::make_shared<Model>("resources/models/space_rock/space_rock.obj");
+
+  m_models[EntityType::EYEBEAST] =
+      std::make_shared<Model>("resources/models/enemy/enemy.obj");
 
   std::vector<std::string> faces = {
       "resources/skybox/posx.jpg", "resources/skybox/negx.jpg",

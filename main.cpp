@@ -66,11 +66,17 @@ int main(void) {
   glm::vec3 rotation4 = glm::vec3(0.0, 0.0, 0.0);
   glm::vec3 scale4 = glm::vec3(3.0);
 
+  glm::vec3 position3 = glm::vec3(0.0, 10.0, 0.0);
+  glm::vec3 rotation3 = glm::vec3(0.0, 0.0, 0.0);
+  glm::vec3 scale3 = glm::vec3(2.0);
+
   entity_factory.createRenderableEntity(EntityType::TERRAIN, position4,
                                         rotation4, scale4);
   entity_factory.createWeaponEntity(EntityType::SHOTGUN, glm::vec3(1.0));
   entity_factory.createSkyboxEntity();
   entity_factory.createRandomRenderableEntities(EntityType::FLOATING_ROCK, 200);
+  entity_factory.createRenderableEntity(EntityType::EYEBEAST, position3,
+                                        rotation3, scale3);
 
   RenderSystem render_system(entity_manager);
 

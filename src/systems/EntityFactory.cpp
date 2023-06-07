@@ -35,6 +35,10 @@ Entity EntityFactory::createRenderableEntity(EntityType entityType,
     model = m_resourceManager.getModel(EntityType::FLOATING_ROCK);
     shader = m_resourceManager.getShader(EntityType::FLOATING_ROCK);
     break;
+  case EntityType::EYEBEAST:
+    model = m_resourceManager.getModel(EntityType::EYEBEAST);
+    shader = m_resourceManager.getShader(EntityType::EYEBEAST);
+    break;
   }
 
   m_entityManager.addComponent<ModelComponent>(newEntity,
