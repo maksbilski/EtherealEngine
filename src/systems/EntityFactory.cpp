@@ -1,4 +1,5 @@
 #include "EntityFactory.hpp"
+#include "../components/CameraComponent.hpp"
 #include "../components/ModelComponent.hpp"
 #include "../components/ShaderComponent.hpp"
 #include "../components/SkyboxModelComponent.hpp"
@@ -38,6 +39,7 @@ Entity EntityFactory::createRenderableEntity(EntityType entityType,
   case EntityType::EYEBEAST:
     model = m_resourceManager.getModel(EntityType::EYEBEAST);
     shader = m_resourceManager.getShader(EntityType::EYEBEAST);
+    m_entityManager.addCollidableEntity(newEntity);
     break;
   }
 
@@ -74,6 +76,19 @@ Entity EntityFactory::createWeaponEntity(EntityType entityType,
                                                 WeaponComponent());
   m_entityManager.setCurrentWeaponEntity(weaponEntity);
   return weaponEntity;
+}
+
+Entity EntityFactory::createPlayerEntity(glm::vec3 position, glm::vec3 rotation,
+                                         glm::vec3 scale) {
+  Entity playerEntity = getNewEntityId();
+  m_entityManager.setPlayerEntity(playerEntity);
+  m_entityManager.addCameraComponent(CameraComponent(position));
+  m_entityManager.addComponent<ModelComponent>(
+      playerEntity, m_resourceManager.getModel(EntityType::PLAYER));
+  m_entityManager.addComponent<TransformComponent>(
+      playerEntity, TransformComponent(position, rotation, scale));
+  createWeaponEntity(EntityType::SHOTGUN);
+  m_entityManager.addCollidableEntity(playerEntity);
 }
 
 void EntityFactory::createRandomRenderableEntities(EntityType entityType,

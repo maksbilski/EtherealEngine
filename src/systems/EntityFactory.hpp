@@ -18,7 +18,10 @@ public:
                                 glm::vec3 rotation = glm::vec3(0.0f),
                                 glm::vec3 scale = glm::vec3(1.0f));
 
-  Entity createWeaponEntity(EntityType entityType, glm::vec3 scale);
+  Entity createWeaponEntity(EntityType entityType,
+                            glm::vec3 scale = glm::vec3(1.0f));
+  Entity createPlayerEntity(glm::vec3 position, glm::vec3 rotation,
+                            glm::vec3 scale);
   void createSkyboxEntity();
   void createRandomRenderableEntities(EntityType entityType,
                                       unsigned int amount);
