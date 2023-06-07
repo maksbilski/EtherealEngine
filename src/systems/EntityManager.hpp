@@ -15,34 +15,32 @@ typedef uint32_t Entity;
 
 class EntityManager {
 private:
-  std::unique_ptr<CameraComponent> m_CameraComponent;
+  std::unique_ptr<CameraComponent> m_cameraComponent;
 
   std::unordered_map<Entity, std::unique_ptr<ShaderComponent>>
-      m_ShaderComponents;
+      m_shaderComponents;
 
-  std::unordered_map<Entity, std::unique_ptr<ModelComponent>> m_ModelComponents;
+  std::unordered_map<Entity, std::unique_ptr<ModelComponent>> m_modelComponents;
 
   std::unordered_map<Entity, std::unique_ptr<TransformComponent>>
-      m_TransformComponents;
+      m_transformComponents;
 
   std::unordered_map<Entity, std::unique_ptr<WeaponComponent>>
-      m_WeaponComponents;
+      m_weaponComponents;
 
   std::unordered_map<Entity, std::unique_ptr<SkyboxModelComponent>>
-      m_SkyboxModelComponents;
+      m_skyboxModelComponents;
 
   std::unordered_map<Entity, std::unique_ptr<TextureComponent>>
-      m_TextureComponents;
+      m_textureComponents;
 
-  std::vector<Entity> m_RenderableEntities;
+  std::vector<Entity> m_renderableEntities;
 
-  std::vector<Entity> m_SkyboxEntities;
+  std::vector<Entity> m_skyboxEntities;
 
-  std::vector<Entity> m_collidableEntites;
+  Entity m_currentWeapon;
 
-  Entity m_CurrentWeapon;
-
-  Entity m_CurrentSkybox;
+  Entity m_currentSkybox;
 
   Entity m_nextEntity = 0;
 
@@ -62,12 +60,12 @@ public:
   void addComponent(Entity entity, ComponentType component);
 
   void addRenderableEntity(Entity newRenderableEntity) {
-    m_RenderableEntities.push_back(newRenderableEntity);
+    m_renderableEntities.push_back(newRenderableEntity);
   }
 
   void addSkyboxEntity(Entity newSkyboxEntity) {
-    m_SkyboxEntities.push_back(newSkyboxEntity);
-    m_CurrentSkybox = newSkyboxEntity;
+    m_skyboxEntities.push_back(newSkyboxEntity);
+    m_currentSkybox = newSkyboxEntity;
   }
 };
 
@@ -105,35 +103,35 @@ ComponentType &EntityManager::getComponent(Entity entity) {
 template <>
 inline std::unordered_map<Entity, std::unique_ptr<ShaderComponent>> &
 EntityManager::getComponentMap<ShaderComponent>() {
-  return m_ShaderComponents;
+  return m_shaderComponents;
 }
 
 template <>
 inline std::unordered_map<Entity, std::unique_ptr<ModelComponent>> &
 EntityManager::getComponentMap<ModelComponent>() {
-  return m_ModelComponents;
+  return m_modelComponents;
 }
 
 template <>
 inline std::unordered_map<Entity, std::unique_ptr<TransformComponent>> &
 EntityManager::getComponentMap<TransformComponent>() {
-  return m_TransformComponents;
+  return m_transformComponents;
 }
 
 template <>
 inline std::unordered_map<Entity, std::unique_ptr<WeaponComponent>> &
 EntityManager::getComponentMap<WeaponComponent>() {
-  return m_WeaponComponents;
+  return m_weaponComponents;
 }
 
 template <>
 inline std::unordered_map<Entity, std::unique_ptr<TextureComponent>> &
 EntityManager::getComponentMap<TextureComponent>() {
-  return m_TextureComponents;
+  return m_textureComponents;
 }
 
 template <>
 inline std::unordered_map<Entity, std::unique_ptr<SkyboxModelComponent>> &
 EntityManager::getComponentMap<SkyboxModelComponent>() {
-  return m_SkyboxModelComponents;
+  return m_skyboxModelComponents;
 }

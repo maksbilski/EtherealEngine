@@ -5,9 +5,9 @@
 
 class EntityFactory {
 private:
-  EntityManager &m_EntityManager;
-  ResourceManager &m_ResourceManager;
-  Entity m_NextEntity = 0;
+  EntityManager &m_entityManager;
+  ResourceManager &m_resourceManager;
+  Entity m_nextEntity = 0;
 
   Entity getNewEntityId();
 

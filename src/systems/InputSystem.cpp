@@ -2,21 +2,24 @@
 #include "../vendor/glm/gtc/quaternion.hpp"
 #include "../vendor/glm/gtx/quaternion.hpp"
 
+const float WEAPON_RECOIL_ANIMATION_TIME = 1.0f;
+
 InputSystem::InputSystem(GLFWwindow *window, EntityManager &entityManager)
-    : m_Window(window), m_EntityManager(entityManager) {
-  m_TargetLookAngleX = 0.0f;
-  m_TargetLookAngleY = 0.0f;
+    : m_window(window), m_entityManager(entityManager) {
+  m_targetLookAngleX = 0.0f;
+  m_targetLookAngleY = 0.0f;
 
-  m_MouseSensitivity = 0.001f;
-  m_MovementSpeed = 50.0f;
-  m_JumpTimer = 0.0f;
+  m_mouseSensitivity = 0.001f;
+  m_movementSpeed = 50.0f;
+  m_jumpTimer = 0.0f;
 
-  glfwGetCursorPos(window, &m_CursorX, &m_CursorY);
+  glfwGetCursorPos(window, &m_cursorX, &m_cursorY);
 }
 
 void InputSystem::update(float deltaTime) {
   controlMouseInput(deltaTime);
-  controlKeyboardInput(deltaTime);
+  controlButtonsInput(deltaTime);
+  controlWeaponRecoil(deltaTime);
 }
 
 void InputSystem::controlMouseInput(float deltaTime) {
@@ -24,54 +27,87 @@ void InputSystem::controlMouseInput(float deltaTime) {
   double newCursorY;
   float maxLookPitch = 1.5707963f - 0.01f;
 
-  glfwGetCursorPos(m_Window, &newCursorX, &newCursorY);
+  glfwGetCursorPos(m_window, &newCursorX, &newCursorY);
 
-  m_TargetLookAngleX -= (newCursorY - m_CursorY) * m_MouseSensitivity;
-  m_TargetLookAngleY -= (newCursorX - m_CursorX) * m_MouseSensitivity;
+  m_targetLookAngleX -= (newCursorY - m_cursorY) * m_mouseSensitivity;
+  m_targetLookAngleY -= (newCursorX - m_cursorX) * m_mouseSensitivity;
 
-  if (m_TargetLookAngleX > maxLookPitch)
-    m_TargetLookAngleX = maxLookPitch;
-  if (m_TargetLookAngleX < -maxLookPitch)
-    m_TargetLookAngleX = -maxLookPitch;
+  if (m_targetLookAngleX > maxLookPitch)
+    m_targetLookAngleX = maxLookPitch;
+  if (m_targetLookAngleX < -maxLookPitch)
+    m_targetLookAngleX = -maxLookPitch;
 
-  m_CursorX = newCursorX;
-  m_CursorY = newCursorY;
+  m_cursorX = newCursorX;
+  m_cursorY = newCursorY;
 
-  m_EntityManager.getCameraComponent().setCurrentLookAngleX(m_TargetLookAngleX);
-  m_EntityManager.getCameraComponent().setCurrentLookAngleY(m_TargetLookAngleY);
+  m_entityManager.getCameraComponent().setCurrentLookAngleX(m_targetLookAngleX);
+  m_entityManager.getCameraComponent().setCurrentLookAngleY(m_targetLookAngleY);
 
-  m_EntityManager.getCameraComponent().computeCameraOrientation();
-  m_EntityManager.getCameraComponent().computeWalkVectors();
+  m_entityManager.getCameraComponent().computeCameraOrientation();
+  m_entityManager.getCameraComponent().computeWalkVectors();
 }
 
-void InputSystem::controlKeyboardInput(float deltaTime) {
+void InputSystem::controlButtonsInput(float deltaTime) {
 
   glm::vec3 movementVector(0.0f);
 
-  if (glfwGetKey(m_Window, GLFW_KEY_W) == GLFW_PRESS)
+  WeaponComponent &currentWeapon =
+      m_entityManager.getComponent<WeaponComponent>(
+          m_entityManager.getCurrentWeaponEntity());
+
+  if (glfwGetKey(m_window, GLFW_KEY_W) == GLFW_PRESS)
     movementVector +=
-        m_EntityManager.getCameraComponent().getMovementForwardVec() *
-        m_MovementSpeed * deltaTime;
+        m_entityManager.getCameraComponent().getMovementForwardVec() *
+        m_movementSpeed * deltaTime;
 
-  if (glfwGetKey(m_Window, GLFW_KEY_S) == GLFW_PRESS)
+  if (glfwGetKey(m_window, GLFW_KEY_S) == GLFW_PRESS)
     movementVector -=
-        m_EntityManager.getCameraComponent().getMovementForwardVec() *
-        m_MovementSpeed * deltaTime;
+        m_entityManager.getCameraComponent().getMovementForwardVec() *
+        m_movementSpeed * deltaTime;
 
-  if (glfwGetKey(m_Window, GLFW_KEY_D) == GLFW_PRESS)
+  if (glfwGetKey(m_window, GLFW_KEY_D) == GLFW_PRESS)
     movementVector +=
-        m_EntityManager.getCameraComponent().getMovementSidewayVec() *
-        m_MovementSpeed * deltaTime;
+        m_entityManager.getCameraComponent().getMovementSidewayVec() *
+        m_movementSpeed * deltaTime;
 
-  if (glfwGetKey(m_Window, GLFW_KEY_A) == GLFW_PRESS)
+  if (glfwGetKey(m_window, GLFW_KEY_A) == GLFW_PRESS)
     movementVector -=
-        m_EntityManager.getCameraComponent().getMovementSidewayVec() *
-        m_MovementSpeed * deltaTime;
+        m_entityManager.getCameraComponent().getMovementSidewayVec() *
+        m_movementSpeed * deltaTime;
 
-  if (glfwGetKey(m_Window, GLFW_KEY_SPACE) == GLFW_PRESS) {
-    m_JumpTimer = 0.5f;
+  if (glfwGetKey(m_window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+    m_jumpTimer = 0.5f;
   }
-  m_EntityManager.getCameraComponent().updatePosition(movementVector);
-  m_EntityManager.getCameraComponent().computeCameraOrientation();
-  m_EntityManager.getCameraComponent().computeWalkVectors();
+  if (glfwGetMouseButton(m_window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
+    if (!currentWeapon.isTriggerPressed() &&
+        currentWeapon.hasWeaponRecoilFinished()) {
+      currentWeapon.setWeaponRecoilTime(0.0f);
+      currentWeapon.setIfTriggerPressed(true);
+    }
+  } else {
+    currentWeapon.setIfTriggerPressed(false);
+  }
+
+  m_entityManager.getCameraComponent().updatePosition(movementVector);
+  m_entityManager.getCameraComponent().computeCameraOrientation();
+  m_entityManager.getCameraComponent().computeWalkVectors();
+}
+
+void InputSystem::controlWeaponRecoil(float deltaTime) {
+  float recoilFactor;
+  WeaponComponent &currentWeapon =
+      m_entityManager.getComponent<WeaponComponent>(
+          m_entityManager.getCurrentWeaponEntity());
+  currentWeapon.updateRecoilTime(deltaTime);
+  currentWeapon.setIfWeaponRecoilFinished(false);
+
+  if (currentWeapon.getWeaponRecoilTime() >= WEAPON_RECOIL_ANIMATION_TIME) {
+    currentWeapon.setWeaponRecoilTime(WEAPON_RECOIL_ANIMATION_TIME);
+    currentWeapon.setIfWeaponRecoilFinished(true);
+  }
+  recoilFactor =
+      currentWeapon.getWeaponRecoilTime() / WEAPON_RECOIL_ANIMATION_TIME;
+  currentWeapon.setWeaponRecoilAmount(
+      -((recoilFactor * recoilFactor) - recoilFactor) *
+      pow(abs(recoilFactor - 1.0), 3));
 }

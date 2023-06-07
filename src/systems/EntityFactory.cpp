@@ -9,9 +9,9 @@
 
 EntityFactory::EntityFactory(EntityManager &entityManager,
                              ResourceManager &resourceManager)
-    : m_EntityManager(entityManager), m_ResourceManager(resourceManager) {}
+    : m_entityManager(entityManager), m_resourceManager(resourceManager) {}
 
-Entity EntityFactory::getNewEntityId() { return m_NextEntity++; }
+Entity EntityFactory::getNewEntityId() { return m_nextEntity++; }
 
 Entity EntityFactory::createRenderableEntity(EntityType entityType,
                                              glm::vec3 position,
@@ -24,26 +24,26 @@ Entity EntityFactory::createRenderableEntity(EntityType entityType,
 
   switch (entityType) {
   case EntityType::SHOTGUN:
-    model = m_ResourceManager.getModel(EntityType::SHOTGUN);
-    shader = m_ResourceManager.getShader(EntityType::SHOTGUN);
+    model = m_resourceManager.getModel(EntityType::SHOTGUN);
+    shader = m_resourceManager.getShader(EntityType::SHOTGUN);
     break;
   case EntityType::TERRAIN:
-    model = m_ResourceManager.getModel(EntityType::TERRAIN);
-    shader = m_ResourceManager.getShader(EntityType::TERRAIN);
+    model = m_resourceManager.getModel(EntityType::TERRAIN);
+    shader = m_resourceManager.getShader(EntityType::TERRAIN);
     break;
   case EntityType::FLOATING_ROCK:
-    model = m_ResourceManager.getModel(EntityType::FLOATING_ROCK);
-    shader = m_ResourceManager.getShader(EntityType::FLOATING_ROCK);
+    model = m_resourceManager.getModel(EntityType::FLOATING_ROCK);
+    shader = m_resourceManager.getShader(EntityType::FLOATING_ROCK);
     break;
   }
 
-  m_EntityManager.addComponent<ModelComponent>(newEntity,
+  m_entityManager.addComponent<ModelComponent>(newEntity,
                                                ModelComponent(model));
-  m_EntityManager.addComponent<ShaderComponent>(newEntity,
+  m_entityManager.addComponent<ShaderComponent>(newEntity,
                                                 ShaderComponent(shader));
-  m_EntityManager.addComponent<TransformComponent>(
+  m_entityManager.addComponent<TransformComponent>(
       newEntity, TransformComponent(position, rotation, scale));
-  m_EntityManager.addRenderableEntity(newEntity);
+  m_entityManager.addRenderableEntity(newEntity);
 
   return newEntity;
 }
@@ -51,39 +51,43 @@ Entity EntityFactory::createRenderableEntity(EntityType entityType,
 void EntityFactory::createSkyboxEntity() {
 
   Entity newEntity = getNewEntityId();
-  m_EntityManager.addComponent<TextureComponent>(
+  m_entityManager.addComponent<TextureComponent>(
       newEntity,
-      TextureComponent(m_ResourceManager.getTexture(EntityType::SKYBOX)));
-  m_EntityManager.addComponent<ShaderComponent>(
+      TextureComponent(m_resourceManager.getTexture(EntityType::SKYBOX)));
+  m_entityManager.addComponent<ShaderComponent>(
       newEntity,
-      ShaderComponent(m_ResourceManager.getShader(EntityType::SKYBOX)));
-  m_EntityManager.addComponent<SkyboxModelComponent>(
-      newEntity, m_ResourceManager.getSkyboxModel());
-  m_EntityManager.addSkyboxEntity(newEntity);
+      ShaderComponent(m_resourceManager.getShader(EntityType::SKYBOX)));
+  m_entityManager.addComponent<SkyboxModelComponent>(
+      newEntity, m_resourceManager.getSkyboxModel());
+  m_entityManager.addSkyboxEntity(newEntity);
 };
 
 Entity EntityFactory::createWeaponEntity(EntityType entityType,
                                          glm::vec3 scale) {
 
   Entity weaponEntity = createRenderableEntity(entityType);
-  m_EntityManager.addComponent<WeaponComponent>(weaponEntity,
+  m_entityManager.addComponent<WeaponComponent>(weaponEntity,
                                                 WeaponComponent());
-  m_EntityManager.setCurrentWeaponEntity(weaponEntity);
+  m_entityManager.setCurrentWeaponEntity(weaponEntity);
   return weaponEntity;
 }
 
 void EntityFactory::createRandomRenderableEntities(EntityType entityType,
                                                    unsigned int amount) {
   for (int i = 0; i < amount; i++) {
-    float randomPositionX = generateRandomFloat(-10000.0f, 10000.0f);
+    float randomPositionX = generateRandomFloat(-2000.0f, 2000.0f);
     float randomPositionY = generateRandomFloat(
-        m_EntityManager.getCameraComponent().getPosition().y + 100.0f, 1000.0f);
-    float randomPositionZ = generateRandomFloat(-10000.0f, 10000.0f);
-    float scale = generateRandomFloat(0.5f, 1.0f);
+        m_entityManager.getCameraComponent().getPosition().y + 200.0f, 2000.0f);
+    float randomPositionZ = generateRandomFloat(-2000.0f, 2000.0f);
+    float scale = generateRandomFloat(150.0f, 200.0f);
+    float randomRotationX = generateRandomFloat(-180.0f, 180.0f);
+    float randomRotationY = generateRandomFloat(-180.0f, 180.0f);
+    float randomRotationZ = generateRandomFloat(-180.0f, 180.0f);
     createRenderableEntity(
         entityType,
         glm::vec3(randomPositionX, randomPositionY, randomPositionZ),
-        glm::vec3(0.0f), glm::vec3(scale));
+        glm::vec3(randomRotationX, randomRotationY, randomRotationZ),
+        glm::vec3(scale));
   }
 }
 

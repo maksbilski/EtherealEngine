@@ -6,11 +6,11 @@
 
 class RenderSystem {
 private:
-  EntityManager &m_EntityManager;
-  glm::mat4 m_ProjectionMatrix;
-  glm::mat4 m_ViewMatrix;
+  EntityManager &m_entityManager;
+  glm::mat4 m_projectionMatrix;
+  glm::mat4 m_viewMatrix;
 
-  glm::mat4 m_WeaponTransformMatrix;
+  glm::mat4 m_weaponTransformMatrix;
 
   void renderSkybox(Entity entity);
   void renderModel(Entity entity);

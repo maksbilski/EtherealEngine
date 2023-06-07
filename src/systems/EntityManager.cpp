@@ -1,26 +1,22 @@
 #include "EntityManager.hpp"
 
 void EntityManager::addCameraComponent(CameraComponent cameraComponent) {
-  m_CameraComponent =
+  m_cameraComponent =
       std::make_unique<CameraComponent>(std::move(cameraComponent));
 }
 
 CameraComponent &EntityManager::getCameraComponent() const {
-  return *m_CameraComponent;
+  return *m_cameraComponent;
 }
 
-Entity EntityManager::getCurrentWeaponEntity() const { return m_CurrentWeapon; }
+Entity EntityManager::getCurrentWeaponEntity() const { return m_currentWeapon; }
 
 void EntityManager::setCurrentWeaponEntity(Entity newEntity) {
-  m_CurrentWeapon = newEntity;
+  m_currentWeapon = newEntity;
 }
 
 std::vector<Entity> EntityManager::getEntitesToRender() const {
-  return m_RenderableEntities;
+  return m_renderableEntities;
 }
 
-Entity EntityManager::getCurrentSkyboxEntity() const { return m_CurrentSkybox; }
-
-std::vector<Entity> EntityManager::getCollidableEntites() const {
-  return m_collidableEntites;
-}
+Entity EntityManager::getCurrentSkyboxEntity() const { return m_currentSkybox; }

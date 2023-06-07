@@ -5,8 +5,8 @@
 
 class ModelComponent {
 public:
-  std::shared_ptr<Model> m_Model;
+  std::shared_ptr<Model> m_model;
 
-  ModelComponent(std::shared_ptr<Model> model) : m_Model(model){};
-  void setModel(Model *newModel) { m_Model.reset(newModel); }
+  ModelComponent(std::shared_ptr<Model> model) : m_model(model){};
+  void setModel(Model *newModel) { m_model.reset(newModel); }
 };
