@@ -6,11 +6,15 @@ const float WEAPON_RECOIL_ANIMATION_TIME = 1.0f;
 
 const float JUMP_ACCELERATION_TIME = 0.01f;
 
-const float JUMP_STRENGTH = 10000.0f;
+const float JUMP_STRENGTH = 100.0f;
 
-const float GRAVITY_STRENGTH = 200.0f;
+const float GRAVITY_STRENGTH = 100.0f;
 
 const float WEAPON_BOB_SPEED = 9.0f;
+
+const float MOVEMENT_SPEED = 120.0f;
+
+const float MOUSE_SENSITIVITY = 0.001f;
 
 const float MOVEMENT_SPEED = 120.0f;
 
@@ -21,10 +25,8 @@ InputSystem::InputSystem(GLFWwindow *window, EntityManager &entityManager)
   m_targetLookAngleX = 0.0f;
   m_targetLookAngleY = 0.0f;
 
-  m_mouseSensitivity = MOUSE_SENSITIVITY;
-  m_movementSpeed = MOVEMENT_SPEED;
   m_jumpTimer = 0.0f;
-  m_gravity = 0.0f;
+  m_jumpVelocity = 0.0f;
 
   glfwGetCursorPos(window, &m_cursorX, &m_cursorY);
 }
@@ -43,8 +45,8 @@ void InputSystem::controlMouseInput() {
 
   glfwGetCursorPos(m_window, &newCursorX, &newCursorY);
 
-  m_targetLookAngleX -= (newCursorY - m_cursorY) * m_mouseSensitivity;
-  m_targetLookAngleY -= (newCursorX - m_cursorX) * m_mouseSensitivity;
+  m_targetLookAngleX -= (newCursorY - m_cursorY) * MOUSE_SENSITIVITY;
+  m_targetLookAngleY -= (newCursorX - m_cursorX) * MOUSE_SENSITIVITY;
 
   if (m_targetLookAngleX > maxLookPitch)
     m_targetLookAngleX = maxLookPitch;
@@ -74,28 +76,28 @@ void InputSystem::controlButtonsInput(float deltaTime) {
   if (glfwGetKey(m_window, GLFW_KEY_W) == GLFW_PRESS) {
     movementVector +=
         m_entityManager.getCameraComponent().getMovementForwardVec() *
-        m_movementSpeed * deltaTime;
+        MOVEMENT_SPEED * deltaTime;
     m_entityManager.getCameraComponent().setIfIsMoving(true);
   }
 
   if (glfwGetKey(m_window, GLFW_KEY_S) == GLFW_PRESS) {
     movementVector -=
         m_entityManager.getCameraComponent().getMovementForwardVec() *
-        m_movementSpeed * deltaTime;
+        MOVEMENT_SPEED * deltaTime;
     m_entityManager.getCameraComponent().setIfIsMoving(true);
   }
 
   if (glfwGetKey(m_window, GLFW_KEY_D) == GLFW_PRESS) {
     movementVector +=
         m_entityManager.getCameraComponent().getMovementSidewayVec() *
-        m_movementSpeed * deltaTime;
+        MOVEMENT_SPEED * deltaTime;
     m_entityManager.getCameraComponent().setIfIsMoving(true);
   }
 
   if (glfwGetKey(m_window, GLFW_KEY_A) == GLFW_PRESS) {
     movementVector -=
         m_entityManager.getCameraComponent().getMovementSidewayVec() *
-        m_movementSpeed * deltaTime;
+        MOVEMENT_SPEED * deltaTime;
     m_entityManager.getCameraComponent().setIfIsMoving(true);
   }
 
@@ -118,15 +120,14 @@ void InputSystem::controlButtonsInput(float deltaTime) {
   }
 
   if (m_jumpTimer > 0.0) {
-    m_gravity =
-        (JUMP_STRENGTH * (m_jumpTimer / JUMP_ACCELERATION_TIME) * deltaTime);
+    m_jumpVelocity = (JUMP_STRENGTH * (m_jumpTimer / JUMP_ACCELERATION_TIME));
   }
   m_jumpTimer -= deltaTime;
 
-  m_gravity -= GRAVITY_STRENGTH * deltaTime;
+  m_jumpVelocity -= GRAVITY_STRENGTH * deltaTime;
 
   movementVector += m_entityManager.getCameraComponent().getMovementUpVec() *
-                    m_gravity * deltaTime;
+                    m_jumpVelocity * deltaTime;
 
   m_entityManager
       .getComponent<TransformComponent>(m_entityManager.getPlayerEntity())
@@ -143,7 +144,7 @@ void InputSystem::controlButtonsInput(float deltaTime) {
     m_entityManager
         .getComponent<TransformComponent>(m_entityManager.getPlayerEntity())
         .setPositionY(14.0f);
-    m_gravity = 0.0f;
+    m_jumpVelocity = 0.0f;
     m_entityManager.getCameraComponent().setIfIsTouchingGround(true);
   } else {
     m_entityManager.getCameraComponent().setIfIsTouchingGround(false);
@@ -176,7 +177,8 @@ void InputSystem::controlWeaponBobbing(float deltaTime) {
   WeaponComponent &currentWeapon =
       m_entityManager.getComponent<WeaponComponent>(
           m_entityManager.getCurrentWeaponEntity());
-  if (m_entityManager.getCameraComponent().getIfIsMoving()) {
+  if (m_entityManager.getCameraComponent().getIfIsMoving() &&
+      m_entityManager.getCameraComponent().getIfIsTouchingGround()) {
     currentWeapon.updateWeaponBob(WEAPON_BOB_SPEED * deltaTime);
     currentWeapon.setWeaponBobAmount(cos(currentWeapon.getWeaponBob()));
   } else {
