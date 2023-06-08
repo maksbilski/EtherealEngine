@@ -15,11 +15,8 @@ private:
   double m_cursorX;
   double m_cursorY;
 
-  float m_movementSpeed;
-  float m_mouseSensitivity;
-
   float m_jumpTimer;
-  float m_gravity;
+  float m_jumpVelocity;
 
 public:
   InputSystem(GLFWwindow *window, EntityManager &entityManager);

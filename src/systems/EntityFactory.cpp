@@ -76,7 +76,7 @@ Entity EntityFactory::createWeaponEntity(EntityType entityType,
                                                 WeaponComponent());
   m_entityManager.addComponent<SoundComponent>(
       weaponEntity,
-      SoundComponent(m_resourceManager.getSoundBuffer(entityType), 10));
+      SoundComponent(m_resourceManager.getSoundBuffer(entityType), 50));
   m_entityManager.setCurrentWeaponEntity(weaponEntity);
   return weaponEntity;
 }
