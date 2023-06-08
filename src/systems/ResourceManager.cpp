@@ -58,6 +58,8 @@ void ResourceManager::loadResources() {
   m_models[EntityType::PLAYER] =
       std::make_shared<Model>("resources/models/player/player.obj");
 
+  m_models[EntityType::PLAYER]->calculateBoundingShapes();
+
   m_models[EntityType::SHOTGUN] =
       std::make_shared<Model>("resources/models/Shotgun/shotgun.obj");
 
@@ -69,6 +71,8 @@ void ResourceManager::loadResources() {
 
   m_models[EntityType::EYEBEAST] =
       std::make_shared<Model>("resources/models/enemy/enemy.obj");
+
+  m_models[EntityType::EYEBEAST]->calculateBoundingShapes();
 
   std::vector<std::string> faces = {
       "resources/skybox/right.png", "resources/skybox/left.png",
