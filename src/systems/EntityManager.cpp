@@ -29,10 +29,18 @@ std::vector<Entity> EntityManager::getCollidableEntites() const {
   return m_collidableEntities;
 };
 
+std::vector<Entity> EntityManager::getTargetableEntites() const {
+  return m_targetableEntities;
+};
+
 Entity EntityManager::getCurrentSkyboxEntity() const { return m_currentSkybox; }
 
 void EntityManager::addRenderableEntity(Entity newRenderableEntity) {
   m_renderableEntities.push_back(newRenderableEntity);
+}
+
+void EntityManager::addTargetableEntity(Entity newTargetableEntity) {
+  m_targetableEntities.push_back(newTargetableEntity);
 }
 
 void EntityManager::addSkyboxEntity(Entity newSkyboxEntity) {
