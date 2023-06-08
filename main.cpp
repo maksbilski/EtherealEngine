@@ -10,9 +10,6 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-float deltaTime = 0.0f;
-float lastFrame = 0.0f;
-
 void GLAPIENTRY MessageCallback(GLenum source, GLenum type, GLuint id,
                                 GLenum severity, GLsizei length,
                                 const GLchar *message, const void *userParam) {
@@ -93,14 +90,11 @@ int main(void) {
   backgroundMusic.play();
 
   while (!glfwWindowShouldClose(window)) {
-    float currentFrame = static_cast<float>(glfwGetTime());
-    deltaTime = currentFrame - lastFrame;
-    lastFrame = currentFrame;
     glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     // Aktualizacja systemów
     collision_system.update();
-    input_system.update(deltaTime);
+    input_system.update();
     render_system.update();
 
     // Rendering

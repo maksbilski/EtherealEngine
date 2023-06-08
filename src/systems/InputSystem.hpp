@@ -20,9 +20,9 @@ private:
 
 public:
   InputSystem(GLFWwindow *window, EntityManager &entityManager);
-  void update(float deltaTime);
+  void update();
   void controlMouseInput();
-  void controlButtonsInput(float deltaTime);
-  void controlWeaponRecoil(float deltaTime);
-  void controlWeaponBobbing(float deltaTime);
+  void controlButtonsInput();
+  void controlWeaponRecoil();
+  void controlWeaponBobbing();
 };
