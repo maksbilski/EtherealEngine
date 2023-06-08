@@ -71,9 +71,9 @@ void ResourceManager::loadResources() {
       std::make_shared<Model>("resources/models/enemy/enemy.obj");
 
   std::vector<std::string> faces = {
-      "resources/skybox/right.jpg", "resources/skybox/left.jpg",
-      "resources/skybox/top.jpg",   "resources/skybox/bottom.jpg",
-      "resources/skybox/front.jpg", "resources/skybox/back.jpg"};
+      "resources/skybox/right.png", "resources/skybox/left.png",
+      "resources/skybox/top.png",   "resources/skybox/bottom.png",
+      "resources/skybox/front.png", "resources/skybox/back.png"};
   m_textures[EntityType::SKYBOX] = loadCubemap(faces);
 
   m_skyboxModel = std::make_shared<SkyboxModel>();
