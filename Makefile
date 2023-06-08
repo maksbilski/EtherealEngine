@@ -1,6 +1,6 @@
 CXX = g++
 CXXFLAGS = -g -std=c++20 -Wall -Wextra -Isrc -Isrc/Components -Isrc/Systems -Isrc/engine -Isrc/vendor/glm -I/path/to/assimp/include # Add Assimp include path here if needed
-LDFLAGS = -lglfw -lGLEW -lGL -lassimp # Add -lassimp to link against Assimp library
+LDFLAGS = -lglfw -lGLEW -lGL -lassimp -lsfml-audio# Add -lassimp to link against Assimp library
 SRCDIR = src
 OBJDIR = obj
 BINDIR = bin
