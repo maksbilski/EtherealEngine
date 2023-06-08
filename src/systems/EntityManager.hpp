@@ -3,6 +3,7 @@
 #include "../components/ModelComponent.hpp"
 #include "../components/ShaderComponent.hpp"
 #include "../components/SkyboxModelComponent.hpp"
+#include "../components/SoundComponent.hpp"
 #include "../components/TextureComponent.hpp"
 #include "../components/TransformComponent.hpp"
 #include "../components/WeaponComponent.hpp"
@@ -33,6 +34,8 @@ private:
 
   std::unordered_map<Entity, std::unique_ptr<TextureComponent>>
       m_textureComponents;
+
+  std::unordered_map<Entity, std::unique_ptr<SoundComponent>> m_soundComponents;
 
   std::vector<Entity> m_renderableEntities;
 
@@ -136,4 +139,10 @@ template <>
 inline std::unordered_map<Entity, std::unique_ptr<SkyboxModelComponent>> &
 EntityManager::getComponentMap<SkyboxModelComponent>() {
   return m_skyboxModelComponents;
+}
+
+template <>
+inline std::unordered_map<Entity, std::unique_ptr<SoundComponent>> &
+EntityManager::getComponentMap<SoundComponent>() {
+  return m_soundComponents;
 }
