@@ -22,8 +22,11 @@ public:
                             glm::vec3 scale = glm::vec3(1.0f));
   Entity createPlayerEntity(glm::vec3 position, glm::vec3 rotation,
                             glm::vec3 scale);
+  Entity createEnemyEntity(EntityType entityType, glm::vec3 position,
+                           glm::vec3 scale);
   void createSkyboxEntity();
   void createRandomRenderableEntities(EntityType entityType,
                                       unsigned int amount);
+  void createRandomEnemyEntities(EntityType entityType, unsigned int amount);
   float generateRandomFloat(float lower, float upper);
 };

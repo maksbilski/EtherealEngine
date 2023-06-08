@@ -1,5 +1,7 @@
 #pragma once
 #include "../components/CameraComponent.hpp"
+#include "../components/DamageComponent.hpp"
+#include "../components/HealthComponent.hpp"
 #include "../components/ModelComponent.hpp"
 #include "../components/ShaderComponent.hpp"
 #include "../components/SkyboxModelComponent.hpp"
@@ -37,11 +39,19 @@ private:
 
   std::unordered_map<Entity, std::unique_ptr<SoundComponent>> m_soundComponents;
 
+  std::unordered_map<Entity, std::unique_ptr<HealthComponent>>
+      m_healthComponents;
+
+  std::unordered_map<Entity, std::unique_ptr<DamageComponent>>
+      m_damageComponents;
+
   std::vector<Entity> m_renderableEntities;
 
   std::vector<Entity> m_skyboxEntities;
 
   std::vector<Entity> m_collidableEntities;
+
+  std::vector<Entity> m_enemyEntities;
 
   std::vector<Entity> m_targetableEntities;
 
@@ -63,6 +73,7 @@ public:
   Entity getCurrentSkyboxEntity() const;
   std::vector<Entity> getEntitesToRender() const;
   std::vector<Entity> getCollidableEntites() const;
+  std::vector<Entity> getEnemyEntities() const;
   std::vector<Entity> getTargetableEntites() const;
 
   void addCameraComponent(CameraComponent cameraComponent);
@@ -73,9 +84,9 @@ public:
 
   void addRenderableEntity(Entity newRenderableEntity);
   void addTargetableEntity(Entity newTargetableEntity);
-
-  void addSkyboxEntity(Entity newSkyboxEntity);
   void addCollidableEntity(Entity newCollidableEntity);
+  void addSkyboxEntity(Entity newSkyboxEntity);
+  void addEnemyEntity(Entity newEnemyEntity);
 };
 
 // Template function implementations
@@ -149,4 +160,16 @@ template <>
 inline std::unordered_map<Entity, std::unique_ptr<SoundComponent>> &
 EntityManager::getComponentMap<SoundComponent>() {
   return m_soundComponents;
+}
+
+template <>
+inline std::unordered_map<Entity, std::unique_ptr<HealthComponent>> &
+EntityManager::getComponentMap<HealthComponent>() {
+  return m_healthComponents;
+}
+
+template <>
+inline std::unordered_map<Entity, std::unique_ptr<DamageComponent>> &
+EntityManager::getComponentMap<DamageComponent>() {
+  return m_damageComponents;
 }

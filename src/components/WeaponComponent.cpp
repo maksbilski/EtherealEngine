@@ -11,8 +11,6 @@ WeaponComponent::WeaponComponent() {
   m_weaponBobAmount = 0.0f;
 }
 
-glm::vec3 WeaponComponent::getWeaponPosition() const { return m_position; }
-
 bool WeaponComponent::isTriggerPressed() const { return m_triggerPressed; }
 
 bool WeaponComponent::hasWeaponRecoilFinished() const {
@@ -30,10 +28,6 @@ float WeaponComponent::getWeaponRecoilAmount() const {
 float WeaponComponent::getWeaponBob() const { return m_weaponBob; }
 
 float WeaponComponent::getWeaponBobAmount() const { return m_weaponBobAmount; }
-
-void WeaponComponent::setWeaponPosition(glm::vec3 newPosition) {
-  m_position = newPosition;
-}
 
 void WeaponComponent::setIfTriggerPressed(bool state) {
   m_triggerPressed = state;

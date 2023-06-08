@@ -39,7 +39,6 @@ Entity EntityFactory::createRenderableEntity(EntityType entityType,
   case EntityType::EYEBEAST:
     model = m_resourceManager.getModel(EntityType::EYEBEAST);
     shader = m_resourceManager.getShader(EntityType::EYEBEAST);
-    m_entityManager.addCollidableEntity(newEntity);
     m_entityManager.addTargetableEntity(newEntity);
     break;
   }
@@ -78,6 +77,8 @@ Entity EntityFactory::createWeaponEntity(EntityType entityType,
   m_entityManager.addComponent<SoundComponent>(
       weaponEntity,
       SoundComponent(m_resourceManager.getSoundBuffer(entityType), 50));
+  m_entityManager.addComponent<DamageComponent>(weaponEntity,
+                                                DamageComponent(100));
   m_entityManager.setCurrentWeaponEntity(weaponEntity);
   return weaponEntity;
 }
@@ -91,9 +92,27 @@ Entity EntityFactory::createPlayerEntity(glm::vec3 position, glm::vec3 rotation,
       playerEntity, m_resourceManager.getModel(EntityType::PLAYER));
   m_entityManager.addComponent<TransformComponent>(
       playerEntity, TransformComponent(position, rotation, scale));
+  m_entityManager.addComponent<HealthComponent>(playerEntity,
+                                                HealthComponent(200));
   createWeaponEntity(EntityType::SHOTGUN);
   m_entityManager.addCollidableEntity(playerEntity);
   return playerEntity;
+}
+
+Entity EntityFactory::createEnemyEntity(EntityType entityType,
+                                        glm::vec3 position, glm::vec3 scale) {
+  Entity enemyEntity =
+      createRenderableEntity(entityType, position, glm::vec3(0.0), scale);
+  switch (entityType) {
+  case EntityType::EYEBEAST:
+    m_entityManager.addComponent<HealthComponent>(enemyEntity,
+                                                  HealthComponent(200));
+    m_entityManager.addComponent<DamageComponent>(enemyEntity,
+                                                  DamageComponent(40));
+  }
+  m_entityManager.addCollidableEntity(enemyEntity);
+  m_entityManager.addEnemyEntity(enemyEntity);
+  return enemyEntity;
 }
 
 void EntityFactory::createRandomRenderableEntities(EntityType entityType,
@@ -112,6 +131,28 @@ void EntityFactory::createRandomRenderableEntities(EntityType entityType,
         glm::vec3(randomPositionX, randomPositionY, randomPositionZ),
         glm::vec3(randomRotationX, randomRotationY, randomRotationZ),
         glm::vec3(scale));
+  }
+}
+
+void EntityFactory::createRandomEnemyEntities(EntityType entityType,
+                                              unsigned int amount) {
+  CameraComponent &camera = m_entityManager.getCameraComponent();
+  glm::vec3 playerPosition =
+      m_entityManager
+          .getComponent<TransformComponent>(m_entityManager.getPlayerEntity())
+          .getPosition();
+  for (unsigned int i = 0; i < amount; i++) {
+    float offsetX = generateRandomFloat(-2000.0f, 2000.0f);
+    float offsetZ = generateRandomFloat(1000.0f, 2000.0f);
+
+    glm::vec3 enemyPosition =
+        playerPosition - offsetZ * glm::normalize(camera.getCameraForwardVec());
+
+    enemyPosition += offsetX * camera.getCameraSidewayVec();
+
+    enemyPosition.y += generateRandomFloat(50.0f, 100.0f);
+
+    createEnemyEntity(entityType, enemyPosition, glm::vec3(2.0f));
   }
 }
 
