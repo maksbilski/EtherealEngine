@@ -6,7 +6,7 @@ const float WEAPON_RECOIL_ANIMATION_TIME = 0.4f;
 
 const float JUMP_ACCELERATION_TIME = 0.001f;
 
-const float JUMP_STRENGTH = 200.0f;
+const float JUMP_ACCELERATION = 200.0f;
 
 const float GRAVITY_STRENGTH = 400.0f;
 
@@ -68,39 +68,39 @@ void InputSystem::controlButtonsInput() {
   WeaponComponent &currentWeapon =
       m_entityManager.getComponent<WeaponComponent>(
           m_entityManager.getCurrentWeaponEntity());
+  CameraComponent &camera = m_entityManager.getCameraComponent();
 
-  m_entityManager.getCameraComponent().setIfIsMoving(false);
+  TransformComponent &player = m_entityManager.getComponent<TransformComponent>(
+      m_entityManager.getPlayerEntity());
+
+  camera.setIfIsMoving(false);
 
   if (glfwGetKey(m_window, GLFW_KEY_W) == GLFW_PRESS) {
     movementVector +=
-        m_entityManager.getCameraComponent().getMovementForwardVec() *
-        MOVEMENT_SPEED * ONE_FRAME;
-    m_entityManager.getCameraComponent().setIfIsMoving(true);
+        camera.getMovementForwardVec() * MOVEMENT_SPEED * ONE_FRAME;
+    camera.setIfIsMoving(true);
   }
 
   if (glfwGetKey(m_window, GLFW_KEY_S) == GLFW_PRESS) {
     movementVector -=
-        m_entityManager.getCameraComponent().getMovementForwardVec() *
-        MOVEMENT_SPEED * ONE_FRAME;
-    m_entityManager.getCameraComponent().setIfIsMoving(true);
+        camera.getMovementForwardVec() * MOVEMENT_SPEED * ONE_FRAME;
+    camera.setIfIsMoving(true);
   }
 
   if (glfwGetKey(m_window, GLFW_KEY_D) == GLFW_PRESS) {
     movementVector +=
-        m_entityManager.getCameraComponent().getMovementSidewayVec() *
-        MOVEMENT_SPEED * ONE_FRAME;
-    m_entityManager.getCameraComponent().setIfIsMoving(true);
+        camera.getMovementSidewayVec() * MOVEMENT_SPEED * ONE_FRAME;
+    camera.setIfIsMoving(true);
   }
 
   if (glfwGetKey(m_window, GLFW_KEY_A) == GLFW_PRESS) {
     movementVector -=
-        m_entityManager.getCameraComponent().getMovementSidewayVec() *
-        MOVEMENT_SPEED * ONE_FRAME;
-    m_entityManager.getCameraComponent().setIfIsMoving(true);
+        camera.getMovementSidewayVec() * MOVEMENT_SPEED * ONE_FRAME;
+    camera.setIfIsMoving(true);
   }
 
   if (glfwGetKey(m_window, GLFW_KEY_SPACE) == GLFW_PRESS &&
-      m_entityManager.getCameraComponent().getIfIsTouchingGround()) {
+      camera.getIfIsTouchingGround()) {
     m_jumpTimer = JUMP_ACCELERATION_TIME;
   }
   if (glfwGetMouseButton(m_window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
@@ -118,38 +118,28 @@ void InputSystem::controlButtonsInput() {
   }
 
   if (m_jumpTimer > 0.0) {
-    m_jumpVelocity = (JUMP_STRENGTH * (m_jumpTimer / JUMP_ACCELERATION_TIME));
+    m_jumpVelocity =
+        (JUMP_ACCELERATION * (m_jumpTimer / JUMP_ACCELERATION_TIME));
   }
   m_jumpTimer -= ONE_FRAME;
 
   m_jumpVelocity -= GRAVITY_STRENGTH * ONE_FRAME;
 
-  movementVector += m_entityManager.getCameraComponent().getMovementUpVec() *
-                    m_jumpVelocity * ONE_FRAME;
+  movementVector += camera.getMovementUpVec() * m_jumpVelocity * ONE_FRAME;
 
-  m_entityManager
-      .getComponent<TransformComponent>(m_entityManager.getPlayerEntity())
-      .updatePosition(movementVector);
-  m_entityManager.getCameraComponent().setPosition(
-      m_entityManager
-          .getComponent<TransformComponent>(m_entityManager.getPlayerEntity())
-          .getPosition());
+  player.updatePosition(movementVector);
+  camera.setPosition(player.getPosition());
 
-  if (m_entityManager
-          .getComponent<TransformComponent>(m_entityManager.getPlayerEntity())
-          .getPosition()
-          .y < 14.0f) {
-    m_entityManager
-        .getComponent<TransformComponent>(m_entityManager.getPlayerEntity())
-        .setPositionY(14.0f);
+  if (player.getPosition().y < 14.0f) {
+    player.setPositionY(14.0f);
     m_jumpVelocity = 0.0f;
-    m_entityManager.getCameraComponent().setIfIsTouchingGround(true);
+    camera.setIfIsTouchingGround(true);
   } else {
-    m_entityManager.getCameraComponent().setIfIsTouchingGround(false);
+    camera.setIfIsTouchingGround(false);
   }
 
-  m_entityManager.getCameraComponent().computeCameraOrientation();
-  m_entityManager.getCameraComponent().computeWalkVectors();
+  camera.computeCameraOrientation();
+  camera.computeWalkVectors();
 }
 
 void InputSystem::controlWeaponRecoil() {
