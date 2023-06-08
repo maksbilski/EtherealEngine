@@ -4,7 +4,6 @@
 Model::Model(std::string const &filepath, bool gamma)
     : m_GammaCorrection(gamma) {
   loadModel(filepath);
-  calculateBoundingCylinder();
 }
 
 // draws the model, and thus all its meshes
@@ -224,29 +223,52 @@ Cylinder Model::getBoundingCylinder() const {
   }
 }
 
-void Model::calculateBoundingCylinder() {
-  m_boundingCylinder = Cylinder();
-  // Initialize some values
-  m_boundingCylinder->axis = glm::vec3(0.0f, 1.0f, 0.0f); // Just as an example
-  m_boundingCylinder->center = glm::vec3(0.0f);
+Sphere Model::getBoundingSphere() const {
+  if (m_boundingSphere.has_value()) {
+    return m_boundingSphere.value();
+  } else {
+    throw std::runtime_error("Tried to access uninitialized bounding sphere");
+  }
+}
 
-  // Iterate over all meshes and all vertices to calculate the center
+glm::vec3 Model::calculateCenter() const {
+  glm::vec3 center(0.0f);
   int totalVertices = 0;
   for (auto &mesh : m_Meshes) {
     for (auto &vertex : mesh.vertices) {
-      m_boundingCylinder->center += vertex.Position;
+      center += vertex.Position;
       totalVertices++;
     }
   }
-  m_boundingCylinder->center /= static_cast<float>(totalVertices); // Average
+  return center / static_cast<float>(totalVertices); // Average
+}
+
+void Model::calculateBoundingShapesCenters() {
+  m_boundingCylinder = Cylinder();
+  m_boundingSphere = Sphere();
+
+  // Initialize some values
+  m_boundingCylinder->axis = glm::vec3(0.0f, 1.0f, 0.0f); // Just as an example
+
+  // Calculate center
+  glm::vec3 center = calculateCenter();
+  m_boundingCylinder->center = center;
+  m_boundingSphere->center = center;
+}
+
+void Model::calculateBoundingShapes() {
+  // Initialize the bounding shapes
+  calculateBoundingShapesCenters();
 
   // Compute the height and radius
   float maxHeight = -FLT_MAX;
   float minHeight = FLT_MAX;
   float maxRadiusSq = -FLT_MAX;
+  float maxRadiusSqSphere =
+      -FLT_MAX; // to store the maximum radius square for sphere
 
-  for (auto &mesh : m_Meshes) {
-    for (auto &vertex : mesh.vertices) {
+  for (const auto &mesh : m_Meshes) {
+    for (const auto &vertex : mesh.vertices) {
       // Project the vertex onto the cylinder axis
       glm::vec3 projectedVertex =
           glm::dot(vertex.Position - m_boundingCylinder->center,
@@ -263,16 +285,16 @@ void Model::calculateBoundingCylinder() {
       // Determine the distance in the plane perpendicular to the axis
       glm::vec3 radiusVector = vertex.Position - projectedVertex;
       maxRadiusSq = glm::max(maxRadiusSq, glm::dot(radiusVector, radiusVector));
+
+      // Determine the radius of the sphere
+      glm::vec3 sphereRadiusVector = vertex.Position - m_boundingSphere->center;
+      maxRadiusSqSphere = glm::max(
+          maxRadiusSqSphere, glm::dot(sphereRadiusVector, sphereRadiusVector));
     }
   }
 
   m_boundingCylinder->height = maxHeight - minHeight;
   m_boundingCylinder->radius = glm::sqrt(maxRadiusSq);
+  m_boundingSphere->radius =
+      glm::sqrt(maxRadiusSqSphere); // Set the sphere radius
 }
-
-// struct Cylinder {
-// glm::vec3 center;
-// glm::vec3 axis;
-// float radius;
-// float height;
-// };
