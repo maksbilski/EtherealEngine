@@ -76,7 +76,7 @@ Entity EntityFactory::createWeaponEntity(EntityType entityType,
                                                 WeaponComponent());
   m_entityManager.addComponent<SoundComponent>(
       weaponEntity,
-      SoundComponent(m_resourceManager.getSoundBuffer(entityType), 75));
+      SoundComponent(m_resourceManager.getSoundBuffer(entityType), 10));
   m_entityManager.setCurrentWeaponEntity(weaponEntity);
   return weaponEntity;
 }
@@ -92,11 +92,12 @@ Entity EntityFactory::createPlayerEntity(glm::vec3 position, glm::vec3 rotation,
       playerEntity, TransformComponent(position, rotation, scale));
   createWeaponEntity(EntityType::SHOTGUN);
   m_entityManager.addCollidableEntity(playerEntity);
+  return playerEntity;
 }
 
 void EntityFactory::createRandomRenderableEntities(EntityType entityType,
                                                    unsigned int amount) {
-  for (int i = 0; i < amount; i++) {
+  for (unsigned int i = 0; i < amount; i++) {
     float randomPositionX = generateRandomFloat(-2000.0f, 2000.0f);
     float randomPositionY = generateRandomFloat(
         m_entityManager.getCameraComponent().getPosition().y + 200.0f, 2000.0f);

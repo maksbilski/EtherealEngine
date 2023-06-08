@@ -172,7 +172,8 @@ void InputSystem::controlWeaponBobbing(float deltaTime) {
   WeaponComponent &currentWeapon =
       m_entityManager.getComponent<WeaponComponent>(
           m_entityManager.getCurrentWeaponEntity());
-  if (m_entityManager.getCameraComponent().getIfIsMoving()) {
+  if (m_entityManager.getCameraComponent().getIfIsMoving() &&
+      m_entityManager.getCameraComponent().getIfIsTouchingGround()) {
     currentWeapon.updateWeaponBob(WEAPON_BOB_SPEED * deltaTime);
     currentWeapon.setWeaponBobAmount(cos(currentWeapon.getWeaponBob()));
   } else {
