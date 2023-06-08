@@ -20,6 +20,9 @@ public:
   glm::vec3 getScale() const;
 
   void setPosition(glm::vec3 newPosition);
+  void setPositionX(float newXPosition);
+  void setPositionY(float newYPosition);
+  void setPositionZ(float newZPosition);
   void updatePosition(glm::vec3 position);
   void setRotation(glm::vec3 newRotation);
   void setScale(glm::vec3 newScale);

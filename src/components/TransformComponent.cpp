@@ -28,6 +28,18 @@ void TransformComponent::setPosition(glm::vec3 newPosition) {
   m_position = newPosition;
 }
 
+void TransformComponent::setPositionX(float newXPosition) {
+  m_position.x = newXPosition;
+}
+
+void TransformComponent::setPositionY(float newYPosition) {
+  m_position.y = newYPosition;
+}
+
+void TransformComponent::setPositionZ(float newZPosition) {
+  m_position.z = newZPosition;
+}
+
 void TransformComponent::updatePosition(glm::vec3 position) {
   m_position += position;
 }
