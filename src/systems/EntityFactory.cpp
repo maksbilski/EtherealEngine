@@ -40,6 +40,7 @@ Entity EntityFactory::createRenderableEntity(EntityType entityType,
     model = m_resourceManager.getModel(EntityType::EYEBEAST);
     shader = m_resourceManager.getShader(EntityType::EYEBEAST);
     m_entityManager.addCollidableEntity(newEntity);
+    m_entityManager.addTargetableEntity(newEntity);
     break;
   }
 
