@@ -19,6 +19,11 @@ std::shared_ptr<Shader> ResourceManager::getShader(EntityType type) {
   return m_shaders[type];
 }
 
+std::shared_ptr<sf::SoundBuffer>
+ResourceManager::getSoundBuffer(EntityType type) {
+  return m_soundBuffers[type];
+}
+
 unsigned int ResourceManager::getTexture(EntityType type) {
   return m_textures[type];
 }
@@ -33,6 +38,12 @@ void ResourceManager::loadResources() {
                 "resources/shaders/model_loading.fs");
   Shader skyboxShader("resources/shaders/skybox_shader.vs",
                       "resources/shaders/skybox_shader.fs");
+
+  sf::SoundBuffer weaponShotBuffer;
+  weaponShotBuffer.loadFromFile("resources/sounds/shotgun.wav");
+
+  m_soundBuffers[EntityType::SHOTGUN] =
+      std::make_shared<sf::SoundBuffer>(weaponShotBuffer);
 
   m_shaders[EntityType::TERRAIN] = std::make_shared<Shader>(shader);
 

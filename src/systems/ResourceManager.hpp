@@ -3,6 +3,7 @@
 #include "../engine/Model.hpp"
 #include "../engine/Shader.hpp"
 #include "../engine/SkyboxModel.hpp"
+#include <SFML/Audio.hpp>
 #include <map>
 #include <memory>
 #include <vector>
@@ -22,6 +23,8 @@ private:
   std::unordered_map<EntityType, std::shared_ptr<Model>> m_models;
   std::unordered_map<EntityType, std::shared_ptr<Shader>> m_shaders;
   std::unordered_map<EntityType, TextureID> m_textures;
+  std::unordered_map<EntityType, std::shared_ptr<sf::SoundBuffer>>
+      m_soundBuffers;
   std::shared_ptr<SkyboxModel> m_skyboxModel;
 
   void loadResources();
@@ -33,6 +36,7 @@ public:
 
   std::shared_ptr<Model> getModel(EntityType type);
   std::shared_ptr<Shader> getShader(EntityType type);
+  std::shared_ptr<sf::SoundBuffer> getSoundBuffer(EntityType type);
   TextureID getTexture(EntityType type);
   std::shared_ptr<SkyboxModel> getSkyboxModel();
 };
