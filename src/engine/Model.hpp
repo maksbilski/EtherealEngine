@@ -28,6 +28,11 @@ struct Cylinder {
   float height;
 };
 
+struct Sphere {
+  glm::vec3 center;
+  float radius;
+};
+
 class Model {
 public:
   // model data
@@ -43,14 +48,18 @@ public:
   // draws the model, and thus all its meshes
   void Draw(Shader &shader);
   Cylinder getBoundingCylinder() const;
-  void calculateBoundingCylinder();
+  Sphere getBoundingSphere() const;
+  void calculateBoundingBoxes();
+  void calculateBoundingShapes();
 
 private:
   // loads a model with supported ASSIMP extensions from file and stores the
   // resulting meshes in the meshes vector.
   void loadModel(std::string const &path);
   std::optional<Cylinder> m_boundingCylinder;
-
+  std::optional<Sphere> m_boundingSphere;
+  glm::vec3 calculateCenter() const;
+  void calculateBoundingShapesCenters();
   // processes a node in a recursive fashion. Processes each individual mesh
   // located at the node and repeats this process on its children nodes (if
   // any).
