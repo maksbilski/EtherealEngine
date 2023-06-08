@@ -18,6 +18,9 @@ private:
   glm::vec3 m_cameraUpVec;
   glm::vec3 m_cameraLookVec;
 
+  bool m_isTouchingGround;
+  bool m_isMoving;
+
 public:
   CameraComponent(const glm::vec3 &position);
   ~CameraComponent();
@@ -34,6 +37,8 @@ public:
   glm::vec3 getCameraSidewayVec() const;
   glm::vec3 getCameraUpVec() const;
   glm::vec3 getCameraLookVec() const;
+  bool getIfIsTouchingGround() const;
+  bool getIfIsMoving() const;
 
   void setCurrentLookAngleX(float newCurrentLookAngleX);
   void setCurrentLookAngleY(float newCurrentLookAngleX);
@@ -46,4 +51,6 @@ public:
   void setCameraSidewayVec(glm::vec3 newCameraSidewayVec);
   void setCameraUpVec(glm::vec3 newCameraUpVec);
   void setCameraLookVec(glm::vec3 newCameraLookVec);
+  void setIfIsTouchingGround(bool state);
+  void setIfIsMoving(bool state);
 };
