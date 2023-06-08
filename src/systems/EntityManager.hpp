@@ -53,8 +53,6 @@ private:
 
   std::vector<Entity> m_enemyEntities;
 
-  std::vector<Entity> m_targetableEntities;
-
   Entity m_currentWeapon;
 
   Entity m_playerEntity;
@@ -74,7 +72,6 @@ public:
   std::vector<Entity> getEntitesToRender() const;
   std::vector<Entity> getCollidableEntites() const;
   std::vector<Entity> getEnemyEntities() const;
-  std::vector<Entity> getTargetableEntites() const;
 
   void addCameraComponent(CameraComponent cameraComponent);
   void setCurrentWeaponEntity(Entity newEntity);
@@ -83,7 +80,6 @@ public:
   void addComponent(Entity entity, ComponentType component);
 
   void addRenderableEntity(Entity newRenderableEntity);
-  void addTargetableEntity(Entity newTargetableEntity);
   void addCollidableEntity(Entity newCollidableEntity);
   void addSkyboxEntity(Entity newSkyboxEntity);
   void addEnemyEntity(Entity newEnemyEntity);

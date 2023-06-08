@@ -39,7 +39,6 @@ Entity EntityFactory::createRenderableEntity(EntityType entityType,
   case EntityType::EYEBEAST:
     model = m_resourceManager.getModel(EntityType::EYEBEAST);
     shader = m_resourceManager.getShader(EntityType::EYEBEAST);
-    m_entityManager.addTargetableEntity(newEntity);
     break;
   }
 

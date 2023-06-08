@@ -89,8 +89,7 @@ void CollisionSystem::handleCollision(const glm::vec3 &overlap, Entity entity1,
 }
 
 void CollisionSystem::controlRayCollision() {
-  std::vector<Entity> targetableEntities =
-      m_entityManager.getTargetableEntites();
+  std::vector<Entity> enemyEntities = m_entityManager.getEnemyEntities();
 
   glm::vec3 rayOrigin = m_entityManager.getCameraComponent().getPosition();
   glm::vec3 rayDirection = glm::normalize(
@@ -98,7 +97,7 @@ void CollisionSystem::controlRayCollision() {
 
   Ray ray = {rayOrigin, rayDirection}; // Define your ray
 
-  for (Entity entity : targetableEntities) {
+  for (Entity entity : enemyEntities) {
     Sphere sphere = m_entityManager.getComponent<ModelComponent>(entity)
                         .m_model->getBoundingSphere();
 
