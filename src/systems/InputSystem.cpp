@@ -16,6 +16,10 @@ const float MOVEMENT_SPEED = 120.0f;
 
 const float MOUSE_SENSITIVITY = 0.001f;
 
+const float MOVEMENT_SPEED = 120.0f;
+
+const float MOUSE_SENSITIVITY = 0.001f;
+
 InputSystem::InputSystem(GLFWwindow *window, EntityManager &entityManager)
     : m_window(window), m_entityManager(entityManager) {
   m_targetLookAngleX = 0.0f;
