@@ -19,8 +19,12 @@ private:
   void handleCollision(const glm::vec3 &overlap, Entity entity1,
                        Entity entity2) const;
 
+  void controlEntitiesCollision() const;
+
+  // void controlRayCollision() const;
+
 public:
   CollisionSystem(EntityManager &EntityManger);
   ~CollisionSystem();
-  void update() const;
+  void update();
 };
