@@ -6,7 +6,12 @@ CollisionSystem::CollisionSystem(EntityManager &entityManager)
 
 CollisionSystem::~CollisionSystem() {}
 
-void CollisionSystem::update() const {
+void CollisionSystem::update() {
+  controlEntitiesCollision();
+  // controlRayCollision();
+}
+
+void CollisionSystem::controlEntitiesCollision() const {
   std::vector<Entity> collidableEntities =
       m_entityManager.getCollidableEntites();
 
@@ -75,10 +80,8 @@ CollisionSystem::checkCylinderCollision(const Cylinder &cylinder1,
     float verticalDistance = abs(cylinder1.center.y - cylinder2.center.y);
     if (verticalDistance < ((cylinder1.height + cylinder2.height) / 2)) {
       // Calculate overlap
-      glm::vec3 overlap = glm::vec3(
-          cylinder1.radius + cylinder2.radius - horizontalDistance,
-          (cylinder1.height + cylinder2.height) / 2 - verticalDistance,
-          0); // Assuming no overlap in z direction
+      glm::vec3 overlap =
+          distanceVec * 0.15f; // Assuming no overlap in z direction
       return overlap;
     }
   }
@@ -97,3 +100,7 @@ void CollisionSystem::handleCollision(const glm::vec3 &overlap, Entity entity1,
   transform1.setPosition(transform1.getPosition() + overlap / 2.0f);
   transform2.setPosition(transform2.getPosition() - overlap / 2.0f);
 }
+
+// void CollisionSystem::controlRayCollision() const {
+
+// }
