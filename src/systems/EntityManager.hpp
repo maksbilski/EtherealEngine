@@ -100,22 +100,6 @@ ComponentType &EntityManager::getComponent(Entity entity) {
   return *(componentMap[entity]);
 }
 
-// template <typename ComponentType>
-// std::unordered_map<Entity, std::unique_ptr<ComponentType>> &
-// EntityManager::getComponentMap() {
-//   static_assert(std::is_same<ComponentType, ModelComponent>::value ||
-//                     std::is_same<ComponentType, TransformComponent>::value ||
-//                     std::is_same<ComponentType, ShaderComponent>::value ||
-//                     std::is_same<ComponentType, TextureComponent>::value ||
-//                     std::is_same<ComponentType, SkyboxModelComponent>::value,
-//                 "Unsupported component type");
-
-//   throw std::logic_error("Unsupported component type. This line should never
-//   "
-//                          "be executed. It's here to prevent compiler
-//                          errors.");
-// }
-
 template <>
 inline std::unordered_map<Entity, std::unique_ptr<ShaderComponent>> &
 EntityManager::getComponentMap<ShaderComponent>() {
