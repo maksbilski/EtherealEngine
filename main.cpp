@@ -1,4 +1,5 @@
 #include "src/systems/CollisionSystem.hpp"
+#include "src/systems/EnemyAISystem.hpp"
 #include "src/systems/EntityFactory.hpp"
 #include "src/systems/EntityManager.hpp"
 #include "src/systems/InputSystem.hpp"
@@ -65,21 +66,21 @@ int main(void) {
   glm::vec3 scale4 = glm::vec3(3.0);
 
   glm::vec3 position3 = glm::vec3(0.0, 10.0, 0.0);
-  glm::vec3 rotation3 = glm::vec3(0.0, 0.0, 0.0);
   glm::vec3 scale3 = glm::vec3(2.0);
 
   entity_factory.createRenderableEntity(EntityType::TERRAIN, position4,
                                         rotation4, scale4);
   entity_factory.createSkyboxEntity();
   entity_factory.createRandomRenderableEntities(EntityType::FLOATING_ROCK, 200);
-  entity_factory.createRenderableEntity(EntityType::EYEBEAST, position3,
-                                        rotation3, scale3);
+  entity_factory.createRandomEnemyEntities(EntityType::EYEBEAST, 10);
 
   RenderSystem render_system(entity_manager);
 
   InputSystem input_system(window, entity_manager);
 
   CollisionSystem collision_system(entity_manager);
+
+  EnemyAISystem enemy_ai_system(entity_manager);
 
   sf::Music backgroundMusic;
 
@@ -95,6 +96,7 @@ int main(void) {
     // Aktualizacja systemów
     collision_system.update();
     input_system.update();
+    enemy_ai_system.update();
     render_system.update();
 
     // Rendering
