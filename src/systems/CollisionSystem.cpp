@@ -81,7 +81,7 @@ CollisionSystem::checkCylinderCollision(const Cylinder &cylinder1,
     if (verticalDistance < ((cylinder1.height + cylinder2.height) / 2)) {
       // Calculate overlap
       glm::vec3 overlap =
-          distanceVec * 0.15f; // Assuming no overlap in z direction
+          distanceVec * 0.35f; // Assuming no overlap in z direction
       return overlap;
     }
   }
@@ -100,7 +100,3 @@ void CollisionSystem::handleCollision(const glm::vec3 &overlap, Entity entity1,
   transform1.setPosition(transform1.getPosition() + overlap / 2.0f);
   transform2.setPosition(transform2.getPosition() - overlap / 2.0f);
 }
-
-// void CollisionSystem::controlRayCollision() const {
-
-// }

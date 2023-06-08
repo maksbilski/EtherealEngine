@@ -5,8 +5,18 @@ void EntityManager::addCameraComponent(CameraComponent cameraComponent) {
       std::make_unique<CameraComponent>(std::move(cameraComponent));
 }
 
+void EntityManager::addPlayerHealthComponent(
+    PlayerHealthComponent playerHealthComponent) {
+  m_playerHealthComponent =
+      std::make_unique<PlayerHealthComponent>(std::move(playerHealthComponent));
+}
+
 CameraComponent &EntityManager::getCameraComponent() const {
   return *m_cameraComponent;
+}
+
+PlayerHealthComponent &EntityManager::getPlayerHealthComponent() const {
+  return *m_playerHealthComponent;
 }
 
 Entity EntityManager::getCurrentWeaponEntity() const { return m_currentWeapon; }

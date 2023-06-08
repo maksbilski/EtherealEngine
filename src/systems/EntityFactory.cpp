@@ -91,8 +91,7 @@ Entity EntityFactory::createPlayerEntity(glm::vec3 position, glm::vec3 rotation,
       playerEntity, m_resourceManager.getModel(EntityType::PLAYER));
   m_entityManager.addComponent<TransformComponent>(
       playerEntity, TransformComponent(position, rotation, scale));
-  m_entityManager.addComponent<HealthComponent>(playerEntity,
-                                                HealthComponent(200));
+  m_entityManager.addPlayerHealthComponent(PlayerHealthComponent(200));
   createWeaponEntity(EntityType::SHOTGUN);
   m_entityManager.addCollidableEntity(playerEntity);
   return playerEntity;
@@ -104,8 +103,8 @@ Entity EntityFactory::createEnemyEntity(EntityType entityType,
       createRenderableEntity(entityType, position, glm::vec3(0.0), scale);
   switch (entityType) {
   case EntityType::EYEBEAST:
-    m_entityManager.addComponent<HealthComponent>(enemyEntity,
-                                                  HealthComponent(200));
+    m_entityManager.addComponent<EnemyHealthComponent>(
+        enemyEntity, EnemyHealthComponent(200));
     m_entityManager.addComponent<DamageComponent>(enemyEntity,
                                                   DamageComponent(40));
   }

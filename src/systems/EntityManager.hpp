@@ -1,8 +1,9 @@
 #pragma once
 #include "../components/CameraComponent.hpp"
 #include "../components/DamageComponent.hpp"
-#include "../components/HealthComponent.hpp"
+#include "../components/EnemyHealthComponent.hpp"
 #include "../components/ModelComponent.hpp"
+#include "../components/PlayerHealthComponent.hpp"
 #include "../components/ShaderComponent.hpp"
 #include "../components/SkyboxModelComponent.hpp"
 #include "../components/SoundComponent.hpp"
@@ -19,6 +20,8 @@ typedef uint32_t Entity;
 class EntityManager {
 private:
   std::unique_ptr<CameraComponent> m_cameraComponent;
+
+  std::unique_ptr<PlayerHealthComponent> m_playerHealthComponent;
 
   std::unordered_map<Entity, std::unique_ptr<ShaderComponent>>
       m_shaderComponents;
@@ -39,8 +42,8 @@ private:
 
   std::unordered_map<Entity, std::unique_ptr<SoundComponent>> m_soundComponents;
 
-  std::unordered_map<Entity, std::unique_ptr<HealthComponent>>
-      m_healthComponents;
+  std::unordered_map<Entity, std::unique_ptr<EnemyHealthComponent>>
+      m_enemyHealthComponents;
 
   std::unordered_map<Entity, std::unique_ptr<DamageComponent>>
       m_damageComponents;
@@ -66,6 +69,7 @@ public:
   std::unordered_map<Entity, std::unique_ptr<ComponentType>> &getComponentMap();
   template <typename ComponentType> ComponentType &getComponent(Entity entity);
   CameraComponent &getCameraComponent() const;
+  PlayerHealthComponent &getPlayerHealthComponent() const;
   Entity getCurrentWeaponEntity() const;
   Entity getPlayerEntity() const;
   Entity getCurrentSkyboxEntity() const;
@@ -74,6 +78,7 @@ public:
   std::vector<Entity> getEnemyEntities() const;
 
   void addCameraComponent(CameraComponent cameraComponent);
+  void addPlayerHealthComponent(PlayerHealthComponent playerHealthComponent);
   void setCurrentWeaponEntity(Entity newEntity);
   void setPlayerEntity(Entity newPlayerEntity);
   template <typename ComponentType>
@@ -159,9 +164,9 @@ EntityManager::getComponentMap<SoundComponent>() {
 }
 
 template <>
-inline std::unordered_map<Entity, std::unique_ptr<HealthComponent>> &
-EntityManager::getComponentMap<HealthComponent>() {
-  return m_healthComponents;
+inline std::unordered_map<Entity, std::unique_ptr<EnemyHealthComponent>> &
+EntityManager::getComponentMap<EnemyHealthComponent>() {
+  return m_enemyHealthComponents;
 }
 
 template <>
