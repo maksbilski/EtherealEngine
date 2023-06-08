@@ -2,21 +2,21 @@
 #include "../vendor/glm/gtc/quaternion.hpp"
 #include "../vendor/glm/gtx/quaternion.hpp"
 
-const float WEAPON_RECOIL_ANIMATION_TIME = 0.4f;
+const float WEAPON_RECOIL_ANIMATION_TIME = 0.8f;
 
 const float JUMP_ACCELERATION_TIME = 0.001f;
 
-const float JUMP_ACCELERATION = 200.0f;
+const float JUMP_ACCELERATION = 250.0f;
 
 const float GRAVITY_STRENGTH = 400.0f;
 
-const float WEAPON_BOB_SPEED = 20.0f;
+const float WEAPON_BOB_SPEED = 10.0f;
 
-const float MOVEMENT_SPEED = 350.0f;
+const float MOVEMENT_SPEED = 200.0f;
 
 const float MOUSE_SENSITIVITY = 0.001f;
 
-const float ONE_FRAME = 1.0f / 144.0f;
+const float ONE_FRAME = 1.0f / 70.0f;
 
 InputSystem::InputSystem(GLFWwindow *window, EntityManager &entityManager)
     : m_window(window), m_entityManager(entityManager) {
