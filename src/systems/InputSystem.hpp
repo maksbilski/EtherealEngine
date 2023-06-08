@@ -19,11 +19,13 @@ private:
   float m_mouseSensitivity;
 
   float m_jumpTimer;
+  float m_gravity;
 
 public:
   InputSystem(GLFWwindow *window, EntityManager &entityManager);
   void update(float deltaTime);
-  void controlMouseInput(float deltaTime);
+  void controlMouseInput();
   void controlButtonsInput(float deltaTime);
   void controlWeaponRecoil(float deltaTime);
+  void controlWeaponBobbing(float deltaTime);
 };
