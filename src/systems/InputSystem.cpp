@@ -16,6 +16,8 @@ const float MOVEMENT_SPEED = 120.0f;
 
 const float MOUSE_SENSITIVITY = 0.001f;
 
+const float ONE_FRAME = 1.0f / 60.0f;
+
 InputSystem::InputSystem(GLFWwindow *window, EntityManager &entityManager)
     : m_window(window), m_entityManager(entityManager) {
   m_targetLookAngleX = 0.0f;
@@ -120,10 +122,10 @@ void InputSystem::controlButtonsInput(float deltaTime) {
   }
   m_jumpTimer -= deltaTime;
 
-  m_jumpVelocity -= GRAVITY_STRENGTH * deltaTime;
+  m_jumpVelocity -= GRAVITY_STRENGTH * ONE_FRAME;
 
   movementVector += m_entityManager.getCameraComponent().getMovementUpVec() *
-                    m_jumpVelocity * deltaTime;
+                    m_jumpVelocity * ONE_FRAME;
 
   m_entityManager
       .getComponent<TransformComponent>(m_entityManager.getPlayerEntity())
