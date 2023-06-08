@@ -12,13 +12,17 @@ const float GRAVITY_STRENGTH = 200.0f;
 
 const float WEAPON_BOB_SPEED = 9.0f;
 
+const float MOVEMENT_SPEED = 120.0f;
+
+const float MOUSE_SENSITIVITY = 0.001f;
+
 InputSystem::InputSystem(GLFWwindow *window, EntityManager &entityManager)
     : m_window(window), m_entityManager(entityManager) {
   m_targetLookAngleX = 0.0f;
   m_targetLookAngleY = 0.0f;
 
-  m_mouseSensitivity = 0.001f;
-  m_movementSpeed = 120.0f;
+  m_mouseSensitivity = MOUSE_SENSITIVITY;
+  m_movementSpeed = MOVEMENT_SPEED;
   m_jumpTimer = 0.0f;
   m_gravity = 0.0f;
 
