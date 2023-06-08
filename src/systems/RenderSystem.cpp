@@ -6,6 +6,8 @@
 #include "../components/TransformComponent.hpp"
 #include "../vendor/glm/gtc/matrix_transform.hpp"
 
+const float WEAPON_BOB_AMOUNT = 1.0f;
+
 RenderSystem::RenderSystem(EntityManager &entityManager)
     : m_entityManager(entityManager) {
   float fov = glm::radians(45.0f);
@@ -107,6 +109,19 @@ void RenderSystem::updateWeaponTransformMatrix() {
                             m_entityManager.getCurrentWeaponEntity())
                         .getWeaponRecoilAmount() *
                     0.6f;
+  weaponPosition +=
+      (m_entityManager.getCameraComponent().getCameraSidewayVec() *
+       m_entityManager
+           .getComponent<WeaponComponent>(
+               m_entityManager.getCurrentWeaponEntity())
+           .getWeaponBobAmount() *
+       WEAPON_BOB_AMOUNT) -
+      (m_entityManager.getCameraComponent().getCameraUpVec() *
+       abs(m_entityManager
+               .getComponent<WeaponComponent>(
+                   m_entityManager.getCurrentWeaponEntity())
+               .getWeaponBobAmount()) *
+       WEAPON_BOB_AMOUNT);
 
   glm::mat4 weaponTransformMatrix;
   weaponTransformMatrix[0] = glm::vec4(
@@ -125,7 +140,7 @@ void RenderSystem::updateWeaponTransformMatrix() {
                        .getComponent<WeaponComponent>(
                            m_entityManager.getCurrentWeaponEntity())
                        .getWeaponRecoilAmount() *
-                   -30.0f),
+                   -25.0f),
                   glm::vec3(1.0, 0.0, 0.0));
 
   m_weaponTransformMatrix = weaponTransformMatrix;
