@@ -60,7 +60,7 @@ int main(void) {
   ResourceManager resource_manager;
   EntityManager entity_manager;
   EntityFactory entity_factory(entity_manager, resource_manager);
-  entity_factory.createPlayerEntity(glm::vec3(0.0, 10.0, 20.0), glm::vec3(0.0),
+  entity_factory.createPlayerEntity(glm::vec3(0.0, 14.0, 20.0), glm::vec3(0.0),
                                     glm::vec3(1.0));
 
   glm::vec3 position4 = glm::vec3(0.0, 0.0, 0.0);
@@ -83,6 +83,14 @@ int main(void) {
   InputSystem input_system(window, entity_manager);
 
   CollisionSystem collision_system(entity_manager);
+
+  sf::Music backgroundMusic;
+
+  if (!backgroundMusic.openFromFile("resources/sounds/music.wav"))
+    std::cout << "Error! Music not opened!" << std::endl;
+
+  backgroundMusic.setLoop(true);
+  backgroundMusic.play();
 
   while (!glfwWindowShouldClose(window)) {
     float currentFrame = static_cast<float>(glfwGetTime());
