@@ -120,7 +120,7 @@ void InputSystem::controlButtonsInput(float deltaTime) {
   if (m_jumpTimer > 0.0) {
     m_jumpVelocity = (JUMP_STRENGTH * (m_jumpTimer / JUMP_ACCELERATION_TIME));
   }
-  m_jumpTimer -= deltaTime;
+  m_jumpTimer -= ONE_FRAME;
 
   m_jumpVelocity -= GRAVITY_STRENGTH * ONE_FRAME;
 
