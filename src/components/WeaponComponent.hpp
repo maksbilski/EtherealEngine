@@ -10,6 +10,8 @@ private:
   bool m_triggerPressed;
   float m_weaponRecoilTime;
   float m_weaponRecoilAmount;
+  float m_weaponBob;
+  float m_weaponBobAmount;
 
 public:
   WeaponComponent();
@@ -18,6 +20,8 @@ public:
   bool hasWeaponRecoilFinished() const;
   float getWeaponRecoilTime() const;
   float getWeaponRecoilAmount() const;
+  float getWeaponBob() const;
+  float getWeaponBobAmount() const;
 
   void setIfWeaponRecoilFinished(bool state);
   void setIfTriggerPressed(bool state);
@@ -25,4 +29,7 @@ public:
   void updateRecoilTime(float deltaTime);
   void setWeaponPosition(glm::vec3 newPosition);
   void setWeaponRecoilAmount(float newRecoilAmount);
+  void setWeaponBob(float newWeaponBob);
+  void updateWeaponBob(float updateValue);
+  void setWeaponBobAmount(float newWeaponBobAmount);
 };

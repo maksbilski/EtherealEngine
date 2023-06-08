@@ -7,6 +7,8 @@ WeaponComponent::WeaponComponent() {
   m_triggerPressed = false;
   m_weaponRecoilTime = WEAPON_ANIMATION_TIME;
   m_weaponRecoilAmount = 0.0f;
+  m_weaponBob = 0.0f;
+  m_weaponBobAmount = 0.0f;
 }
 
 glm::vec3 WeaponComponent::getWeaponPosition() const { return m_position; }
@@ -24,6 +26,10 @@ float WeaponComponent::getWeaponRecoilTime() const {
 float WeaponComponent::getWeaponRecoilAmount() const {
   return m_weaponRecoilAmount;
 }
+
+float WeaponComponent::getWeaponBob() const { return m_weaponBob; }
+
+float WeaponComponent::getWeaponBobAmount() const { return m_weaponBobAmount; }
 
 void WeaponComponent::setWeaponPosition(glm::vec3 newPosition) {
   m_position = newPosition;
@@ -47,4 +53,16 @@ void WeaponComponent::updateRecoilTime(float deltaTime) {
 
 void WeaponComponent::setWeaponRecoilAmount(float newRecoilAmount) {
   m_weaponRecoilAmount = newRecoilAmount;
+}
+
+void WeaponComponent::setWeaponBob(float newWeaponBob) {
+  m_weaponBob = newWeaponBob;
+}
+
+void WeaponComponent::updateWeaponBob(float updateValue) {
+  m_weaponBob += updateValue;
+}
+
+void WeaponComponent::setWeaponBobAmount(float newWeaponBobAmount) {
+  m_weaponBobAmount = newWeaponBobAmount;
 }
