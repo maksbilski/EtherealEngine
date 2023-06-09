@@ -11,7 +11,7 @@ private:
 public:
   TextureComponent(TextureID texture) : m_texture(texture){};
 
-  void setTexture(TextureID newTexture) { m_texture = newTexture; };
+  void setTexture(TextureID newTexture);
 
-  TextureID getTextureID() const { return m_texture; };
+  TextureID getTextureID() const;
 };

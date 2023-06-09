@@ -9,5 +9,5 @@ public:
 
   ShaderComponent(std::shared_ptr<Shader> shader) : m_shader(shader){};
 
-  void setShader(Shader *newShader) { m_shader.reset(newShader); }
+  void setShader(Shader *newShader);
 };
