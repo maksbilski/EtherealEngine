@@ -130,10 +130,6 @@ void ResourceManager::loadSounds() {
       std::make_shared<std::vector<sf::SoundBuffer>>(playerSoundBuffers);
 
   std::vector<sf::SoundBuffer> enemySoundBuffers;
-  sf::SoundBuffer enemyDeath;
-  enemyDeath.loadFromFile("resources/sounds/enemydeath.wav");
-  enemySoundBuffers.push_back(enemyDeath);
-
   sf::SoundBuffer enemyDamage1;
   enemyDamage1.loadFromFile("resources/sounds/enemydamage1.wav");
   enemySoundBuffers.push_back(enemyDamage1);

@@ -43,7 +43,7 @@ void HealthSystem::updatePlayerHealth() {
     m_entityManager
         .getComponent<SoundComponent>(m_entityManager.getPlayerEntity())
         .playRandomSound();
-    player.setNextDamageTime(1.0f);
+    player.setNextDamageTime(1.5f);
     player.setIfIsHit(false);
   }
 }
