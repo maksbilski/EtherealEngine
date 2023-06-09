@@ -3,12 +3,14 @@
 #include <memory>
 class SoundComponent {
 private:
-  std::shared_ptr<sf::SoundBuffer> m_soundBuffer;
+  std::shared_ptr<std::vector<sf::SoundBuffer>> m_soundBuffers;
   sf::Sound m_sound;
   unsigned int m_volume;
 
 public:
-  SoundComponent(std::shared_ptr<sf::SoundBuffer> soundBuffer,
+  SoundComponent(std::shared_ptr<std::vector<sf::SoundBuffer>> soundBuffers,
                  unsigned int volume = 100);
   void playSound();
+  void playRandomSound();
+  int getRandomInt(int upperBound) const;
 };
