@@ -75,9 +75,7 @@ Entity EntityFactory::createWeaponEntity(EntityType entityType,
                                                 WeaponComponent());
   m_entityManager.addComponent<SoundComponent>(
       weaponEntity,
-      SoundComponent(m_resourceManager.getSoundBuffer(entityType), 50));
-  m_entityManager.addComponent<DamageComponent>(weaponEntity,
-                                                DamageComponent(100));
+      SoundComponent(m_resourceManager.getSoundBuffers(entityType), 50));
   m_entityManager.setCurrentWeaponEntity(weaponEntity);
   return weaponEntity;
 }
@@ -92,6 +90,8 @@ Entity EntityFactory::createPlayerEntity(glm::vec3 position, glm::vec3 rotation,
   m_entityManager.addComponent<TransformComponent>(
       playerEntity, TransformComponent(position, rotation, scale));
   m_entityManager.addPlayerHealthComponent(PlayerHealthComponent(200));
+  m_entityManager.addComponent<SoundComponent>(
+      playerEntity, m_resourceManager.getSoundBuffers(EntityType::PLAYER));
   createWeaponEntity(EntityType::SHOTGUN);
   m_entityManager.addCollidableEntity(playerEntity);
   return playerEntity;
@@ -101,13 +101,15 @@ Entity EntityFactory::createEnemyEntity(EntityType entityType,
                                         glm::vec3 position, glm::vec3 scale) {
   Entity enemyEntity =
       createRenderableEntity(entityType, position, glm::vec3(0.0), scale);
+  int health;
+  std::shared_ptr<std::vector<sf::SoundBuffer>> soundBuffers;
   switch (entityType) {
   case EntityType::EYEBEAST:
-    m_entityManager.addComponent<EnemyHealthComponent>(
-        enemyEntity, EnemyHealthComponent(200));
-    m_entityManager.addComponent<DamageComponent>(enemyEntity,
-                                                  DamageComponent(40));
+    health = 200;
+    soundBuffers = m_resourceManager.getSoundBuffers(entityType);
   }
+  m_entityManager.addComponent<EnemyHealthComponent>(enemyEntity, health);
+  m_entityManager.addComponent<SoundComponent>(enemyEntity, soundBuffers);
   m_entityManager.addCollidableEntity(enemyEntity);
   m_entityManager.addEnemyEntity(enemyEntity);
   return enemyEntity;
