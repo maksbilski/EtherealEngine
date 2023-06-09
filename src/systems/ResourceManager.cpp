@@ -19,8 +19,8 @@ std::shared_ptr<Shader> ResourceManager::getShader(EntityType type) {
   return m_shaders[type];
 }
 
-std::shared_ptr<sf::SoundBuffer>
-ResourceManager::getSoundBuffer(EntityType type) {
+std::shared_ptr<std::vector<sf::SoundBuffer>>
+ResourceManager::getSoundBuffers(EntityType type) {
   return m_soundBuffers[type];
 }
 
@@ -33,17 +33,16 @@ std::shared_ptr<SkyboxModel> ResourceManager::getSkyboxModel() {
 }
 
 void ResourceManager::loadResources() {
+  loadShaders();
+  loadModels();
+  loadSounds();
+}
 
+void ResourceManager::loadShaders() {
   Shader shader("resources/shaders/model_loading.vs",
                 "resources/shaders/model_loading.fs");
   Shader skyboxShader("resources/shaders/skybox_shader.vs",
                       "resources/shaders/skybox_shader.fs");
-
-  sf::SoundBuffer weaponShotBuffer;
-  weaponShotBuffer.loadFromFile("resources/sounds/shotgun.wav");
-
-  m_soundBuffers[EntityType::SHOTGUN] =
-      std::make_shared<sf::SoundBuffer>(weaponShotBuffer);
 
   m_shaders[EntityType::TERRAIN] = std::make_shared<Shader>(shader);
 
@@ -54,7 +53,9 @@ void ResourceManager::loadResources() {
   m_shaders[EntityType::SKYBOX] = std::make_shared<Shader>(skyboxShader);
 
   m_shaders[EntityType::EYEBEAST] = std::make_shared<Shader>(shader);
+}
 
+void ResourceManager::loadModels() {
   m_models[EntityType::PLAYER] =
       std::make_shared<Model>("resources/models/player/player.obj");
 
@@ -81,6 +82,80 @@ void ResourceManager::loadResources() {
   m_textures[EntityType::SKYBOX] = loadCubemap(faces);
 
   m_skyboxModel = std::make_shared<SkyboxModel>();
+}
+
+void ResourceManager::loadSounds() {
+  std::vector<sf::SoundBuffer> weaponSoundBuffers;
+  sf::SoundBuffer weaponShotBuffer;
+  weaponShotBuffer.loadFromFile("resources/sounds/shotgun.wav");
+  weaponSoundBuffers.push_back(weaponShotBuffer);
+
+  m_soundBuffers[EntityType::SHOTGUN] =
+      std::make_shared<std::vector<sf::SoundBuffer>>(weaponSoundBuffers);
+
+  std::vector<sf::SoundBuffer> playerSoundBuffers;
+
+  sf::SoundBuffer playerDamage1;
+  playerDamage1.loadFromFile("resources/sounds/damage1.wav");
+  playerSoundBuffers.push_back(playerDamage1);
+
+  sf::SoundBuffer playerDamage2;
+  playerDamage2.loadFromFile("resources/sounds/damage2.wav");
+  playerSoundBuffers.push_back(playerDamage2);
+
+  sf::SoundBuffer playerDamage3;
+  playerDamage3.loadFromFile("resources/sounds/damage3.wav");
+  playerSoundBuffers.push_back(playerDamage3);
+
+  sf::SoundBuffer playerDamage4;
+  playerDamage4.loadFromFile("resources/sounds/damage4.wav");
+  playerSoundBuffers.push_back(playerDamage4);
+
+  sf::SoundBuffer playerDamage5;
+  playerDamage5.loadFromFile("resources/sounds/damage5.wav");
+  playerSoundBuffers.push_back(playerDamage5);
+
+  sf::SoundBuffer playerDamage6;
+  playerDamage6.loadFromFile("resources/sounds/damage6.wav");
+  playerSoundBuffers.push_back(playerDamage6);
+
+  sf::SoundBuffer playerDamage7;
+  playerDamage7.loadFromFile("resources/sounds/damage7.wav");
+  playerSoundBuffers.push_back(playerDamage7);
+
+  sf::SoundBuffer playerDamage8;
+  playerDamage8.loadFromFile("resources/sounds/damage8.wav");
+  playerSoundBuffers.push_back(playerDamage8);
+  m_soundBuffers[EntityType::PLAYER] =
+      std::make_shared<std::vector<sf::SoundBuffer>>(playerSoundBuffers);
+
+  std::vector<sf::SoundBuffer> enemySoundBuffers;
+  sf::SoundBuffer enemyDeath;
+  enemyDeath.loadFromFile("resources/sounds/enemydeath.wav");
+  enemySoundBuffers.push_back(enemyDeath);
+
+  sf::SoundBuffer enemyDamage1;
+  enemyDamage1.loadFromFile("resources/sounds/enemydamage1.wav");
+  enemySoundBuffers.push_back(enemyDamage1);
+
+  sf::SoundBuffer enemyDamage2;
+  enemyDamage2.loadFromFile("resources/sounds/enemydamage2.wav");
+  enemySoundBuffers.push_back(enemyDamage2);
+
+  sf::SoundBuffer enemyDamage3;
+  enemyDamage3.loadFromFile("resources/sounds/enemydamage3.wav");
+  enemySoundBuffers.push_back(enemyDamage3);
+
+  sf::SoundBuffer enemyDamage4;
+  enemyDamage4.loadFromFile("resources/sounds/enemydamage4.wav");
+  enemySoundBuffers.push_back(enemyDamage4);
+
+  sf::SoundBuffer enemyDamage5;
+  enemyDamage5.loadFromFile("resources/sounds/enemydamage5.wav");
+  enemySoundBuffers.push_back(enemyDamage5);
+
+  m_soundBuffers[EntityType::EYEBEAST] =
+      std::make_shared<std::vector<sf::SoundBuffer>>(enemySoundBuffers);
 }
 
 unsigned int ResourceManager::loadCubemap(std::vector<std::string> faces) {
