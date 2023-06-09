@@ -1,4 +1,5 @@
 #include "EnemyHealthComponent.hpp"
+#include <iostream>
 
 EnemyHealthComponent::EnemyHealthComponent(int maxHealth)
     : m_maxHealth(maxHealth) {
@@ -17,7 +18,6 @@ bool EnemyHealthComponent::isOnCrosshair() const { return m_isOnCrosshair; }
 
 void EnemyHealthComponent::updateCurrentHealth(int value) {
   m_currentHealth += value;
-
   if (m_currentHealth > m_maxHealth) {
     m_currentHealth = m_maxHealth;
   } else if (m_currentHealth <= 0) {

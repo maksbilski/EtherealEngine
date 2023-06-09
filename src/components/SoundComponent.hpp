@@ -12,5 +12,6 @@ public:
                  unsigned int volume = 100);
   void playSound();
   void playRandomSound();
+  void playZeroSound();
   int getRandomInt(int lowerBound, int upperBound) const;
 };
