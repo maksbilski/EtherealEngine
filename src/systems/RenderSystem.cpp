@@ -22,67 +22,57 @@ RenderSystem::~RenderSystem() {}
 void RenderSystem::update() {
   updateWeaponTransformMatrix();
   updateViewMatrix();
-  for (auto entity : m_entityManager.getEntitesToRender()) {
+  for (const auto &entity : m_entityManager.getEntitesToRender()) {
     renderModel(entity);
   }
   renderSkybox(m_entityManager.getCurrentSkyboxEntity());
 }
 
-void RenderSystem::renderModel(Entity entity) {
-  // Retrieve components
-  auto entity_model =
+void RenderSystem::renderModel(const Entity &entity) const {
+  auto entityModel =
       m_entityManager.getComponent<ModelComponent>(entity).m_model;
-  auto entity_shader =
+  auto entityShader =
       m_entityManager.getComponent<ShaderComponent>(entity).m_shader;
-  auto transform = m_entityManager.getComponent<TransformComponent>(entity);
+  auto transformComponent =
+      m_entityManager.getComponent<TransformComponent>(entity);
 
-  glm::mat4 model;
-  glm::mat4 view;
+  glm::mat4 modelMatrix;
+  glm::mat4 viewMatrix;
 
   if (entity == m_entityManager.getCurrentWeaponEntity()) {
-    model = m_weaponTransformMatrix;
-    view = m_viewMatrix;
-    view[3] = glm::vec4(0.0, 0.0, 0.0, 1.0);
+    modelMatrix = m_weaponTransformMatrix;
+    viewMatrix = m_viewMatrix;
+    viewMatrix[3] = glm::vec4(0.0, 0.0, 0.0, 1.0);
   } else {
-    model = transform.createTransformMatrix();
-    view = m_viewMatrix;
+    modelMatrix = transformComponent.createTransformMatrix();
+    viewMatrix = m_viewMatrix;
   }
-  entity_shader->use();
-  // Create MVP
-  // Set the MVP matrix in the shader program
-  entity_shader->setMat4("projection", m_projectionMatrix);
-  entity_shader->setMat4("view", m_viewMatrix);
-  entity_shader->setMat4("model", model);
+  setupShader(entityShader, modelMatrix);
 
-  // Now draw the model
-  entity_model->Draw(*entity_shader);
+  entityModel->draw(*entityShader);
 }
 
-void RenderSystem::renderSkybox(Entity renderedSkyboxEntity) {
-  auto skybox_shader =
+void RenderSystem::renderSkybox(const Entity &renderedSkyboxEntity) const {
+  auto skyboxShader =
       m_entityManager.getComponent<ShaderComponent>(renderedSkyboxEntity)
           .m_shader;
-  auto skybox_model =
+  auto skyboxModel =
       m_entityManager.getComponent<SkyboxModelComponent>(renderedSkyboxEntity)
           .m_skyboxModel;
-  auto skybox_texture =
+  auto skyboxTexture =
       m_entityManager.getComponent<TextureComponent>(renderedSkyboxEntity)
           .getTextureID();
-  glDepthFunc(GL_LEQUAL); // change depth function so depth test passes when
-                          // values are equal to depth buffer's content
+  glDepthFunc(GL_LEQUAL);
 
   glm::vec3 cameraPos = m_entityManager.getCameraComponent().getPosition();
-  float scaleSize = 1000.0f; // Adjust as needed for your skybox size
+  float scaleSize = 1000.0f;
 
-  glm::mat4 model = glm::mat4(1.0f);        // Initialize to identity
-  model = glm::translate(model, cameraPos); // Translate to camera position
-  model = glm::scale(model, glm::vec3(scaleSize)); // Scale to a large size
-  skybox_shader->use();
-  skybox_shader->setMat4("model", model);
-  skybox_shader->setMat4("view", m_viewMatrix);
-  skybox_shader->setMat4("projection", m_projectionMatrix);
+  glm::mat4 model = glm::mat4(1.0f);
+  model = glm::translate(model, cameraPos);
+  model = glm::scale(model, glm::vec3(scaleSize));
+  setupShader(skyboxShader, model);
 
-  skybox_model->draw(skybox_model->getSkyboxVAOid(), skybox_texture);
+  skyboxModel->draw(skyboxModel->getSkyboxVAOid(), skyboxTexture);
 };
 
 void RenderSystem::updateViewMatrix() {
@@ -145,3 +135,11 @@ void RenderSystem::updateWeaponTransformMatrix() {
 
   m_weaponTransformMatrix = weaponTransformMatrix;
 }
+
+void RenderSystem::setupShader(std::shared_ptr<Shader> &shader,
+                               const glm::mat4 &modelMatrix) const {
+  shader->use();
+  shader->setMat4("model", modelMatrix);
+  shader->setMat4("view", m_viewMatrix);
+  shader->setMat4("projection", m_projectionMatrix);
+};
