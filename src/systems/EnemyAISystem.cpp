@@ -2,7 +2,7 @@
 
 const float ENEMY_MOVEMENT_SPEED = 175.0f;
 
-const float ONE_FRAME = 1.0f / 160.0f;
+const float ONE_FRAME = 1.0f / 70.0f;
 
 EnemyAISystem::EnemyAISystem(EntityManager &entityManager)
     : m_entityManager(entityManager) {}

@@ -36,7 +36,7 @@ int main(void) {
     return -1;
   }
 
-  window = glfwCreateWindow(900, 600, "Game", NULL, NULL);
+  window = glfwCreateWindow(1920, 1080, "Game", NULL, NULL);
   if (!window) {
     glfwTerminate();
     return -1;
@@ -58,7 +58,7 @@ int main(void) {
   ResourceManager resourceManager;
   EntityManager entityManager;
   EntityFactory entityFactory(entityManager, resourceManager);
-  entityFactory.createPlayerEntity(glm::vec3(0.0, 14.0, 20.0), glm::vec3(0.0),
+  entityFactory.createPlayerEntity(glm::vec3(0.0, 14.0, 0.0), glm::vec3(0.0),
                                    glm::vec3(1.0));
 
   glm::vec3 terrainPosition = glm::vec3(0.0, 0.0, 0.0);
@@ -69,7 +69,6 @@ int main(void) {
                                        terrainRotation, terrainScale);
   entityFactory.createSkyboxEntity();
   entityFactory.createRandomRenderableEntities(EntityType::FLOATING_ROCK, 200);
-  entityFactory.createRandomEnemyEntities(EntityType::EYEBEAST, 2);
 
   RenderSystem renderSystem(entityManager);
 

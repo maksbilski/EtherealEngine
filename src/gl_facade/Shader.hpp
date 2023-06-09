@@ -9,6 +9,28 @@
 #include <string>
 
 class Shader {
+  /**
+   * @class Shader
+   * @brief Represents a shader program used for rendering.
+   *
+   * The Shader class encapsulates the functionality of a shader program used
+   * for rendering in OpenGL. It provides methods to load and use shader
+   * programs, as well as set uniform values for the shaders.
+   *
+   * The class requires paths to vertex and fragment shader files for
+   * initialization. Optionally, a geometry shader path can be provided as well.
+   *
+   * The class provides methods to activate and use the shader program for
+   * rendering. It also includes methods to set various types of uniform values,
+   * such as booleans, integers, floats, vectors (2D, 3D, and 4D), and matrices
+   * (2x2, 3x3, and 4x4).
+   *
+   * Note: The class assumes the usage of the GLEW library for OpenGL-related
+   * functionality. It relies on the glm library for mathematical operations and
+   * matrix transformations. The shader files are expected to be written in GLSL
+   * (OpenGL Shading Language).
+   */
+
 public:
   unsigned int m_ID;
   Shader(const char *vertexPath, const char *fragmentPath,

@@ -10,6 +10,32 @@ struct Ray {
 };
 
 class CollisionSystem {
+  /**
+   * @class CollisionSystem
+   * @brief Manages collision detection and response for entities in a game.
+   *
+   * The CollisionSystem class handles collision detection and response between
+   * entities in a game. It utilizes the EntityManager to access and manipulate
+   * entities.
+   *
+   * The class provides methods to update the collision system, which performs
+   * collision detection and response calculations. It supports physical
+   * collision between entities represented by cylinders and ray collision, if
+   * the player targets the collidable entity represented by sphere.
+   *
+   * The collision system transforms the cylinder and sphere bounding shapes of
+   * entities based on their position and scale. It checks for collisions
+   * and handles the resulting collision response by resolving overlaps.
+   * Additionally, the system handles collisions between rays and spheres,
+   * updating the rays and detecting hits.
+   *
+   * The update method should be called regularly to perform collision detection
+   * and response calculations.
+   *
+   * Note: The class assumes the usage of the glm library for mathematical
+   * operations.
+   */
+
 private:
   EntityManager &m_entityManager;
 

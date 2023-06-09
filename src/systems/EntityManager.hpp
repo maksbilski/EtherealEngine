@@ -17,6 +17,29 @@
 typedef uint32_t Entity;
 
 class EntityManager {
+  /**
+   * @class EntityManager
+   * @brief Manages entities and their components in a game engine.
+   *
+   * The EntityManager class is responsible for managing entities and their
+   * components in a game engine. It provides methods to add and retrieve
+   * various components for entities, such as CameraComponent,
+   * PlayerHealthComponent, ShaderComponent, ModelComponent, TransformComponent,
+   * WeaponComponent, SkyboxModelComponent, TextureComponent, SoundComponent,
+   * and EnemyHealthComponent.
+   *
+   * The class maintains several unordered maps to store the components
+   * associated with each entity. It also tracks lists of renderable entities,
+   * skybox entities, collidable entities, and enemy entities.
+   *
+   * The EntityManager allows adding and retrieving components for entities.
+   * It provides methods to access the CameraComponent and PlayerHealthComponent
+   * for the game. Methods are also available to retrieve the current weapon
+   * entity, player entity, and skybox entity. Additionally, the class provides
+   * methods to obtain lists of entities to render, collidable entities, and
+   * enemy entities.
+   */
+
 private:
   std::unique_ptr<CameraComponent> m_cameraComponent;
 

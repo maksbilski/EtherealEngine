@@ -4,6 +4,18 @@
 #include "../../vendor/glm/gtx/rotate_vector.hpp"
 
 class CameraComponent {
+  /**
+   * @class CameraComponent
+   * @brief Represents a camera component for a 3D scene.
+   *
+   * The CameraComponent class manages the position, movement, and orientation
+   * of a camera in a 3D scene. It provides methods to compute movement vectors,
+   * update the camera's position, and set its orientation. The camera's
+   * position is represented by a 3D vector, and its orientation is defined by
+   * three orthogonal vectors: the forward vector, the sideway vector, and the
+   * up vector. The camera component also tracks whether the camera is touching
+   * the ground and whether it is currently moving.
+   */
 private:
   float m_currentLookAngleX;
   float m_currentLookAngleY;

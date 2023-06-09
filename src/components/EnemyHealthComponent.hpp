@@ -1,6 +1,20 @@
 #pragma once
 
 class EnemyHealthComponent {
+  /**
+   * @class EnemyHealthComponent
+   * @brief Represents a health component for an enemy character.
+   *
+   * The EnemyHealthComponent class manages the health and state of an enemy
+   * character in a game. It provides methods to update the current health,
+   * retrieve the maximum health, current health, and other state information.
+   * The current health is represented as an integer value, and the maximum
+   * health is also an integer value. The component tracks whether the enemy is
+   * alive, whether it is on the player's crosshair, and the distance from the
+   * player. The distance from the player is used to calculate the damage that
+   * the player deals to the enemy. The "is on crosshair" state indicates that a
+   * ray collision has occurred between the player's crosshair and enemy.
+   */
 private:
   int m_maxHealth;
   int m_currentHealth;

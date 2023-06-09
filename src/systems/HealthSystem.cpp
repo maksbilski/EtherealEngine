@@ -2,7 +2,7 @@
 
 const float MAX_DAMAGE_DISTANCE = 250.0f;
 const float MIN_DAMAGE_DISTANCE = 130.0f;
-const float ONE_FRAME = 1.0f / 160.0f;
+const float ONE_FRAME = 1.0f / 70.0f;
 
 HealthSystem::HealthSystem(EntityManager &entityManager)
     : m_entityManager(entityManager) {}

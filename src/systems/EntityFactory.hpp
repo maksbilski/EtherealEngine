@@ -4,6 +4,33 @@
 #include "ResourceManager.hpp"
 
 class EntityFactory {
+  /**
+   * @class EntityFactory
+   * @brief Provides functionality to create entities in a game.
+   *
+   * The EntityFactory class is responsible for creating entities in a game.
+   * It utilizes the EntityManager and ResourceManager to manage entities and
+   * resources.
+   *
+   * The class provides methods to create different types of entities, such as
+   * renderable entities, weapon entities, player entities, enemy entities, and
+   * skybox entities. It also includes methods to create multiple entities at
+   * once.
+   *
+   * The createRenderableEntity method creates a renderable entity of the
+   * specified entity type, with the given position, rotation, and scale. The
+   * createWeaponEntity method creates a weapon entity of the specified entity
+   * type, with the given scale. The createPlayerEntity method creates a player
+   * entity with the specified position, rotation, and scale. The
+   * createEnemyEntity method creates an enemy entity of the specified entity
+   * type, with the given position and scale. The createSkyboxEntity method
+   * creates a skybox entity. The createRandomRenderableEntities method creates
+   * a specified amount of random renderable entities of the specified entity
+   * type. The createRandomEnemyEntities method creates a specified amount of
+   * random enemy entities of the specified entity type. The generateRandomFloat
+   * method generates a random floating-point number within the specified range.
+   */
+
 private:
   EntityManager &m_entityManager;
   ResourceManager &m_resourceManager;

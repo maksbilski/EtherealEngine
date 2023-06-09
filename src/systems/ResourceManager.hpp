@@ -19,6 +19,24 @@ enum class EntityType {
 
 typedef unsigned int TextureID;
 class ResourceManager {
+  /**
+   * @class ResourceManager
+   * @brief Manages game resources such as models, shaders, textures, and
+   * sounds.
+   *
+   * The ResourceManager class is responsible for managing game resources such
+   * as models, shaders, textures, and sounds. It provides methods to load and
+   * retrieve these resources based on the entity type.
+   *
+   * The class maintains maps to store shared pointers to models, shaders, sound
+   * buffers, and texture IDs. It also provides a shared pointer to the skybox
+   * model.
+   *
+   * The ResourceManager loads the necessary resources during construction.
+   * It provides methods to retrieve the appropriate resource based on the
+   * entity type.
+   */
+
 private:
   std::unordered_map<EntityType, std::shared_ptr<Model>> m_models;
   std::unordered_map<EntityType, std::shared_ptr<Shader>> m_shaders;
