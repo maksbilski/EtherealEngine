@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../engine/Model.hpp"
-#include "../engine/Shader.hpp"
-#include "../engine/SkyboxModel.hpp"
+#include "../gl_facade/Model.hpp"
+#include "../gl_facade/Shader.hpp"
+#include "../gl_facade/SkyboxModel.hpp"
 #include <SFML/Audio.hpp>
 #include <map>
 #include <memory>

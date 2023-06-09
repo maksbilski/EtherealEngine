@@ -5,8 +5,8 @@
 #include "src/systems/InputSystem.hpp"
 #include "src/systems/RenderSystem.hpp"
 
-#include "src/engine/Mesh.hpp"
-#include "src/engine/Shader.hpp"
+#include "src/gl_facade/Mesh.hpp"
+#include "src/gl_facade/Shader.hpp"
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -34,7 +34,7 @@ int main(void) {
     return -1;
   }
 
-  window = glfwCreateWindow(1920, 1080, "Game", NULL, NULL);
+  window = glfwCreateWindow(800, 600, "Game", NULL, NULL);
   if (!window) {
     glfwTerminate();
     return -1;
