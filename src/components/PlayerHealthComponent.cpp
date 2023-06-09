@@ -25,6 +25,13 @@ bool PlayerHealthComponent::isHealed() const { return m_isHealed; }
 
 void PlayerHealthComponent::updateCurrentHealth(int value) {
   m_currentHealth += value;
+
+  if (m_currentHealth > m_maxHealth) {
+    m_currentHealth = m_maxHealth;
+  } else if (m_currentHealth <= 0) {
+    m_currentHealth = 0;
+    m_isAlive = false;
+  }
 }
 
 void PlayerHealthComponent::updateNextDamageTime(float value) {

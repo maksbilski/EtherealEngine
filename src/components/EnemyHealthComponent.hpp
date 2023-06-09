@@ -6,17 +6,17 @@ private:
   int m_currentHealth;
 
   bool m_isAlive;
-  bool m_isShot;
+  bool m_isOnCrosshair;
 
 public:
   EnemyHealthComponent(int maxHealth);
   int getMaxHealth() const;
   int getCurrentHealth() const;
   bool isAlive() const;
-  bool isShot() const;
+  bool isOnCrosshair() const;
 
   void updateCurrentHealth(int value);
   void setMaxHealth(int newMaxHealth);
   void setCurrentHealth(int newCurrentHealth);
-  void setIfIsShot(bool state);
+  void setIfIsOnCrosshair(bool state);
 };
