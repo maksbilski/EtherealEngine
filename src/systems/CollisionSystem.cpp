@@ -106,7 +106,7 @@ void CollisionSystem::controlRayCollision() {
     transformSphere(sphere, transform.getPosition(), transform.getScale());
 
     if (checkRaySphereCollision(ray, sphere)) {
-      handleRayCollision(ray, entity);
+      handleRayCollision(ray, sphere, entity);
       break;
     }
   }
@@ -144,4 +144,10 @@ bool CollisionSystem::checkRaySphereCollision(const Ray &ray,
   return true;
 }
 
-void CollisionSystem::handleRayCollision(Ray &ray, Entity entity) const {}
+void CollisionSystem::handleRayCollision(Ray &ray, const Sphere &sphere,
+                                         const Entity &entity) const {
+  m_entityManager.getComponent<EnemyHealthComponent>(entity).setIfIsOnCrosshair(
+      true);
+  m_entityManager.getComponent<EnemyHealthComponent>(entity)
+      .setDistanceFromPlayer(glm::length(sphere.center - ray.origin));
+}

@@ -29,7 +29,8 @@ private:
   void handleCollision(const glm::vec3 &overlap, Entity entity1,
                        Entity entity2) const;
 
-  void handleRayCollision(Ray &ray, Entity entity) const;
+  void handleRayCollision(Ray &ray, const Sphere &sphere,
+                          const Entity &entity) const;
 
   void controlEntitiesCollision() const;
 
