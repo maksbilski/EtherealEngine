@@ -6,7 +6,7 @@
 
 class SkyboxModel {
 private:
-  unsigned int m_SkyboxVAOid, m_SkyboxVBOid;
+  unsigned int m_skyboxVAOid, m_skyboxVBOid;
 
 public:
   SkyboxModel();
