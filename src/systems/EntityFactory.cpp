@@ -105,7 +105,7 @@ Entity EntityFactory::createEnemyEntity(EntityType entityType,
   std::shared_ptr<std::vector<sf::SoundBuffer>> soundBuffers;
   switch (entityType) {
   case EntityType::EYEBEAST:
-    health = 200;
+    health = 500;
     soundBuffers = m_resourceManager.getSoundBuffers(entityType);
   }
   m_entityManager.addComponent<EnemyHealthComponent>(enemyEntity, health);

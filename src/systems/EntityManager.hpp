@@ -72,6 +72,7 @@ public:
   std::vector<Entity> getEntitesToRender() const;
   std::vector<Entity> getCollidableEntites() const;
   std::vector<Entity> getEnemyEntities() const;
+  void removeEnemyEntity(Entity enemyEntity);
 
   void addCameraComponent(CameraComponent cameraComponent);
   void addPlayerHealthComponent(PlayerHealthComponent playerHealthComponent);

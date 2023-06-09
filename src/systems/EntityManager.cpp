@@ -1,4 +1,5 @@
 #include "EntityManager.hpp"
+#include <algorithm>
 
 void EntityManager::addCameraComponent(CameraComponent cameraComponent) {
   m_cameraComponent =
@@ -41,6 +42,25 @@ std::vector<Entity> EntityManager::getCollidableEntites() const {
 
 std::vector<Entity> EntityManager::getEnemyEntities() const {
   return m_enemyEntities;
+}
+
+void EntityManager::removeEnemyEntity(Entity enemyEntity) {
+  m_shaderComponents.erase(enemyEntity);
+  m_modelComponents.erase(enemyEntity);
+  m_transformComponents.erase(enemyEntity);
+  m_soundComponents.erase(enemyEntity);
+  m_enemyHealthComponents.erase(enemyEntity);
+  m_renderableEntities.erase(std::remove(m_renderableEntities.begin(),
+                                         m_renderableEntities.end(),
+                                         enemyEntity),
+                             m_renderableEntities.end());
+  m_collidableEntities.erase(std::remove(m_collidableEntities.begin(),
+                                         m_collidableEntities.end(),
+                                         enemyEntity),
+                             m_collidableEntities.end());
+  m_enemyEntities.erase(
+      std::remove(m_enemyEntities.begin(), m_enemyEntities.end(), enemyEntity),
+      m_enemyEntities.end());
 }
 
 Entity EntityManager::getCurrentSkyboxEntity() const { return m_currentSkybox; }

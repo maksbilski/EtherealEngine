@@ -17,6 +17,11 @@ void SoundComponent::playRandomSound() {
   playSound();
 }
 
+void SoundComponent::playZeroSound() {
+  m_sound.setBuffer((*m_soundBuffers)[0]);
+  playSound();
+}
+
 int SoundComponent::getRandomInt(int lowerBound, int upperBound) const {
   static std::random_device rd;
   static std::mt19937 gen(rd());

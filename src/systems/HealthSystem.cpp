@@ -20,7 +20,6 @@ void HealthSystem::updateEnemyHealth(Entity enemyEntity) {
           m_entityManager.getCurrentWeaponEntity());
   EnemyHealthComponent &enemy =
       m_entityManager.getComponent<EnemyHealthComponent>(enemyEntity);
-
   if (enemy.isOnCrosshair() && currentWeapon.isTriggerPressed() &&
       enemy.getDistanceFromPlayer() <= MAX_DAMAGE_DISTANCE) {
     float damageValue;
@@ -30,6 +29,9 @@ void HealthSystem::updateEnemyHealth(Entity enemyEntity) {
     enemy.updateCurrentHealth((int)-damageValue);
     m_entityManager.getComponent<SoundComponent>(enemyEntity).playRandomSound();
     enemy.setIfIsOnCrosshair(false);
+  }
+  if (!enemy.isAlive()) {
+    m_entityManager.removeEnemyEntity(enemyEntity);
   }
 }
 

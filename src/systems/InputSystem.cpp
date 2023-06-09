@@ -103,9 +103,9 @@ void InputSystem::controlButtonsInput() {
       camera.getIfIsTouchingGround()) {
     m_jumpTimer = JUMP_ACCELERATION_TIME;
   }
-  if (glfwGetMouseButton(m_window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
-    if (!currentWeapon.isTriggerPressed() &&
-        currentWeapon.hasWeaponRecoilFinished()) {
+  if (glfwGetMouseButton(m_window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS &&
+      !currentWeapon.isTriggerPressed()) {
+    if (currentWeapon.hasWeaponRecoilFinished()) {
       currentWeapon.setWeaponRecoilTime(0.0f);
       currentWeapon.setIfTriggerPressed(true);
       m_entityManager

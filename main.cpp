@@ -68,7 +68,7 @@ int main(void) {
                                        terrainRotation, terrainScale);
   entityFactory.createSkyboxEntity();
   entityFactory.createRandomRenderableEntities(EntityType::FLOATING_ROCK, 200);
-  entityFactory.createRandomEnemyEntities(EntityType::EYEBEAST, 10);
+  entityFactory.createRandomEnemyEntities(EntityType::EYEBEAST, 2);
 
   RenderSystem renderSystem(entityManager);
 
