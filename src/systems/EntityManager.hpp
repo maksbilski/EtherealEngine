@@ -1,6 +1,5 @@
 #pragma once
 #include "../components/CameraComponent.hpp"
-#include "../components/DamageComponent.hpp"
 #include "../components/EnemyHealthComponent.hpp"
 #include "../components/ModelComponent.hpp"
 #include "../components/PlayerHealthComponent.hpp"
@@ -44,9 +43,6 @@ private:
 
   std::unordered_map<Entity, std::unique_ptr<EnemyHealthComponent>>
       m_enemyHealthComponents;
-
-  std::unordered_map<Entity, std::unique_ptr<DamageComponent>>
-      m_damageComponents;
 
   std::vector<Entity> m_renderableEntities;
 
@@ -151,10 +147,4 @@ template <>
 inline std::unordered_map<Entity, std::unique_ptr<EnemyHealthComponent>> &
 EntityManager::getComponentMap<EnemyHealthComponent>() {
   return m_enemyHealthComponents;
-}
-
-template <>
-inline std::unordered_map<Entity, std::unique_ptr<DamageComponent>> &
-EntityManager::getComponentMap<DamageComponent>() {
-  return m_damageComponents;
 }
