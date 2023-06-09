@@ -1,6 +1,8 @@
 #pragma once
-#include "../../vendor/glm/glm.hpp"
-#include "../../vendor/glm/gtx/rotate_vector.hpp"
+#include "../vendor/glm/glm.hpp"
+#include "../vendor/glm/gtx/rotate_vector.hpp"
+
+const float WEAPON_ANIMATION_TIME = 1.0f;
 
 class WeaponComponent {
 private:
