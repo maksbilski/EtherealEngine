@@ -41,7 +41,8 @@ void CollisionSystem::controlEntitiesCollision() const {
       std::optional<glm::vec3> overlap = checkCylinderCollision(
           cylinder1, cylinder2, collidableEntities[i], collidableEntities[j]);
       if (overlap) {
-        handleCollision(*overlap, collidableEntities[i], collidableEntities[j]);
+        handleEntityCollision(*overlap, collidableEntities[i],
+                              collidableEntities[j]);
       }
     }
   }
@@ -76,8 +77,9 @@ CollisionSystem::checkCylinderCollision(const Cylinder &cylinder1,
   return std::nullopt;
 };
 
-void CollisionSystem::handleCollision(const glm::vec3 &overlap, Entity entity1,
-                                      Entity entity2) const {
+void CollisionSystem::handleEntityCollision(const glm::vec3 &overlap,
+                                            Entity entity1,
+                                            Entity entity2) const {
   TransformComponent &transform1 =
       m_entityManager.getComponent<TransformComponent>(entity1);
   TransformComponent &transform2 =
@@ -85,6 +87,11 @@ void CollisionSystem::handleCollision(const glm::vec3 &overlap, Entity entity1,
 
   transform1.setPosition(transform1.getPosition() + overlap / 2.0f);
   transform2.setPosition(transform2.getPosition() - overlap / 2.0f);
+
+  if (entity1 == m_entityManager.getPlayerEntity() ||
+      entity2 == m_entityManager.getPlayerEntity()) {
+    m_entityManager.getPlayerHealthComponent().setIfIsHit(true);
+  };
 }
 
 void CollisionSystem::controlRayCollision() {

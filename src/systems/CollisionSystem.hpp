@@ -26,8 +26,8 @@ private:
 
   bool checkRaySphereCollision(const Ray &ray, const Sphere &sphere) const;
 
-  void handleCollision(const glm::vec3 &overlap, Entity entity1,
-                       Entity entity2) const;
+  void handleEntityCollision(const glm::vec3 &overlap, Entity entity1,
+                             Entity entity2) const;
 
   void handleRayCollision(Ray &ray, const Sphere &sphere,
                           const Entity &entity) const;
