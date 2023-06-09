@@ -7,6 +7,9 @@ private:
 
   bool m_isAlive;
   bool m_isOnCrosshair;
+  float m_distanceFromPlayer;
+
+  void updateCurrentHealth(int value);
 
 public:
   EnemyHealthComponent(int maxHealth);
@@ -15,7 +18,7 @@ public:
   bool isAlive() const;
   bool isOnCrosshair() const;
 
-  void updateCurrentHealth(int value);
+  void setDistanceFromPlayer(float hitDistance);
   void setMaxHealth(int newMaxHealth);
   void setCurrentHealth(int newCurrentHealth);
   void setIfIsOnCrosshair(bool state);

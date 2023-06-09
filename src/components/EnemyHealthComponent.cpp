@@ -37,3 +37,7 @@ void EnemyHealthComponent::setCurrentHealth(int newCurrentHealth) {
 void EnemyHealthComponent::setIfIsOnCrosshair(bool state) {
   m_isOnCrosshair = state;
 }
+
+void EnemyHealthComponent::setDistanceFromPlayer(float hitDistance) {
+  m_distanceFromPlayer = hitDistance;
+}
