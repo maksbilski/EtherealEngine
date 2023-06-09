@@ -2,6 +2,7 @@
 #include "src/systems/EnemyAISystem.hpp"
 #include "src/systems/EntityFactory.hpp"
 #include "src/systems/EntityManager.hpp"
+#include "src/systems/HealthSystem.hpp"
 #include "src/systems/InputSystem.hpp"
 #include "src/systems/RenderSystem.hpp"
 
@@ -34,7 +35,7 @@ int main(void) {
     return -1;
   }
 
-  window = glfwCreateWindow(1920, 1080, "Game", NULL, NULL);
+  window = glfwCreateWindow(900, 600, "Game", NULL, NULL);
   if (!window) {
     glfwTerminate();
     return -1;
@@ -77,6 +78,8 @@ int main(void) {
 
   EnemyAISystem enemyAISystem(entityManager);
 
+  HealthSystem healthSystem(entityManager);
+
   sf::Music backgroundMusic;
 
   if (!backgroundMusic.openFromFile("resources/sounds/music.wav"))
@@ -92,6 +95,7 @@ int main(void) {
     collisionSystem.update();
     inputSystem.update();
     enemyAISystem.update();
+    healthSystem.update();
     renderSystem.update();
 
     glfwSwapBuffers(window);

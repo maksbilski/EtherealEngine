@@ -12,15 +12,16 @@ SoundComponent::SoundComponent(
 void SoundComponent::playSound() { m_sound.play(); }
 
 void SoundComponent::playRandomSound() {
-  m_sound.setBuffer((*m_soundBuffers)[getRandomInt((*m_soundBuffers).size())]);
+  m_sound.setBuffer(
+      (*m_soundBuffers)[getRandomInt(1, (*m_soundBuffers).size() - 1)]);
   playSound();
 }
 
-int SoundComponent::getRandomInt(int upperBound) const {
+int SoundComponent::getRandomInt(int lowerBound, int upperBound) const {
   static std::random_device rd;
   static std::mt19937 gen(rd());
 
-  std::uniform_int_distribution<> distr(0, upperBound);
+  std::uniform_int_distribution<> distr(lowerBound, upperBound);
 
   return distr(gen);
 }

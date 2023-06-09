@@ -26,6 +26,10 @@ void EnemyHealthComponent::updateCurrentHealth(int value) {
   }
 }
 
+float EnemyHealthComponent::getDistanceFromPlayer() const {
+  return m_distanceFromPlayer;
+}
+
 void EnemyHealthComponent::setMaxHealth(int newMaxHealth) {
   m_maxHealth = newMaxHealth;
 }
