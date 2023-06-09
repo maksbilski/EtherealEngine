@@ -39,7 +39,7 @@ void CollisionSystem::controlEntitiesCollision() const {
                         transform2.getScale());
 
       std::optional<glm::vec3> overlap = checkCylinderCollision(
-          cylinder1, cylinder2, collidableEntities[i], collidableEntities[j]);
+          cylinder1, cylinder2);
       if (overlap) {
         handleEntityCollision(*overlap, collidableEntities[i],
                               collidableEntities[j]);
@@ -58,8 +58,8 @@ void CollisionSystem::transformCylinder(Cylinder &cylinder,
 
 std::optional<glm::vec3>
 CollisionSystem::checkCylinderCollision(const Cylinder &cylinder1,
-                                        const Cylinder &cylinder2,
-                                        Entity entity1, Entity entity2) const {
+                                        const Cylinder &cylinder2
+                                      ) const {
 
   glm::vec3 distanceVec = cylinder1.center - cylinder2.center;
   distanceVec.y = 0; // ignore the y component of the distance

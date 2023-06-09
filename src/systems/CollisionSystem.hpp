@@ -45,10 +45,9 @@ private:
   void transformSphere(Sphere &sphere, const glm::vec3 &m_Position,
                        const glm::vec3 &m_Scale) const;
 
-  std::optional<glm::vec3> checkCylinderCollision(const Cylinder &cylinder1,
-                                                  const Cylinder &cylinder2,
-                                                  Entity entity1,
-                                                  Entity entity2) const;
+  std::optional<glm::vec3>
+  checkCylinderCollision(const Cylinder &cylinder1,
+                         const Cylinder &cylinder2) const;
 
   bool checkRaySphereCollision(const Ray &ray, const Sphere &sphere) const;
 
