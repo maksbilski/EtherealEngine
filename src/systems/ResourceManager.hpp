@@ -14,7 +14,8 @@ enum class EntityType {
   SHOTGUN,
   SKYBOX,
   FLOATING_ROCK,
-  EYEBEAST
+  EYEBEAST,
+  CROSSHAIR
 };
 
 typedef unsigned int TextureID;

@@ -38,6 +38,7 @@ private:
 
   glm::mat4 m_weaponTransformMatrix;
 
+  void renderCrosshairEntity(Entity crosshairEntity) const;
   void renderSkybox(const Entity &entity) const;
   void renderModel(const Entity &entity) const;
   void renderWeapon(const Entity &entity) const;

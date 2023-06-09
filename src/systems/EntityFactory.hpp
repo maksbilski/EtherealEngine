@@ -37,6 +37,7 @@ private:
   Entity m_nextEntity = 0;
 
   Entity getNewEntityId();
+  Entity createCrosshairEntity();
 
 public:
   EntityFactory(EntityManager &entityManager, ResourceManager &resourceManager);

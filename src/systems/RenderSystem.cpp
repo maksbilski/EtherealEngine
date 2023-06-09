@@ -26,6 +26,7 @@ void RenderSystem::update() {
     renderModel(entity);
   }
   renderSkybox(m_entityManager.getCurrentSkyboxEntity());
+  renderCrosshairEntity(m_entityManager.getCrosshairEntity());
 }
 
 void RenderSystem::renderModel(const Entity &entity) const {
@@ -143,3 +144,50 @@ void RenderSystem::setupShader(std::shared_ptr<Shader> &shader,
   shader->setMat4("view", m_viewMatrix);
   shader->setMat4("projection", m_projectionMatrix);
 };
+
+void RenderSystem::renderCrosshairEntity(Entity crosshairEntity) const {
+  float size = 0.5f;
+  float vertices[] = {-size, size,  0.0f, size,  size,  0.0f,
+                      size,  -size, 0.0f, -size, -size, 0.0f};
+
+  unsigned int indices[] = {0, 1, 2, 0, 2, 3};
+
+  unsigned int vbo, vao, ebo;
+  glGenVertexArrays(1, &vao);
+  glGenBuffers(1, &vbo);
+  glGenBuffers(1, &ebo);
+
+  glBindVertexArray(vao);
+
+  glBindBuffer(GL_ARRAY_BUFFER, vbo);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices,
+               GL_STATIC_DRAW);
+
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
+  glEnableVertexAttribArray(0);
+
+  glBindVertexArray(0);
+
+  auto crosshairShader =
+      m_entityManager.getComponent<ShaderComponent>(crosshairEntity).m_shader;
+
+  crosshairShader->use();
+
+  glm::mat4 modelMatrix = glm::mat4(1.0f);
+  glm::mat4 viewMatrix = glm::mat4(1.0f);
+  glm::mat4 projectionMatrix =
+      glm::ortho(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
+  glm::mat4 mvpMatrix = projectionMatrix * viewMatrix * modelMatrix;
+  crosshairShader->setMat4("mvpMatrix", mvpMatrix);
+
+  glBindVertexArray(vao);
+  glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+  glBindVertexArray(0);
+
+  glDeleteBuffers(1, &ebo);
+  glDeleteBuffers(1, &vbo);
+  glDeleteVertexArrays(1, &vao);
+}
