@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../engine/Shader.hpp"
+#include "../gl_facade/Shader.hpp"
 #include <memory>
 
 class ShaderComponent {

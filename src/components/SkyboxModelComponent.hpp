@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../engine/SkyboxModel.hpp"
+#include "../gl_facade/SkyboxModel.hpp"
 #include <memory>
 
 class SkyboxModelComponent {

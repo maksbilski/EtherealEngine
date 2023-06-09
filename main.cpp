@@ -6,8 +6,8 @@
 #include "src/systems/InputSystem.hpp"
 #include "src/systems/RenderSystem.hpp"
 
-#include "src/engine/Mesh.hpp"
-#include "src/engine/Shader.hpp"
+#include "src/gl_facade/Mesh.hpp"
+#include "src/gl_facade/Shader.hpp"
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>

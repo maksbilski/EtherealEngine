@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../engine/Model.hpp"
+#include "../gl_facade/Model.hpp"
 #include <memory>
 
 class ModelComponent {
