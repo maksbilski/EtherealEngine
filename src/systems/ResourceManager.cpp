@@ -6,11 +6,6 @@
 
 ResourceManager::ResourceManager() { loadResources(); }
 
-ResourceManager::~ResourceManager() {
-  // Zasoby zostaną automatycznie usunięte, gdy ostatni shared_ptr zostanie
-  // zniszczony
-}
-
 std::shared_ptr<Model> ResourceManager::getModel(EntityType type) {
   return m_models[type];
 }
