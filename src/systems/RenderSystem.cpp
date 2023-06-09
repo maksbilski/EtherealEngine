@@ -146,7 +146,7 @@ void RenderSystem::setupShader(std::shared_ptr<Shader> &shader,
 };
 
 void RenderSystem::renderCrosshairEntity(Entity crosshairEntity) const {
-  float size = 0.5f;
+  float size = 500.0f;
   float vertices[] = {-size, size,  0.0f, size,  size,  0.0f,
                       size,  -size, 0.0f, -size, -size, 0.0f};
 
@@ -176,10 +176,12 @@ void RenderSystem::renderCrosshairEntity(Entity crosshairEntity) const {
 
   crosshairShader->use();
 
-  glm::mat4 modelMatrix = glm::mat4(1.0f);
+  glm::mat4 modelMatrix = glm::translate(
+      glm::mat4(1.0f), glm::vec3(1920.0f / 2, 1080.0f / 2, 0.0f));
+
   glm::mat4 viewMatrix = glm::mat4(1.0f);
   glm::mat4 projectionMatrix =
-      glm::ortho(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
+      glm::ortho(0.0f, 1920.0f, 1080.0f, 0.0f, -1.0f, 1.0f);
   glm::mat4 mvpMatrix = projectionMatrix * viewMatrix * modelMatrix;
   crosshairShader->setMat4("mvpMatrix", mvpMatrix);
 

@@ -43,8 +43,8 @@ void ResourceManager::loadShaders() {
                 "resources/shaders/model_loading.fs");
   Shader skyboxShader("resources/shaders/skybox_shader.vs",
                       "resources/shaders/skybox_shader.fs");
-  Shader crosshairShader("resources/shaders/skybox_shader.vs",
-                         "resources/shaders/skybox_shader.fs");
+  Shader crosshairShader("resources/shaders/crosshair_shader.vs",
+                         "resources/shaders/crosshair_shader.fs");
 
   m_shaders[EntityType::TERRAIN] = std::make_shared<Shader>(shader);
 
