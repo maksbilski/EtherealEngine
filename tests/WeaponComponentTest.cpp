@@ -1,5 +1,6 @@
 #define CATCH_CONFIG_MAIN
-#include "../components/WeaponComponent.hpp"
+
+#include "../src/components/WeaponComponent.hpp"
 #include "catch.hpp"
 
 TEST_CASE("Weapon Component Tests", "[WeaponComponent]") {

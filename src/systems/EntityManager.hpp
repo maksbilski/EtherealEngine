@@ -87,7 +87,7 @@ public:
   void addEnemyEntity(Entity newEnemyEntity);
 };
 
-// Template function implementations
+
 template <typename ComponentType>
 void EntityManager::addComponent(Entity entity, ComponentType component) {
   std::unordered_map<Entity, std::unique_ptr<ComponentType>> &componentMap =
@@ -149,3 +149,4 @@ inline std::unordered_map<Entity, std::unique_ptr<EnemyHealthComponent>> &
 EntityManager::getComponentMap<EnemyHealthComponent>() {
   return m_enemyHealthComponents;
 }
+

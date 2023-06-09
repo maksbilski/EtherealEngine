@@ -1,6 +1,7 @@
 #define CATCH_CONFIG_MAIN
-#include "../components/TransformComponent.hpp"
-#include "../vendor/glm/glm.hpp"
+
+#include "../src/components/TransformComponent.hpp"
+#include "../src/vendor/glm/glm.hpp"
 #include "catch.hpp"
 
 TEST_CASE("Transform Component Tests", "[TransformComponent]") {

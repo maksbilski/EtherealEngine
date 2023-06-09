@@ -1,6 +1,6 @@
-#define CATCH_CONFIG_MAIN // This tells Catch to provide a main() - only do this
-                          // in one cpp file
-#include "../components/EnemyHealthComponent.hpp"
+#define CATCH_CONFIG_MAIN
+
+#include "../src/components/EnemyHealthComponent.hpp"
 #include "catch.hpp"
 
 TEST_CASE("Enemy Health Component Tests", "[EnemyHealthComponent]") {
