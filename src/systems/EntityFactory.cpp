@@ -80,8 +80,17 @@ Entity EntityFactory::createWeaponEntity(EntityType entityType,
   return weaponEntity;
 }
 
+Entity EntityFactory::createCrosshairEntity() {
+  Entity crosshairEntity = getNewEntityId();
+  m_entityManager.setCrosshairEntity(crosshairEntity);
+  m_entityManager.addComponent<ShaderComponent>(
+      crosshairEntity,
+      ShaderComponent(m_resourceManager.getShader(EntityType::CROSSHAIR)));
+};
+
 Entity EntityFactory::createPlayerEntity(glm::vec3 position, glm::vec3 rotation,
                                          glm::vec3 scale) {
+  createCrosshairEntity();
   Entity playerEntity = getNewEntityId();
   m_entityManager.setPlayerEntity(playerEntity);
   m_entityManager.addCameraComponent(CameraComponent(position));

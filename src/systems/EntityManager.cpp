@@ -81,3 +81,9 @@ void EntityManager::addSkyboxEntity(Entity newSkyboxEntity) {
 void EntityManager::addEnemyEntity(Entity newEnemyEntity) {
   m_enemyEntities.push_back(newEnemyEntity);
 }
+
+void EntityManager::setCrosshairEntity(Entity newCrosshairEntity) {
+  m_crosshairEntity = newCrosshairEntity;
+}
+
+Entity EntityManager::getCrosshairEntity() const { return m_crosshairEntity; }

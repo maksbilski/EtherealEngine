@@ -44,6 +44,8 @@ private:
   std::unordered_map<Entity, std::unique_ptr<EnemyHealthComponent>>
       m_enemyHealthComponents;
 
+  std::shared_ptr<Shader> m_crosshairShader;
+
   std::vector<Entity> m_renderableEntities;
 
   std::vector<Entity> m_skyboxEntities;
@@ -51,6 +53,8 @@ private:
   std::vector<Entity> m_collidableEntities;
 
   std::vector<Entity> m_enemyEntities;
+
+  Entity m_crosshairEntity;
 
   Entity m_currentWeapon;
 
@@ -69,6 +73,7 @@ public:
   Entity getCurrentWeaponEntity() const;
   Entity getPlayerEntity() const;
   Entity getCurrentSkyboxEntity() const;
+  Entity getCrosshairEntity() const;
   std::vector<Entity> getEntitesToRender() const;
   std::vector<Entity> getCollidableEntites() const;
   std::vector<Entity> getEnemyEntities() const;
@@ -77,6 +82,7 @@ public:
   void addCameraComponent(CameraComponent cameraComponent);
   void addPlayerHealthComponent(PlayerHealthComponent playerHealthComponent);
   void setCurrentWeaponEntity(Entity newEntity);
+  void setCrosshairEntity(Entity newCrosshairEntity);
   void setPlayerEntity(Entity newPlayerEntity);
   template <typename ComponentType>
   void addComponent(Entity entity, ComponentType component);
