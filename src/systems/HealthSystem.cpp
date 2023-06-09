@@ -36,12 +36,12 @@ void HealthSystem::updateEnemyHealth(Entity enemyEntity) {
 void HealthSystem::updatePlayerHealth() {
   PlayerHealthComponent &player = m_entityManager.getPlayerHealthComponent();
   player.updateNextDamageTime(-ONE_FRAME);
-  if (player.isHit() && player.getNextDamageTime() == 0) {
+  if (player.isHit() && player.getNextDamageTime() <= 0) {
     player.updateCurrentHealth(-40);
     m_entityManager
         .getComponent<SoundComponent>(m_entityManager.getPlayerEntity())
         .playRandomSound();
-    player.setNextDamageTime(2.0f);
+    player.setNextDamageTime(1.0f);
     player.setIfIsHit(false);
   }
 }

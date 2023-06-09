@@ -157,5 +157,4 @@ void CollisionSystem::handleRayCollision(Ray &ray, const Sphere &sphere,
       true);
   m_entityManager.getComponent<EnemyHealthComponent>(entity)
       .setDistanceFromPlayer(glm::length(sphere.center - ray.origin));
-  std::cout << glm::length(sphere.center - ray.origin) << std::endl;
 }
