@@ -54,7 +54,6 @@ private:
 
 public:
   ResourceManager();
-  ~ResourceManager();
 
   std::shared_ptr<Model> getModel(EntityType type);
   std::shared_ptr<Shader> getShader(EntityType type);
