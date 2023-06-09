@@ -11,23 +11,21 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-void GLAPIENTRY MessageCallback(GLenum source, GLenum type, GLuint id,
-                                GLenum severity, GLsizei length,
-                                const GLchar *message, const void *userParam) {
-  fprintf(stderr,
-          "GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n",
-          (type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""), type, severity,
-          message);
-}
+// void GLAPIENTRY MessageCallback(GLenum source, GLenum type, GLuint id,
+//                                 GLenum severity, GLsizei length,
+//                                 const GLchar *message, const void *userParam)
+//                                 {
+//   fprintf(stderr,
+//           "GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n",
+//           (type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""), type,
+//           severity, message);
+// }
 
-// Then, in your main function or initialization code:
-void InitOpenGLDebug() {
-  // Enable the debug output
-  glEnable(GL_DEBUG_OUTPUT);
+// void InitOpenGLDebug() {
+//   glEnable(GL_DEBUG_OUTPUT);
 
-  // Set your callback function
-  glDebugMessageCallback(MessageCallback, 0);
-}
+//   glDebugMessageCallback(MessageCallback, 0);
+// }
 
 int main(void) {
   GLFWwindow *window;
@@ -53,34 +51,31 @@ int main(void) {
   glDepthFunc(GL_LESS);
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-  InitOpenGLDebug();
+  // InitOpenGLDebug();
   glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-  ResourceManager resource_manager;
-  EntityManager entity_manager;
-  EntityFactory entity_factory(entity_manager, resource_manager);
-  entity_factory.createPlayerEntity(glm::vec3(0.0, 14.0, 20.0), glm::vec3(0.0),
-                                    glm::vec3(1.0));
+  ResourceManager resourceManager;
+  EntityManager entityManager;
+  EntityFactory entityFactory(entityManager, resourceManager);
+  entityFactory.createPlayerEntity(glm::vec3(0.0, 14.0, 20.0), glm::vec3(0.0),
+                                   glm::vec3(1.0));
 
-  glm::vec3 position4 = glm::vec3(0.0, 0.0, 0.0);
-  glm::vec3 rotation4 = glm::vec3(0.0, 0.0, 0.0);
-  glm::vec3 scale4 = glm::vec3(3.0);
+  glm::vec3 terrainPosition = glm::vec3(0.0, 0.0, 0.0);
+  glm::vec3 terrainRotation = glm::vec3(0.0, 0.0, 0.0);
+  glm::vec3 terrainScale = glm::vec3(3.0);
 
-  glm::vec3 position3 = glm::vec3(0.0, 10.0, 0.0);
-  glm::vec3 scale3 = glm::vec3(2.0);
+  entityFactory.createRenderableEntity(EntityType::TERRAIN, terrainPosition,
+                                       terrainRotation, terrainScale);
+  entityFactory.createSkyboxEntity();
+  entityFactory.createRandomRenderableEntities(EntityType::FLOATING_ROCK, 200);
+  entityFactory.createRandomEnemyEntities(EntityType::EYEBEAST, 10);
 
-  entity_factory.createRenderableEntity(EntityType::TERRAIN, position4,
-                                        rotation4, scale4);
-  entity_factory.createSkyboxEntity();
-  entity_factory.createRandomRenderableEntities(EntityType::FLOATING_ROCK, 200);
-  entity_factory.createRandomEnemyEntities(EntityType::EYEBEAST, 10);
+  RenderSystem renderSystem(entityManager);
 
-  RenderSystem render_system(entity_manager);
+  InputSystem inputSystem(window, entityManager);
 
-  InputSystem input_system(window, entity_manager);
+  CollisionSystem collisionSystem(entityManager);
 
-  CollisionSystem collision_system(entity_manager);
-
-  EnemyAISystem enemy_ai_system(entity_manager);
+  EnemyAISystem enemyAISystem(entityManager);
 
   sf::Music backgroundMusic;
 
@@ -93,15 +88,12 @@ int main(void) {
   while (!glfwWindowShouldClose(window)) {
     glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    // Aktualizacja systemów
-    collision_system.update();
-    input_system.update();
-    enemy_ai_system.update();
-    render_system.update();
 
-    // Rendering
+    collisionSystem.update();
+    inputSystem.update();
+    enemyAISystem.update();
+    renderSystem.update();
 
-    // Wymiana buforów i obsługa zdarzeń
     glfwSwapBuffers(window);
     glfwPollEvents();
   }

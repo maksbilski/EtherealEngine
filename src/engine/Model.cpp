@@ -1,50 +1,38 @@
 #include "Model.hpp"
 
-// constructor, expects a filepath to a 3D model.
 Model::Model(std::string const &filepath, bool gamma)
-    : m_GammaCorrection(gamma) {
+    : m_gammaCorrection(gamma) {
   loadModel(filepath);
 }
 
-// draws the model, and thus all its meshes
-void Model::Draw(Shader &shader) {
-  for (unsigned int i = 0; i < m_Meshes.size(); i++)
-    m_Meshes[i].Draw(shader);
+void Model::draw(Shader &shader) {
+  for (unsigned int i = 0; i < m_meshes.size(); i++)
+    m_meshes[i].draw(shader);
 }
 
-// loads a model with supported ASSIMP extensions from file and stores the
-// resulting meshes in the meshes vector.
 void Model::loadModel(std::string const &path) {
-  // read file via ASSIMP
   Assimp::Importer importer;
   const aiScene *scene = importer.ReadFile(
       path, aiProcess_Triangulate | aiProcess_GenSmoothNormals |
                 aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
-  // check for errors
+
   if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE ||
-      !scene->mRootNode) // if is Not Zero
-  {
+      !scene->mRootNode) {
     std::cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << std::endl;
     return;
   }
-  // retrieve the directory path of the filepath
-  m_Directory = path.substr(0, path.find_last_of('/'));
+  m_directory = path.substr(0, path.find_last_of('/'));
 
-  // process ASSIMP's root node recursively
   processNode(scene->mRootNode, scene);
 }
 
-// processes a node in a recursive fashion. Processes each individual mesh
-// located at the node and repeats this process on its children nodes (if
-// any).
 void Model::processNode(aiNode *node, const aiScene *scene) {
-  // process each mesh located at the current node
   for (unsigned int i = 0; i < node->mNumMeshes; i++) {
     // the node object only contains indices to index the actual objects in
     // the scene. the scene contains all the data, node is just to keep stuff
     // organized (like relations between nodes).
     aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
-    m_Meshes.push_back(processMesh(mesh, scene));
+    m_meshes.push_back(processMesh(mesh, scene));
   }
   // after we've processed all of the meshes (if any) we then recursively
   // process each of the children nodes
@@ -54,73 +42,51 @@ void Model::processNode(aiNode *node, const aiScene *scene) {
 }
 
 Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene) {
-  // data to fill
   std::vector<Vertex> vertices;
   std::vector<unsigned int> indices;
   std::vector<Texture> textures;
 
-  // walk through each of the mesh's vertices
   for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
     Vertex vertex;
-    glm::vec3 vector; // we declare a placeholder vector since assimp uses its
-                      // own vector class that doesn't directly convert to
-                      // glm's vec3 class so we transfer the data to this
-                      // placeholder glm::vec3 first.
-    // positions
+    glm::vec3 vector;
     vector.x = mesh->mVertices[i].x;
     vector.y = mesh->mVertices[i].y;
     vector.z = mesh->mVertices[i].z;
-    vertex.Position = vector;
-    // normals
+    vertex.position = vector;
     if (mesh->HasNormals()) {
       vector.x = mesh->mNormals[i].x;
       vector.y = mesh->mNormals[i].y;
       vector.z = mesh->mNormals[i].z;
-      vertex.Normal = vector;
+      vertex.normal = vector;
     }
-    // texture coordinates
-    if (mesh->mTextureCoords[0]) // does the mesh contain texture coordinates?
-    {
+    if (mesh->mTextureCoords[0]) {
       glm::vec2 vec;
-      // a vertex can contain up to 8 different texture coordinates. We thus
-      // make the assumption that we won't use models where a vertex can have
-      // multiple texture coordinates so we always take the first set (0).
       vec.x = mesh->mTextureCoords[0][i].x;
       vec.y = mesh->mTextureCoords[0][i].y;
-      vertex.TexCoords = vec;
+      vertex.texCoords = vec;
       // tangent
       vector.x = mesh->mTangents[i].x;
       vector.y = mesh->mTangents[i].y;
       vector.z = mesh->mTangents[i].z;
-      vertex.Tangent = vector;
+      vertex.tangent = vector;
       // bitangent
       vector.x = mesh->mBitangents[i].x;
       vector.y = mesh->mBitangents[i].y;
       vector.z = mesh->mBitangents[i].z;
-      vertex.Bitangent = vector;
+      vertex.bitangent = vector;
     } else
-      vertex.TexCoords = glm::vec2(0.0f, 0.0f);
+      vertex.texCoords = glm::vec2(0.0f, 0.0f);
 
     vertices.push_back(vertex);
   }
-  // now wak through each of the mesh's faces (a face is a mesh its triangle)
-  // and retrieve the corresponding vertex indices.
+
   for (unsigned int i = 0; i < mesh->mNumFaces; i++) {
     aiFace face = mesh->mFaces[i];
-    // retrieve all indices of the face and store them in the indices vector
     for (unsigned int j = 0; j < face.mNumIndices; j++)
       indices.push_back(face.mIndices[j]);
   }
-  // process materials
   aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
-  // we assume a convention for sampler names in the shaders. Each diffuse
-  // texture should be named as 'texture_diffuseN' where N is a sequential
-  // number ranging from 1 to MAX_SAMPLER_NUMBER. Same applies to other
-  // texture as the following list summarizes: diffuse: texture_diffuseN
-  // specular: texture_specularN
-  // normal: texture_normalN
 
-  // 1. diffuse maps
   std::vector<Texture> diffuseMaps =
       loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
   textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
@@ -137,12 +103,9 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene) {
       loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
   textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
-  // return a mesh object created from the extracted mesh data
   return Mesh(vertices, indices, textures);
 }
 
-// checks all material textures of a given type and loads the textures if
-// they're not loaded yet. the required info is returned as a Texture struct.
 std::vector<Texture> Model::loadMaterialTextures(aiMaterial *mat,
                                                  aiTextureType type,
                                                  std::string typeName) {
@@ -150,26 +113,23 @@ std::vector<Texture> Model::loadMaterialTextures(aiMaterial *mat,
   for (unsigned int i = 0; i < mat->GetTextureCount(type); i++) {
     aiString str;
     mat->GetTexture(type, i, &str);
-    // check if texture was loaded before and if so, continue to next
-    // iteration: skip loading a new texture
+
     bool skip = false;
-    for (unsigned int j = 0; j < m_TexturesLoaded.size(); j++) {
-      if (std::strcmp(m_TexturesLoaded[j].path.data(), str.C_Str()) == 0) {
-        textures.push_back(m_TexturesLoaded[j]);
-        skip = true; // a texture with the same filepath has already been
-                     // loaded, continue to next one. (optimization)
+    for (unsigned int j = 0; j < m_texturesLoaded.size(); j++) {
+      if (std::strcmp(m_texturesLoaded[j].path.data(), str.C_Str()) == 0) {
+        textures.push_back(m_texturesLoaded[j]);
+        skip = true;
+
         break;
       }
     }
-    if (!skip) { // if texture hasn't been loaded already, load it
+    if (!skip) {
       Texture texture;
-      texture.id = TextureFromFile(str.C_Str(), this->m_Directory);
+      texture.id = TextureFromFile(str.C_Str(), this->m_directory);
       texture.type = typeName;
       texture.path = str.C_Str();
       textures.push_back(texture);
-      m_TexturesLoaded.push_back(
-          texture); // store it as texture loaded for entire model, to ensure
-                    // we won't unnecessary load duplicate textures.
+      m_texturesLoaded.push_back(texture);
     }
   }
   return textures;
@@ -234,60 +194,50 @@ Sphere Model::getBoundingSphere() const {
 glm::vec3 Model::calculateCenter() const {
   glm::vec3 center(0.0f);
   int totalVertices = 0;
-  for (auto &mesh : m_Meshes) {
+  for (auto &mesh : m_meshes) {
     for (auto &vertex : mesh.vertices) {
-      center += vertex.Position;
+      center += vertex.position;
       totalVertices++;
     }
   }
-  return center / static_cast<float>(totalVertices); // Average
+  return center / static_cast<float>(totalVertices);
 }
 
 void Model::calculateBoundingShapesCenters() {
   m_boundingCylinder = Cylinder();
   m_boundingSphere = Sphere();
 
-  // Initialize some values
-  m_boundingCylinder->axis = glm::vec3(0.0f, 1.0f, 0.0f); // Just as an example
-
-  // Calculate center
+  m_boundingCylinder->axis = glm::vec3(0.0f, 1.0f, 0.0f);
   glm::vec3 center = calculateCenter();
   m_boundingCylinder->center = center;
   m_boundingSphere->center = center;
 }
 
 void Model::calculateBoundingShapes() {
-  // Initialize the bounding shapes
   calculateBoundingShapesCenters();
 
-  // Compute the height and radius
   float maxHeight = -FLT_MAX;
   float minHeight = FLT_MAX;
   float maxRadiusSq = -FLT_MAX;
-  float maxRadiusSqSphere =
-      -FLT_MAX; // to store the maximum radius square for sphere
+  float maxRadiusSqSphere = -FLT_MAX;
 
-  for (const auto &mesh : m_Meshes) {
+  for (const auto &mesh : m_meshes) {
     for (const auto &vertex : mesh.vertices) {
-      // Project the vertex onto the cylinder axis
       glm::vec3 projectedVertex =
-          glm::dot(vertex.Position - m_boundingCylinder->center,
+          glm::dot(vertex.position - m_boundingCylinder->center,
                    m_boundingCylinder->axis) *
               m_boundingCylinder->axis +
           m_boundingCylinder->center;
 
-      // Determine the distance along the axis
       float distance =
           glm::distance(m_boundingCylinder->center, projectedVertex);
       maxHeight = glm::max(maxHeight, distance);
       minHeight = glm::min(minHeight, distance);
 
-      // Determine the distance in the plane perpendicular to the axis
-      glm::vec3 radiusVector = vertex.Position - projectedVertex;
+      glm::vec3 radiusVector = vertex.position - projectedVertex;
       maxRadiusSq = glm::max(maxRadiusSq, glm::dot(radiusVector, radiusVector));
 
-      // Determine the radius of the sphere
-      glm::vec3 sphereRadiusVector = vertex.Position - m_boundingSphere->center;
+      glm::vec3 sphereRadiusVector = vertex.position - m_boundingSphere->center;
       maxRadiusSqSphere = glm::max(
           maxRadiusSqSphere, glm::dot(sphereRadiusVector, sphereRadiusVector));
     }
@@ -295,6 +245,5 @@ void Model::calculateBoundingShapes() {
 
   m_boundingCylinder->height = maxHeight - minHeight;
   m_boundingCylinder->radius = glm::sqrt(maxRadiusSq);
-  m_boundingSphere->radius =
-      glm::sqrt(maxRadiusSqSphere); // Set the sphere radius
+  m_boundingSphere->radius = glm::sqrt(maxRadiusSqSphere);
 }

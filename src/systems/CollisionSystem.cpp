@@ -83,7 +83,6 @@ void CollisionSystem::handleCollision(const glm::vec3 &overlap, Entity entity1,
   TransformComponent &transform2 =
       m_entityManager.getComponent<TransformComponent>(entity2);
 
-  // Move each entity half the overlap distance in opposite directions
   transform1.setPosition(transform1.getPosition() + overlap / 2.0f);
   transform2.setPosition(transform2.getPosition() - overlap / 2.0f);
 }
@@ -95,7 +94,7 @@ void CollisionSystem::controlRayCollision() {
   glm::vec3 rayDirection = glm::normalize(
       m_entityManager.getCameraComponent().getCameraForwardVec());
 
-  Ray ray = {rayOrigin, rayDirection}; // Define your ray
+  Ray ray = {rayOrigin, rayDirection};
 
   for (Entity entity : enemyEntities) {
     Sphere sphere = m_entityManager.getComponent<ModelComponent>(entity)
@@ -104,14 +103,11 @@ void CollisionSystem::controlRayCollision() {
     TransformComponent transform =
         m_entityManager.getComponent<TransformComponent>(entity);
 
-    // Transform the bounding sphere to align with the entity's position
     transformSphere(sphere, transform.getPosition(), transform.getScale());
 
     if (checkRaySphereCollision(ray, sphere)) {
-      // Collision detected, handle accordingly
-      std::cout << m_rayHitCount++ << std::endl;
       handleRayCollision(ray, entity);
-      break; // Break after first collision detected
+      break;
     }
   }
 }

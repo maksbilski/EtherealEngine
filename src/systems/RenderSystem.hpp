@@ -12,10 +12,13 @@ private:
 
   glm::mat4 m_weaponTransformMatrix;
 
-  void renderSkybox(Entity entity);
-  void renderModel(Entity entity);
+  void renderSkybox(const Entity &entity) const;
+  void renderModel(const Entity &entity) const;
+  void renderWeapon(const Entity &entity) const;
   void updateViewMatrix();
   void updateWeaponTransformMatrix();
+  void setupShader(std::shared_ptr<Shader> &shader,
+                   const glm::mat4 &modelMatrix) const;
 
 public:
   RenderSystem(EntityManager &EntityManager);
