@@ -1,5 +1,6 @@
 #include "src/systems/CollisionSystem.hpp"
 #include "src/systems/EnemyAISystem.hpp"
+#include "src/systems/EnemySpawnSystem.hpp"
 #include "src/systems/EntityFactory.hpp"
 #include "src/systems/EntityManager.hpp"
 #include "src/systems/HealthSystem.hpp"
@@ -80,6 +81,8 @@ int main(void) {
 
   HealthSystem healthSystem(entityManager);
 
+  EnemySpawnSystem enemySpawnSystem(entityManager, entityFactory);
+
   sf::Music backgroundMusic;
 
   if (!backgroundMusic.openFromFile("resources/sounds/music.wav"))
@@ -88,12 +91,17 @@ int main(void) {
   backgroundMusic.setLoop(true);
   backgroundMusic.play();
 
+  double startTime = glfwGetTime();
+
   while (!glfwWindowShouldClose(window)) {
+    double currentTime = glfwGetTime();
+    double elapsedTime = currentTime - startTime;
     glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     collisionSystem.update();
     inputSystem.update();
+    enemySpawnSystem.update(elapsedTime);
     enemyAISystem.update();
     healthSystem.update();
     renderSystem.update();
