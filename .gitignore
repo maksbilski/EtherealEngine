@@ -39,3 +39,8 @@ TestCase
 cube
 output
 imgui.ini
+
+EnemyHealthComponentTestCase
+PlayerHealthComponentTestCase
+TransformComponentTestCase
+WeaponComponentTestCase

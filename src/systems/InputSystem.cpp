@@ -16,7 +16,7 @@ const float MOVEMENT_SPEED = 200.0f;
 
 const float MOUSE_SENSITIVITY = 0.001f;
 
-const float ONE_FRAME = 1.0f / 70.0f;
+const float ONE_FRAME = 1.0f / 160.0f;
 
 InputSystem::InputSystem(GLFWwindow *window, EntityManager &entityManager)
     : m_window(window), m_entityManager(entityManager) {

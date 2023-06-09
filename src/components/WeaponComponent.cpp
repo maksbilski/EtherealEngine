@@ -1,7 +1,5 @@
 #include "WeaponComponent.hpp"
 
-const float WEAPON_ANIMATION_TIME = 1.0f;
-
 WeaponComponent::WeaponComponent() {
   m_weaponRecoilFinished = false;
   m_triggerPressed = false;
