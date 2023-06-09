@@ -1,5 +1,6 @@
 #pragma once
 #include "EntityManager.hpp"
+#include <GLFW/glfw3.h>
 
 class HealthSystem {
   /**
@@ -21,12 +22,13 @@ class HealthSystem {
    */
 
 private:
+  GLFWwindow *m_window;
   EntityManager &m_entityManager;
 
   void updateEnemyHealth(Entity enemyEntity);
   void updatePlayerHealth();
 
 public:
-  HealthSystem(EntityManager &entityManager);
+  HealthSystem(GLFWwindow *window, EntityManager &entityManager);
   void update();
 };

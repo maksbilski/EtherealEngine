@@ -77,7 +77,7 @@ int main(void) {
 
   EnemyAISystem enemyAISystem(entityManager);
 
-  HealthSystem healthSystem(entityManager);
+  HealthSystem healthSystem(window, entityManager);
 
   EnemySpawnSystem enemySpawnSystem(entityManager, entityFactory);
 

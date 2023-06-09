@@ -4,8 +4,8 @@ const float MAX_DAMAGE_DISTANCE = 250.0f;
 const float MIN_DAMAGE_DISTANCE = 130.0f;
 const float ONE_FRAME = 1.0f / 70.0f;
 
-HealthSystem::HealthSystem(EntityManager &entityManager)
-    : m_entityManager(entityManager) {}
+HealthSystem::HealthSystem(GLFWwindow *window, EntityManager &entityManager)
+    : m_window(window), m_entityManager(entityManager) {}
 
 void HealthSystem::update() {
   updatePlayerHealth();
@@ -45,5 +45,8 @@ void HealthSystem::updatePlayerHealth() {
         .playRandomSound();
     player.setNextDamageTime(1.5f);
     player.setIfIsHit(false);
+  }
+  if (!player.isAlive()) {
+    glfwSetWindowShouldClose(m_window, GL_TRUE);
   }
 }
