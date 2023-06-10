@@ -6,13 +6,13 @@ This is a simple 3D game engine made from scratch using OpenGL. The goal of the 
 - Importing multi-mesh models
 - Raycasting
 - Collision Detection
-- Simple NPC AI 
-- Real-time user input 
+- Simple NPC AI
+- Real-time user input
 - Rendering 300+ objects
 - Model animations
 ## Tech Stack
 
-We tried to keep it as simple as possible. We implemented most of the things from scratch using pure OpenGL, except for model importing we used a little help from Assimp library. 
+We tried to keep it as simple as possible. We implemented most of the things from scratch using pure OpenGL, except for model importing we used a little help from Assimp library.
 
 | Category | Libraries |
 | -------- | --------- |
@@ -24,7 +24,7 @@ We tried to keep it as simple as possible. We implemented most of the things fro
 
 ## Installation
 
-We used Mesa3D, which includes an implementation of OpenGL, that can run on most operation systems, including Windows, MacOS. However, it's more typically used on Unix-like systems, such as Linux or BSD.  
+We used Mesa3D, which includes an implementation of OpenGL, that can run on most operation systems, including Windows, MacOS. However, it's more typically used on Unix-like systems, such as Linux or BSD.
 
 In order to build the project, you have to install all necessary libraries.
 
@@ -48,11 +48,11 @@ sudo apt install libglew-dev
 # Install SFML
 sudo apt install libsfml-dev
 
-# Build 
-make 
+# Build
+make
 
 ```
-    
+
 ## Entity-Component-System (ECS) Architecture
 
 The game engine uses the ECS architecture, which separates concerns into three distinct elements:
@@ -74,9 +74,9 @@ We implemented following design patterns:
 
 ## Gameplay
 
-It offers high-paced old-school doom-like first-person-shoort gameplay. Player starts in the middle of the map and flying monsters start to spawn all over the map. They fly towards the player and when collision with player occurs we lose health. When player's health drops to zero, the game ends. Enemy count increases with time, so the game is getting harder. 
+It offers high-paced old-school doom-like first-person-shoort gameplay. Player starts in the middle of the map and flying monsters start to spawn all over the map. They fly towards the player and when collision with player occurs we lose health. When player's health drops to zero, the game ends. Enemy count increases with time, so the game is getting harder.
 
-![Game GIF](https://imgur.com/a/70ie7SN)
+![Game GIF](https://imgur.com/a/70ie7SN.gif)
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
