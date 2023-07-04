@@ -1,7 +1,7 @@
 
 # Ethereal Engine
 
-This is a simple 3D game engine made from scratch using OpenGL. The goal of the project was to delve into how graphics rendering and game development works on the lowest possible level of implementation. Also we wanted to enhance our proficiency in Object-oriented design. It contains following features:
+This is a 3D game engine made from scratch using OpenGL. The goal of the project was to delve into how graphics rendering and game development works on the lowest possible level of implementation. Also we wanted to enhance our proficiency in Object-oriented design. It contains following features:
 
 - Importing multi-mesh models
 - Raycasting
