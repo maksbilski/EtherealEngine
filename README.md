@@ -29,9 +29,6 @@ We used Mesa3D, which includes an implementation of OpenGL, that can run on most
 In order to build the project, you have to install all necessary libraries.
 
 ```bash
-# Update package list
-sudo apt update
-
 # Install Assimp
 sudo apt install libassimp-dev
 
