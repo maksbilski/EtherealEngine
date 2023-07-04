@@ -71,7 +71,7 @@ We implemented following design patterns:
 
 ## Gameplay
 
-It offers high-paced old-school doom-like first-person-shoort gameplay. Player starts in the middle of the map and flying monsters start to spawn all over the map. They fly towards the player and when collision with player occurs we lose health. When player's health drops to zero, the game ends. Enemy count increases with time, so the game is getting harder.
+It offers high-paced old-school doom-like first-person-shooter gameplay. Player starts in the middle of the map and flying monsters start to spawn all over the map. They fly towards the player and when collision with player occurs we lose health. When player's health drops to zero, the game ends. Enemy count increases with time, so the game is getting harder with each second.
 
 ![Game GIF](./resources/gameplay.gif)
 ## License
