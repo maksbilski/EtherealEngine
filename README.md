@@ -81,5 +81,5 @@ It offers high-paced old-school doom-like first-person-shooter gameplay. Player 
 
 ## Authors
 
-- [@mrozek](https://gitlab-stud.elka.pw.edu.pl/mrozek)
-- [@mbilski](https://gitlab-stud.elka.pw.edu.pl/mbilski)
+- [@mikorozek](https://github.com/mikorozek)
+- [@maksbilski]([https://github.com/maksbilski)
