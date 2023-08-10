@@ -24,7 +24,7 @@ We tried to keep it as simple as possible. We implemented most of the things fro
 
 ## Installation
 
-We used Mesa3D, which includes an implementation of OpenGL, that can run on most operation systems, including Windows, MacOS. However, it's more typically used on Unix-like systems, such as Linux or BSD.
+We used Mesa3D, which includes an implementation of OpenGL, that can run on most operation systems, including Windows, MacOS. However, it's more typically used on Linux systems.
 
 In order to build the project, you have to install all necessary libraries.
 
