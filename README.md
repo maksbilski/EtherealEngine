@@ -60,15 +60,6 @@ The game engine uses the ECS architecture, which separates concerns into three d
 The ECS architecture is data-oriented and promotes composition over inheritance. Each entity is essentially a composition of different components, and systems act on entities that possess components they are interested in.
 
 
-## Design Patterns
-
-We implemented following design patterns:
-- Singleton (ResourceManager, EntityManager)
-- Factory (EntityFactory)
-- Facade (OpenGL abstraction)
-- Dependency Injection
-
-
 ## Gameplay
 
 It offers high-paced old-school doom-like first-person-shooter gameplay. Player starts in the middle of the map and flying monsters start to spawn all over the map. They fly towards the player and when collision with player occurs we lose health. When player's health drops to zero, the game ends. Enemy count increases with time, so the game is getting harder with each second.
